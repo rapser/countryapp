@@ -10,18 +10,26 @@ import Foundation
 class CountryListInteractor: CountryListInteractorProtocol {
     var presenter: CountryListPresenterProtocol?
     private let service: CountryListService
+    private let userDefaultsManager = UserDefaultsManager.shared
 
     init(service: CountryListService) {
         self.service = service
     }
-    
+
     func fetchCountryList() async throws {
-        do {
-            let countries = try await service.fetchCountryList()
+        // Intentar obtener la lista de países desde UserDefaults
+        if let countries = userDefaultsManager.get(forKey: "savedCountries", as: Countries.self) {
             presenter?.didFetchCountryList(countries)
-        } catch {
-            presenter?.didFailWithError(error)
-            throw error
+        } else {
+            // Si no hay datos en UserDefaults, hacer la llamada a la API
+            do {
+                let countries = try await service.fetchCountryList()
+                presenter?.didFetchCountryList(countries)
+                userDefaultsManager.save(object: countries, forKey: "savedCountries") // Guardar en UserDefaults después de obtenerlo
+            } catch {
+                presenter?.didFailWithError(error)
+                throw error
+            }
         }
     }
 }

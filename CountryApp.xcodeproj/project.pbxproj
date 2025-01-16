@@ -41,6 +41,7 @@
 		4659F3B72D38E68F006D49F2 /* CountryListRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3B62D38E68F006D49F2 /* CountryListRouterProtocol.swift */; };
 		4659F3B92D3971EC006D49F2 /* CountryListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3B82D3971EC006D49F2 /* CountryListError.swift */; };
 		4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BA2D39720E006D49F2 /* CountryDetailError.swift */; };
+		4659F3BD2D399EE0006D49F2 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		4659F3B62D38E68F006D49F2 /* CountryListRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListRouterProtocol.swift; sourceTree = "<group>"; };
 		4659F3B82D3971EC006D49F2 /* CountryListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListError.swift; sourceTree = "<group>"; };
 		4659F3BA2D39720E006D49F2 /* CountryDetailError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailError.swift; sourceTree = "<group>"; };
+		4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				4659F3752D386A9C006D49F2 /* LoadingView.swift */,
+				4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				4659F3B72D38E68F006D49F2 /* CountryListRouterProtocol.swift in Sources */,
 				4659F39E2D38821E006D49F2 /* CountryDetailInteractorProtocol.swift in Sources */,
 				4659F38E2D387C3D006D49F2 /* CountryListInteractor.swift in Sources */,
+				4659F3BD2D399EE0006D49F2 /* UserDefaultsManager.swift in Sources */,
 				4659F3902D387C63006D49F2 /* CountryListPresenterProtocol.swift in Sources */,
 				4659F39C2D3880C2006D49F2 /* CountryDetailServiceManager.swift in Sources */,
 				4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */,

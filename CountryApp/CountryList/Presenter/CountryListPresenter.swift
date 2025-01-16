@@ -12,7 +12,7 @@ class CountryListPresenter: CountryListPresenterProtocol {
     var interactor: CountryListInteractorProtocol?
 
     // Notifica a la vista cuando se obtiene la lista de países
-    func didFetchCountryList(_ countries: [Country]) {
+    func didFetchCountryList(_ countries: Countries) {
         DispatchQueue.main.async {
             self.view?.displayCountryList(countries)
             self.view?.hideLoadingView()
