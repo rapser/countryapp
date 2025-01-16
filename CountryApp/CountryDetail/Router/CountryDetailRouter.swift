@@ -8,7 +8,10 @@
 import UIKit
 
 class CountryDetailRouter: CountryDetailRouterProtocol {
+    weak var viewController: UIViewController?
+
     static func createModule(with countryName: String) -> UIViewController {
+        let router = CountryDetailRouter()
         let service = CountryDetailServiceManager()
         let interactor = CountryDetailInteractor(service: service)
         let presenter = CountryDetailPresenter()
@@ -16,12 +19,17 @@ class CountryDetailRouter: CountryDetailRouterProtocol {
 
         presenter.view = view
         presenter.interactor = interactor
-        presenter.router = CountryDetailRouter()
-        interactor.presenter = presenter
-
+        presenter.router = router
         presenter.countryName = countryName
+        interactor.presenter = presenter
+        router.viewController = view
 
         return view
+    }
+
+    func navigateToMap(latitude: Double, longitude: Double, countryName: String) {
+        let mapModule = MapRouter.createModule(latitude: latitude, longitude: longitude, countryName: countryName)
+        viewController?.navigationController?.pushViewController(mapModule, animated: true)
     }
 }
 

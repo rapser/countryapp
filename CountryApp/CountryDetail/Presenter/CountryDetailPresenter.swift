@@ -12,6 +12,7 @@ class CountryDetailPresenter: CountryDetailPresenterProtocol {
     var interactor: CountryDetailInteractorProtocol?
     var router: CountryDetailRouterProtocol?
     var countryName: String?
+    private var currentCountryDetail: CountryDetail?
 
     func fetchCountryDetail() async {
         guard let countryName = countryName else {
@@ -28,6 +29,7 @@ class CountryDetailPresenter: CountryDetailPresenterProtocol {
 
     func didFetchCountryDetail(_ countryDetail: CountryDetail) {
         DispatchQueue.main.async {
+            self.currentCountryDetail = countryDetail
             self.view?.displayCountryDetail(countryDetail)
             self.view?.hideLoadingView()
         }
@@ -49,6 +51,11 @@ class CountryDetailPresenter: CountryDetailPresenterProtocol {
             }
             self.view?.hideLoadingView()
         }
+    }
+    
+    func showMap() {
+        guard let countryDetail = currentCountryDetail?.first, countryDetail.latlng.count == 2 else { return }
+        router?.navigateToMap(latitude: countryDetail.latlng[0], longitude: countryDetail.latlng[1], countryName: countryDetail.name.common)
     }
 }
 

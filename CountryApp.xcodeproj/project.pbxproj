@@ -41,6 +41,10 @@
 		4659F3B92D3971EC006D49F2 /* CountryListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3B82D3971EC006D49F2 /* CountryListError.swift */; };
 		4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BA2D39720E006D49F2 /* CountryDetailError.swift */; };
 		4659F3BD2D399EE0006D49F2 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */; };
+		4659F3BF2D39B8A2006D49F2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BE2D39B8A2006D49F2 /* MapViewController.swift */; };
+		4659F3C22D39BCEE006D49F2 /* MapRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3C12D39BCEE006D49F2 /* MapRouter.swift */; };
+		4659F3C42D39BD0C006D49F2 /* MapInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3C32D39BD0C006D49F2 /* MapInteractor.swift */; };
+		4659F3C62D39BD1E006D49F2 /* MapPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3C52D39BD1E006D49F2 /* MapPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +103,10 @@
 		4659F3B82D3971EC006D49F2 /* CountryListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListError.swift; sourceTree = "<group>"; };
 		4659F3BA2D39720E006D49F2 /* CountryDetailError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailError.swift; sourceTree = "<group>"; };
 		4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		4659F3BE2D39B8A2006D49F2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		4659F3C12D39BCEE006D49F2 /* MapRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRouter.swift; sourceTree = "<group>"; };
+		4659F3C32D39BD0C006D49F2 /* MapInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInteractor.swift; sourceTree = "<group>"; };
+		4659F3C52D39BD1E006D49F2 /* MapPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +161,7 @@
 				4659F3B02D38876E006D49F2 /* Utils */,
 				4659F37B2D3879E4006D49F2 /* CountryList */,
 				4659F37C2D3879F4006D49F2 /* CountryDetail */,
+				4659F3C02D39BCD7006D49F2 /* Map */,
 				4659F3772D386AC6006D49F2 /* Extension */,
 				4659F3B12D388793006D49F2 /* Resources */,
 				4659F34F2D386574006D49F2 /* Info.plist */,
@@ -346,6 +355,49 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		4659F3C02D39BCD7006D49F2 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4659F3C72D39BE9F006D49F2 /* View */,
+				4659F3C82D39BEA6006D49F2 /* Router */,
+				4659F3C92D39BEAC006D49F2 /* Interactor */,
+				4659F3CA2D39BEB3006D49F2 /* Presenter */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		4659F3C72D39BE9F006D49F2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4659F3BE2D39B8A2006D49F2 /* MapViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4659F3C82D39BEA6006D49F2 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				4659F3C12D39BCEE006D49F2 /* MapRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		4659F3C92D39BEAC006D49F2 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				4659F3C32D39BD0C006D49F2 /* MapInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		4659F3CA2D39BEB3006D49F2 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				4659F3C52D39BD1E006D49F2 /* MapPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -476,19 +528,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4659F3C22D39BCEE006D49F2 /* MapRouter.swift in Sources */,
 				4659F3742D386829006D49F2 /* CountryDetail.swift in Sources */,
 				4659F3AE2D388563006D49F2 /* CountryListService.swift in Sources */,
 				4659F3962D387CEA006D49F2 /* CountryListViewController.swift in Sources */,
 				4659F3AC2D388549006D49F2 /* CountryListServiceManager.swift in Sources */,
 				4659F3B52D38E456006D49F2 /* CountryDetailRouterProtocol.swift in Sources */,
 				4659F38C2D387C02006D49F2 /* CountryListInteractorProtocol.swift in Sources */,
+				4659F3C42D39BD0C006D49F2 /* MapInteractor.swift in Sources */,
 				4659F3982D387DAF006D49F2 /* CountryListRouter.swift in Sources */,
 				4659F3B92D3971EC006D49F2 /* CountryListError.swift in Sources */,
 				4659F3722D38660D006D49F2 /* Country.swift in Sources */,
 				4659F3A82D3882AB006D49F2 /* CountryDetailViewController.swift in Sources */,
 				4659F3A02D388232006D49F2 /* CountryDetailInteractor.swift in Sources */,
 				4659F39A2D3880B0006D49F2 /* CountryDetailService.swift in Sources */,
+				4659F3C62D39BD1E006D49F2 /* MapPresenter.swift in Sources */,
 				4659F3422D386572006D49F2 /* AppDelegate.swift in Sources */,
+				4659F3BF2D39B8A2006D49F2 /* MapViewController.swift in Sources */,
 				4659F3792D386AEF006D49F2 /* UIViewController+Extension.swift in Sources */,
 				4659F3AA2D38840F006D49F2 /* CountryDetailRouter.swift in Sources */,
 				4659F3442D386572006D49F2 /* SceneDelegate.swift in Sources */,

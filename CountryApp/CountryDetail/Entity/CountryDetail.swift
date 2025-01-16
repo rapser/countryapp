@@ -13,6 +13,7 @@ struct CountryDetailElement: Decodable {
     let region: String
     let borders: [String]?
     let flags: Flags
+    let latlng: [Double]
 }
 
 typealias CountryDetail = [CountryDetailElement]

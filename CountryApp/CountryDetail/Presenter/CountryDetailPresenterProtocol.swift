@@ -11,5 +11,6 @@ protocol CountryDetailPresenterProtocol: AnyObject {
     func didFetchCountryDetail(_ countryDetail: CountryDetail)
     func didFailWithError(_ error: Error)
     func fetchCountryDetail() async
+    func showMap()
 }
 

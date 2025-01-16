@@ -53,10 +53,10 @@ class CountryDetailViewController: UIViewController, CountryDetailViewProtocol {
 
         // Agregar botón de cerrar
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Cerrar",
+            title: "Ver Mapa",
             style: .plain,
             target: self,
-            action: #selector(closeButtonTapped)
+            action: #selector(seeMapButtonTapped)
         )
 
         // Agregar subviews
@@ -75,8 +75,8 @@ class CountryDetailViewController: UIViewController, CountryDetailViewProtocol {
         ])
     }
 
-    @objc private func closeButtonTapped() {
-        dismiss(animated: true, completion: nil)
+    @objc private func seeMapButtonTapped() {        
+        presenter.showMap()
     }
 
     func displayCountryDetail(_ countryDetail: CountryDetail) {
