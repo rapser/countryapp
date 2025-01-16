@@ -82,7 +82,7 @@ class CountryDetailViewController: UIViewController, CountryDetailViewProtocol {
     func displayCountryDetail(_ countryDetail: CountryDetail) {
         self.countryDetail = countryDetail
         guard let detail = countryDetail.first else { return }
-        title = detail.name.common // Configurar el título con el nombre del país
+        title = detail.name.common
         if let flagURL = URL(string: detail.flags.png) {
             loadFlagImage(from: flagURL)
         }
@@ -134,7 +134,6 @@ extension CountryDetailViewController: UITableViewDataSource {
         case 0: return 1 // Capital
         case 1: return 1 // Región
         case 2:
-            // Verificar si hay fronteras (borders) y retornar el conteo si es válido
             return (detail.borders?.isEmpty ?? true) ? 1 : (detail.borders?.count ?? 0)
         default: return 0
         }

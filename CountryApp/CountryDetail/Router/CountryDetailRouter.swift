@@ -14,13 +14,11 @@ class CountryDetailRouter: CountryDetailRouterProtocol {
         let presenter = CountryDetailPresenter()
         let view = CountryDetailViewController(presenter: presenter)
 
-        // Establecer dependencias
         presenter.view = view
         presenter.interactor = interactor
         presenter.router = CountryDetailRouter()
         interactor.presenter = presenter
 
-        // Pasar el countryName al Presenter
         presenter.countryName = countryName
 
         return view

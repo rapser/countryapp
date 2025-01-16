@@ -10,16 +10,26 @@ import Foundation
 class CountryListPresenter: CountryListPresenterProtocol {
     weak var view: CountryListViewProtocol?
     var interactor: CountryListInteractorProtocol?
+    private var allCountries: Countries = []
 
-    // Notifica a la vista cuando se obtiene la lista de países
     func didFetchCountryList(_ countries: Countries) {
         DispatchQueue.main.async {
-            self.view?.displayCountryList(countries)
+            self.allCountries = countries.sorted(by: { $0.name.common < $1.name.common })
+            self.view?.displayCountryList(self.allCountries)
             self.view?.hideLoadingView()
         }
     }
 
-    // Notifica a la vista cuando ocurre un error
+    func filterCountries(by query: String) {
+        let filteredCountries = query.isEmpty ?
+            allCountries :
+            allCountries.filter { $0.name.common.lowercased().contains(query.lowercased()) }
+
+        DispatchQueue.main.async {
+            self.view?.displayFilteredCountries(filteredCountries)
+        }
+    }
+
     func didFailWithError(_ error: Error) {
         DispatchQueue.main.async {
             if let countryListError = error as? CountryListError {

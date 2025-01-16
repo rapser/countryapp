@@ -18,18 +18,14 @@ class CountryDetailServiceManager: CountryDetailService {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             
-            // Mostrar el JSON que se recibe del servicio
             if let jsonString = String(data: data, encoding: .utf8) {
                 print("JSON recibido: \(jsonString)")
             }
             
-            // Intentar decodificar solo los campos necesarios
             let country = try JSONDecoder().decode(CountryDetail.self, from: data)
             
-            // Retornar el primer país de la lista
             return country
         } catch let decodingError as DecodingError {
-            // Manejo de errores de decodificación
             switch decodingError {
             case .dataCorrupted(let context):
                 print("Error de datos corruptos: \(context.debugDescription)")
@@ -42,10 +38,10 @@ class CountryDetailServiceManager: CountryDetailService {
             @unknown default:
                 print("Error desconocido: \(decodingError.localizedDescription)")
             }
-            throw decodingError // Lanzar el error de decodificación
+            throw decodingError
         } catch {
             print("Error en la solicitud: \(error.localizedDescription)")
-            throw error // Lanzar otros errores
+            throw error
         }
     }
 

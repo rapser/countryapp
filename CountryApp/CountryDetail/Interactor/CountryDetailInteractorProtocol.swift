@@ -9,5 +9,5 @@ import Foundation
 
 protocol CountryDetailInteractorProtocol: AnyObject {
     var presenter: CountryDetailPresenterProtocol? { get set }
-    func fetchCountryDetail(name: String) async throws  // Lanza errores hacia el Presenter
+    func fetchCountryDetail(name: String) async throws
 }

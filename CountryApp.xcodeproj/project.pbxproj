@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4659F3422D386572006D49F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3412D386572006D49F2 /* AppDelegate.swift */; };
 		4659F3442D386572006D49F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3432D386572006D49F2 /* SceneDelegate.swift */; };
-		4659F3462D386572006D49F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3452D386572006D49F2 /* ViewController.swift */; };
 		4659F34B2D386574006D49F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4659F34A2D386574006D49F2 /* Assets.xcassets */; };
 		4659F34E2D386574006D49F2 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 4659F34D2D386574006D49F2 /* Base */; };
 		4659F3592D386575006D49F2 /* CountryAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3582D386575006D49F2 /* CountryAppTests.swift */; };
@@ -65,7 +64,6 @@
 		4659F33E2D386572006D49F2 /* CountryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4659F3412D386572006D49F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4659F3432D386572006D49F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4659F3452D386572006D49F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4659F34A2D386574006D49F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4659F34D2D386574006D49F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4659F34F2D386574006D49F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 				4659F37B2D3879E4006D49F2 /* CountryList */,
 				4659F37C2D3879F4006D49F2 /* CountryDetail */,
 				4659F3772D386AC6006D49F2 /* Extension */,
-				4659F3452D386572006D49F2 /* ViewController.swift */,
 				4659F3B12D388793006D49F2 /* Resources */,
 				4659F34F2D386574006D49F2 /* Info.plist */,
 			);
@@ -488,7 +485,6 @@
 				4659F3982D387DAF006D49F2 /* CountryListRouter.swift in Sources */,
 				4659F3B92D3971EC006D49F2 /* CountryListError.swift in Sources */,
 				4659F3722D38660D006D49F2 /* Country.swift in Sources */,
-				4659F3462D386572006D49F2 /* ViewController.swift in Sources */,
 				4659F3A82D3882AB006D49F2 /* CountryDetailViewController.swift in Sources */,
 				4659F3A02D388232006D49F2 /* CountryDetailInteractor.swift in Sources */,
 				4659F39A2D3880B0006D49F2 /* CountryDetailService.swift in Sources */,

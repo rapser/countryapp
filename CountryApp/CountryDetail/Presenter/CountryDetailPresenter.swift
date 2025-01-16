@@ -13,7 +13,6 @@ class CountryDetailPresenter: CountryDetailPresenterProtocol {
     var router: CountryDetailRouterProtocol?
     var countryName: String?
 
-    // Inicia la obtención de detalles de un país
     func fetchCountryDetail() async {
         guard let countryName = countryName else {
             didFailWithError(CountryDetailError.countryNameUnavailable)
@@ -23,11 +22,10 @@ class CountryDetailPresenter: CountryDetailPresenterProtocol {
         do {
             try await interactor?.fetchCountryDetail(name: countryName)
         } catch {
-            didFailWithError(error)  // Maneja el error y lo notifica a la vista
+            didFailWithError(error)
         }
     }
 
-    // Notifica a la vista cuando se obtienen los detalles de un país
     func didFetchCountryDetail(_ countryDetail: CountryDetail) {
         DispatchQueue.main.async {
             self.view?.displayCountryDetail(countryDetail)
@@ -35,7 +33,6 @@ class CountryDetailPresenter: CountryDetailPresenterProtocol {
         }
     }
 
-    // Notifica a la vista cuando ocurre un error
     func didFailWithError(_ error: Error) {
         DispatchQueue.main.async {
             if let countryDetailError = error as? CountryDetailError {

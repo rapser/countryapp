@@ -17,15 +17,12 @@ class CountryListInteractor: CountryListInteractorProtocol {
     }
 
     func fetchCountryList() async throws {
-        // Intentar obtener la lista de países desde UserDefaults
         if let countries = userDefaultsManager.get(forKey: "savedCountries", as: Countries.self) {
             presenter?.didFetchCountryList(countries)
         } else {
-            // Si no hay datos en UserDefaults, hacer la llamada a la API
             do {
                 let countries = try await service.fetchCountryList()
                 presenter?.didFetchCountryList(countries)
-                userDefaultsManager.save(object: countries, forKey: "savedCountries") // Guardar en UserDefaults después de obtenerlo
             } catch {
                 presenter?.didFailWithError(error)
                 throw error

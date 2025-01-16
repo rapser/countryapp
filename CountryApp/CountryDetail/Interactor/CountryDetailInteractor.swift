@@ -22,10 +22,10 @@ class CountryDetailInteractor: CountryDetailInteractorProtocol {
 
         do {
             let countryDetail = try await service.fetchCountryDetail(by: name)
-            presenter?.didFetchCountryDetail(countryDetail)  // Notifica al Presenter con los resultados
+            presenter?.didFetchCountryDetail(countryDetail)
         } catch {
-            presenter?.didFailWithError(CountryDetailError.unknownError)  // Maneja el error y lo notifica al Presenter
-            throw CountryDetailError.unknownError  // Propaga el error
+            presenter?.didFailWithError(CountryDetailError.unknownError)
+            throw CountryDetailError.unknownError
         }
     }
 }

@@ -8,8 +8,8 @@
 import Foundation
 
 protocol CountryDetailPresenterProtocol: AnyObject {
-    func didFetchCountryDetail(_ countryDetail: CountryDetail)  // Notifica a la vista cuando se obtienen los detalles
-    func didFailWithError(_ error: Error)                       // Notifica a la vista cuando ocurre un error
-    func fetchCountryDetail() async                             // Inicia la obtención de detalles de un país
+    func didFetchCountryDetail(_ countryDetail: CountryDetail)
+    func didFailWithError(_ error: Error)
+    func fetchCountryDetail() async
 }
 
