@@ -9,11 +9,12 @@ import Foundation
 
 class CountryListInteractor: CountryListInteractorProtocol {
     var presenter: CountryListPresenterProtocol?
-    private let service: CountryListService
-    private let userDefaultsManager = UserDefaultsManager.shared
+    let service: CountryListService
+    var userDefaultsManager: UserDefaultsManagerProtocol
 
-    init(service: CountryListService) {
+    init(service: CountryListService, userDefaultsManager: UserDefaultsManagerProtocol = UserDefaultsManager.shared) {
         self.service = service
+        self.userDefaultsManager = userDefaultsManager
     }
 
     func fetchCountryList() async throws {
@@ -22,6 +23,7 @@ class CountryListInteractor: CountryListInteractorProtocol {
         } else {
             do {
                 let countries = try await service.fetchCountryList()
+                userDefaultsManager.save(object: countries, forKey: "savedCountries")
                 presenter?.didFetchCountryList(countries)
             } catch {
                 presenter?.didFailWithError(error)
@@ -30,4 +32,3 @@ class CountryListInteractor: CountryListInteractorProtocol {
         }
     }
 }
-

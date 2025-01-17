@@ -7,11 +7,21 @@
 
 import Foundation
 
-final class UserDefaultsManager {
-    static let shared = UserDefaultsManager()
-    private let defaults = UserDefaults.standard
+protocol UserDefaultsManagerProtocol {
+    func get<T: Decodable>(forKey key: String, as type: T.Type) -> T?
+    func save<T: Codable>(object: T, forKey key: String)
+    func remove(forKey key: String)
+}
 
-    private init() {}
+class UserDefaultsManager: UserDefaultsManagerProtocol {
+    static var shared: UserDefaultsManagerProtocol = UserDefaultsManager()
+
+    private let defaults: UserDefaults
+
+    // Inicializador público para permitir la inyección de dependencias en los tests
+    init(defaults: UserDefaults = UserDefaults.standard) {
+        self.defaults = defaults
+    }
 
     func save<T: Codable>(object: T, forKey key: String) {
         do {
@@ -22,7 +32,7 @@ final class UserDefaultsManager {
         }
     }
 
-    func get<T: Codable>(forKey key: String, as type: T.Type) -> T? {
+    func get<T: Decodable>(forKey key: String, as type: T.Type) -> T? {
         guard let data = defaults.data(forKey: key) else { return nil }
         do {
             let object = try JSONDecoder().decode(T.self, from: data)

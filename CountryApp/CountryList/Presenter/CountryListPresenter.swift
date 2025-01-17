@@ -12,9 +12,23 @@ class CountryListPresenter: CountryListPresenterProtocol {
     var interactor: CountryListInteractorProtocol?
     private var allCountries: Countries = []
 
-    func didFetchCountryList(_ countries: Countries) {
+    func fetchCountryList() async {
+        guard let interactor = interactor else {
+            didFailWithError(CountryListError.interactorUnavailable)
+            return
+        }
+        
+        view?.showLoadingView()
+        do {
+            try await interactor.fetchCountryList()
+        } catch {
+            didFailWithError(error)
+        }
+    }
+
+    internal func didFetchCountryList(_ countries: Countries) {
+        self.allCountries = sortCountries(countries)
         DispatchQueue.main.async {
-            self.allCountries = countries.sorted(by: { $0.name.common < $1.name.common })
             self.view?.displayCountryList(self.allCountries)
             self.view?.hideLoadingView()
         }
@@ -30,34 +44,27 @@ class CountryListPresenter: CountryListPresenterProtocol {
         }
     }
 
-    func didFailWithError(_ error: Error) {
-        DispatchQueue.main.async {
-            if let countryListError = error as? CountryListError {
-                switch countryListError {
-                case .interactorUnavailable:
-                    self.view?.displayError("El interactor no está disponible. Por favor, intenta más tarde.")
-                case .invalidResponse:
-                    self.view?.displayError("La respuesta del servidor no es válida.")
-                case .unknownError:
-                    self.view?.displayError("Ocurrió un error desconocido.")
-                }
-            } else {
-                self.view?.displayError("Ocurrió un error inesperado: \(error.localizedDescription)")
-            }
-            self.view?.hideLoadingView()
-        }
+    private func sortCountries(_ countries: Countries) -> Countries {
+        return countries.sorted { $0.name.common < $1.name.common }
     }
 
-    func fetchCountryList() async {
-        guard let interactor = interactor else {
-            didFailWithError(CountryListError.interactorUnavailable)
-            return
+    internal func didFailWithError(_ error: Error) {
+        let errorMessage: String
+        if let countryListError = error as? CountryListError {
+            errorMessage = {
+                switch countryListError {
+                case .interactorUnavailable: return "El interactor no está disponible. Por favor, intenta más tarde."
+                case .invalidResponse: return "La respuesta del servidor no es válida."
+                case .unknownError: return "Ocurrió un error desconocido."
+                }
+            }()
+        } else {
+            errorMessage = "Ocurrió un error inesperado: \(error.localizedDescription)"
         }
-
-        do {
-            try await interactor.fetchCountryList()
-        } catch {
-            didFailWithError(error)
+        
+        DispatchQueue.main.async {
+            self.view?.displayError(errorMessage)
+            self.view?.hideLoadingView()
         }
     }
 }
