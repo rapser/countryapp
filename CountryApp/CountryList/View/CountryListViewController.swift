@@ -12,6 +12,7 @@ class CountryListViewController: UIViewController, CountryListViewProtocol {
     private let tableView = UITableView()
     private var countries: Countries = []
     private var loadingView: LoadingView?
+    private let searchBar = UISearchBar()
 
     init(presenter: CountryListPresenterProtocol) {
         self.presenter = presenter
@@ -33,21 +34,32 @@ class CountryListViewController: UIViewController, CountryListViewProtocol {
 
     private func setupUI() {
         view.backgroundColor = .white
+        title = "Countries"
+
+        searchBar.delegate = self
+        searchBar.placeholder = "Buscar país"
+        view.addSubview(searchBar)
+
         view.addSubview(tableView)
 
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Aceptar", style: .default))
@@ -55,6 +67,11 @@ class CountryListViewController: UIViewController, CountryListViewProtocol {
     }
 
     func displayCountryList(_ countries: [Country]) {
+        self.countries = countries.sorted(by: { $0.name.common < $1.name.common })
+        tableView.reloadData()
+    }
+
+    func displayFilteredCountries(_ countries: [Country]) {
         self.countries = countries
         tableView.reloadData()
     }
@@ -84,7 +101,7 @@ extension CountryListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         countries.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.textLabel?.text = countries[indexPath.row].name.common
@@ -93,10 +110,16 @@ extension CountryListViewController: UITableViewDelegate, UITableViewDataSource 
         return cell
     }
 
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCountry = countries[indexPath.row]
         let detailVC = CountryDetailRouter.createModule(with: selectedCountry.name.common)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
+
+extension CountryListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        presenter.filterCountries(by: searchText)
+    }
+}
+

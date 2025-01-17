@@ -8,7 +8,8 @@
 import Foundation
 
 protocol CountryListViewProtocol: AnyObject {
-    func displayCountryList(_ countries: [Country])
+    func displayCountryList(_ countries: Countries)
+    func displayFilteredCountries(_ countries: Countries)
     func displayError(_ message: String)
     func showLoadingView()
     func hideLoadingView()

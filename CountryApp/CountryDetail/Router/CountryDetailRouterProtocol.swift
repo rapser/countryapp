@@ -8,5 +8,6 @@
 import UIKit
 
 protocol CountryDetailRouterProtocol {
+    func navigateToMap(latitude: Double, longitude: Double, countryName: String)
     static func createModule(with countryName: String) -> UIViewController
 }

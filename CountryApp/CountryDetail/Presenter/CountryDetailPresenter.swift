@@ -7,13 +7,65 @@
 
 import Foundation
 
+//class CountryDetailPresenter: CountryDetailPresenterProtocol {
+//    weak var view: CountryDetailViewProtocol?
+//    var interactor: CountryDetailInteractorProtocol?
+//    var router: CountryDetailRouterProtocol?
+//    var countryName: String?
+//    private var currentCountryDetail: CountryDetail?
+//
+//    func fetchCountryDetail() async {
+//        guard let countryName = countryName else {
+//            didFailWithError(CountryDetailError.countryNameUnavailable)
+//            return
+//        }
+//
+//        do {
+//            try await interactor?.fetchCountryDetail(name: countryName)
+//        } catch {
+//            didFailWithError(error)
+//        }
+//    }
+//
+//    func didFetchCountryDetail(_ countryDetail: CountryDetail) {
+//        DispatchQueue.main.async {
+//            self.currentCountryDetail = countryDetail
+//            self.view?.displayCountryDetail(countryDetail)
+//            self.view?.hideLoadingView()
+//        }
+//    }
+//
+//    func didFailWithError(_ error: Error) {
+//        DispatchQueue.main.async {
+//            if let countryDetailError = error as? CountryDetailError {
+//                switch countryDetailError {
+//                case .countryNameUnavailable:
+//                    self.view?.displayError("El nombre del país no está disponible. Por favor, intenta más tarde.")
+//                case .invalidResponse:
+//                    self.view?.displayError("La respuesta del servidor no es válida.")
+//                case .unknownError:
+//                    self.view?.displayError("Ocurrió un error desconocido.")
+//                }
+//            } else {
+//                self.view?.displayError("Ocurrió un error inesperado: \(error.localizedDescription)")
+//            }
+//            self.view?.hideLoadingView()
+//        }
+//    }
+//    
+//    func showMap() {
+//        guard let countryDetail = currentCountryDetail?.first, countryDetail.latlng.count == 2 else { return }
+//        router?.navigateToMap(latitude: countryDetail.latlng[0], longitude: countryDetail.latlng[1], countryName: countryDetail.name.common)
+//    }
+//}
+
 class CountryDetailPresenter: CountryDetailPresenterProtocol {
     weak var view: CountryDetailViewProtocol?
     var interactor: CountryDetailInteractorProtocol?
     var router: CountryDetailRouterProtocol?
     var countryName: String?
+    private var currentCountryDetail: CountryDetail?
 
-    // Inicia la obtención de detalles de un país
     func fetchCountryDetail() async {
         guard let countryName = countryName else {
             didFailWithError(CountryDetailError.countryNameUnavailable)
@@ -23,35 +75,43 @@ class CountryDetailPresenter: CountryDetailPresenterProtocol {
         do {
             try await interactor?.fetchCountryDetail(name: countryName)
         } catch {
-            didFailWithError(error)  // Maneja el error y lo notifica a la vista
+            didFailWithError(error)
         }
     }
 
-    // Notifica a la vista cuando se obtienen los detalles de un país
     func didFetchCountryDetail(_ countryDetail: CountryDetail) {
         DispatchQueue.main.async {
+            self.currentCountryDetail = countryDetail
             self.view?.displayCountryDetail(countryDetail)
             self.view?.hideLoadingView()
         }
     }
 
-    // Notifica a la vista cuando ocurre un error
+    private func errorMessage(for error: CountryDetailError) -> String {
+        switch error {
+        case .countryNameUnavailable:
+            return "El nombre del país no está disponible. Por favor, intenta más tarde."
+        case .invalidResponse:
+            return "La respuesta del servidor no es válida."
+        case .unknownError:
+            return "Ocurrió un error desconocido."
+        }
+    }
+
     func didFailWithError(_ error: Error) {
         DispatchQueue.main.async {
             if let countryDetailError = error as? CountryDetailError {
-                switch countryDetailError {
-                case .countryNameUnavailable:
-                    self.view?.displayError("El nombre del país no está disponible. Por favor, intenta más tarde.")
-                case .invalidResponse:
-                    self.view?.displayError("La respuesta del servidor no es válida.")
-                case .unknownError:
-                    self.view?.displayError("Ocurrió un error desconocido.")
-                }
+                self.view?.displayError(self.errorMessage(for: countryDetailError))
             } else {
                 self.view?.displayError("Ocurrió un error inesperado: \(error.localizedDescription)")
             }
             self.view?.hideLoadingView()
         }
     }
+    
+    func showMap() {
+        guard let countryDetail = currentCountryDetail?.first,
+              countryDetail.latlng.indices.contains(1) else { return }
+        router?.navigateToMap(latitude: countryDetail.latlng[0], longitude: countryDetail.latlng[1], countryName: countryDetail.name.common)
+    }
 }
-

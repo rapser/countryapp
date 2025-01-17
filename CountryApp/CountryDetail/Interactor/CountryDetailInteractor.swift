@@ -17,15 +17,18 @@ class CountryDetailInteractor: CountryDetailInteractorProtocol {
 
     func fetchCountryDetail(name: String) async throws {
         guard !name.isEmpty else {
-            throw CountryDetailError.countryNameUnavailable
+            let error = CountryDetailError.countryNameUnavailable
+            presenter?.didFailWithError(error)
+            throw error
         }
 
         do {
             let countryDetail = try await service.fetchCountryDetail(by: name)
-            presenter?.didFetchCountryDetail(countryDetail)  // Notifica al Presenter con los resultados
+            presenter?.didFetchCountryDetail(countryDetail)
         } catch {
-            presenter?.didFailWithError(CountryDetailError.unknownError)  // Maneja el error y lo notifica al Presenter
-            throw CountryDetailError.unknownError  // Propaga el error
+            let error = CountryDetailError.unknownError
+            presenter?.didFailWithError(error)
+            throw error
         }
     }
 }

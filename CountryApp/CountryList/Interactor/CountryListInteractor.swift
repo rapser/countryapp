@@ -9,20 +9,26 @@ import Foundation
 
 class CountryListInteractor: CountryListInteractorProtocol {
     var presenter: CountryListPresenterProtocol?
-    private let service: CountryListService
+    let service: CountryListService
+    var userDefaultsManager: UserDefaultsManagerProtocol
 
-    init(service: CountryListService) {
+    init(service: CountryListService, userDefaultsManager: UserDefaultsManagerProtocol = UserDefaultsManager.shared) {
         self.service = service
+        self.userDefaultsManager = userDefaultsManager
     }
-    
+
     func fetchCountryList() async throws {
-        do {
-            let countries = try await service.fetchCountryList()
+        if let countries = userDefaultsManager.get(forKey: "savedCountries", as: Countries.self) {
             presenter?.didFetchCountryList(countries)
-        } catch {
-            presenter?.didFailWithError(error)
-            throw error
+        } else {
+            do {
+                let countries = try await service.fetchCountryList()
+                userDefaultsManager.save(object: countries, forKey: "savedCountries")
+                presenter?.didFetchCountryList(countries)
+            } catch {
+                presenter?.didFailWithError(error)
+                throw error
+            }
         }
     }
 }
-

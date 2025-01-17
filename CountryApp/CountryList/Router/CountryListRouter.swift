@@ -14,7 +14,6 @@ class CountryListRouter: CountryListRouterProtocol {
         let presenter = CountryListPresenter()
         let view = CountryListViewController(presenter: presenter)
 
-        // Establecer dependencias
         presenter.view = view
         presenter.interactor = interactor
         interactor.presenter = presenter
