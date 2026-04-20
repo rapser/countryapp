@@ -8,10 +8,11 @@
 import Foundation
 
 class CountryDetailServiceManager: CountryDetailService {
-    private let baseURL = "https://restcountries.com/v3.1"
+    private let baseURL = "https://d494e.wiremockapi.cloud/v1.0/"
+    private let countryDetailPath = "name/all"
 
     func fetchCountryDetail(by name: String) async throws -> CountryDetail {
-        guard let url = URL(string: "\(baseURL)/name/\(name)") else {
+        guard let url = URL(string: baseURL + countryDetailPath) else {
             throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
         }
 
@@ -22,9 +23,10 @@ class CountryDetailServiceManager: CountryDetailService {
                 print("JSON recibido: \(jsonString)")
             }
             
-            let country = try JSONDecoder().decode(CountryDetail.self, from: data)
-            
-            return country
+            let allDetails = try JSONDecoder().decode(CountryDetail.self, from: data)
+            let normalizedQuery = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            let match = allDetails.first { $0.name.common.lowercased() == normalizedQuery }
+            return match.map { [$0] } ?? []
         } catch let decodingError as DecodingError {
             switch decodingError {
             case .dataCorrupted(let context):

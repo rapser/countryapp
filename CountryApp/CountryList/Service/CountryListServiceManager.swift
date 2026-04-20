@@ -8,10 +8,11 @@
 import Foundation
 
 class CountryListServiceManager: CountryListService {
-    private let baseURL = "https://restcountries.com/v3.1/all"
+    private let baseURL = "https://d494e.wiremockapi.cloud/v1.0/"
+    private let countryListPath = "all"
 
     func fetchCountryList() async throws -> Countries {
-        guard let url = URL(string: baseURL) else {
+        guard let url = URL(string: baseURL + countryListPath) else {
             throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
         }
 
