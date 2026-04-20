@@ -58,8 +58,8 @@ Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets
 ## Instalación
 
 ```bash
-git clone https://github.com/rapser/countryapi.git
-cd countryapi
+git clone https://github.com/rapser/countryapp.git
+cd countryapp
 open CountryApp.xcodeproj
 ```
 
