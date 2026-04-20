@@ -17,10 +17,12 @@ class CountryListServiceManager: CountryListService {
         }
 
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("JSON recibido: \(jsonString)")
+            AppLog.trace("WEB GET \(url.absoluteString)")
+            let (data, response) = try await URLSession.shared.data(from: url)
+            if let http = response as? HTTPURLResponse {
+                AppLog.trace("WEB GET status=\(http.statusCode) bytes=\(data.count)")
+            } else {
+                AppLog.trace("WEB GET response no-HTTP bytes=\(data.count)")
             }
 
             let countries = try JSONDecoder().decode(Countries.self, from: data)
@@ -40,7 +42,7 @@ class CountryListServiceManager: CountryListService {
             }
             throw decodingError
         } catch {
-            print("Error en la solicitud: \(error.localizedDescription)")
+            AppLog.trace("WEB GET error: \(error.localizedDescription)")
             throw error
         }
     }

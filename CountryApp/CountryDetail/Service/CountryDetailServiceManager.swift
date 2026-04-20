@@ -17,12 +17,13 @@ class CountryDetailServiceManager: CountryDetailService {
         }
 
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("JSON recibido: \(jsonString)")
+            AppLog.trace("WEB GET \(url.absoluteString)")
+            let (data, response) = try await URLSession.shared.data(from: url)
+            if let http = response as? HTTPURLResponse {
+                AppLog.trace("WEB GET status=\(http.statusCode) bytes=\(data.count)")
+            } else {
+                AppLog.trace("WEB GET response no-HTTP bytes=\(data.count)")
             }
-            
             return try JSONDecoder().decode(CountryDetail.self, from: data)
         } catch let decodingError as DecodingError {
             switch decodingError {
@@ -39,7 +40,7 @@ class CountryDetailServiceManager: CountryDetailService {
             }
             throw decodingError
         } catch {
-            print("Error en la solicitud: \(error.localizedDescription)")
+            AppLog.trace("WEB GET error: \(error.localizedDescription)")
             throw error
         }
     }

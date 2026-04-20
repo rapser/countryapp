@@ -19,7 +19,9 @@ CountryApp es una aplicación iOS que permite explorar información sobre paíse
 
 ## Descripción
 
-La aplicación muestra un listado de países con búsqueda, permite ver el detalle (capital, región, fronteras y bandera) y abrir la ubicación aproximada en un mapa.
+Pantalla inicial (**Home**) con dos accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y **juego de banderas** (30 preguntas, 4 opciones aleatorias, estilo concurso, resumen con puntuación y tiempo).
+
+El listado se guarda en **SwiftData** (`PersistedCountry`) tras la primera descarga desde la API; el juego lee siempre desde esa base local.
 
 ## Arquitectura (VIPER)
 
@@ -31,7 +33,18 @@ El proyecto sigue **VIPER** (View, Interactor, Presenter, Entity, Router) con re
 - **Router**: composición del módulo (`createModule`) y navegación (`push` / transiciones).
 - **Entity**: modelos `Codable` y errores de dominio.
 
-Módulos principales: **CountryList**, **CountryDetail** y **Map**.
+Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map** y **FlagGame** (instrucciones, cuestionario, resumen).
+
+### Juego “Adivina la bandera”
+
+- 30 países distintos por partida, orden y opciones **aleatorios** en cada sesión.
+- Distractores elegidos por **similitud de nombre** (heurística) para dificultar la respuesta.
+- Puntuación: **+10** acierto, **−5** error, **0** si saltas la pregunta.
+- Puedes **terminar antes**; el resumen usa aciertos, fallos, saltos y el tiempo transcurrido hasta ese momento.
+
+### SwiftData y JSON de listado
+
+Para persistir y mostrar banderas desde **Assets** (`Assets.xcassets/countries`), el JSON de `all` debe incluir **`assetFlag`** y/o **`cca2`** (código ISO de dos letras en minúsculas, coherente con el nombre del imageset). Sin esos campos el país puede omitirse al guardar o no mostrar bandera en el juego.
 
 ## API y datos
 
@@ -54,6 +67,7 @@ Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets
 - **Arquitectura:** VIPER
 - **UI:** UIKit (programático)
 - **Red:** `URLSession` + `async`/`await`
+- **Persistencia:** SwiftData (`ModelContainer` / `ModelContext`)
 
 ## Instalación
 

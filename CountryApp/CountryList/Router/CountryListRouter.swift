@@ -5,13 +5,15 @@
 //  Created by miguel tomairo on 15/01/25.
 //
 
+import SwiftData
 import UIKit
 
 class CountryListRouter: CountryListRouterProtocol {
-    static func createModule() -> UIViewController {
+    static func createModule(modelContext: ModelContext) -> UIViewController {
         let router = CountryListRouter()
         let service = CountryListServiceManager()
-        let interactor = CountryListInteractor(service: service)
+        let persistence = SwiftDataCountryPersistence(modelContext: modelContext)
+        let interactor = CountryListInteractor(service: service, persistence: persistence)
         let presenter = CountryListPresenter()
         let view = CountryListViewController(presenter: presenter)
 
