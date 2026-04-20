@@ -88,7 +88,9 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         Self.trace("Respuesta final=\(selectedIndex) correct=\(isCorrect) hasMore=\(interactor.hasMoreQuestions)")
         view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) { [weak self] in
+        // Breve pausa para leer verde/rojo sin notar el juego “atascado” (antes 0,75 s).
+        let revealPause: TimeInterval = 0.32
+        DispatchQueue.main.asyncAfter(deadline: .now() + revealPause) { [weak self] in
             guard let self else { return }
             self.view?.clearAnswerHighlight()
             self.view?.setOptionsEnabled(true)

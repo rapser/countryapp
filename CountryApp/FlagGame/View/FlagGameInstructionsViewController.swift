@@ -6,7 +6,8 @@
 import UIKit
 
 protocol FlagGameInstructionsViewProtocol: AnyObject {
-    func setLoading(_ loading: Bool)
+    /// Deshabilita el botón de jugar mientras se prepara la ronda (solo SwiftData, sin red).
+    func setPrepareInProgress(_ inProgress: Bool)
     func showError(message: String)
 }
 
@@ -15,7 +16,6 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
     private let scrollView = UIScrollView()
     private let bodyStack = UIStackView()
     private let playButton = UIButton(type: .system)
-    private let spinner = UIActivityIndicatorView(style: .large)
 
     init(presenter: FlagGameInstructionsPresenterProtocol) {
         self.presenter = presenter
@@ -41,10 +41,10 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
             Responde 30 preguntas viendo la bandera en pantalla.
 
             • Cada pregunta tiene 4 nombres de países en orden aleatorio.
-            • Puedes saltar si no sabes (no suma puntos ni resta).
-            • Puedes terminar antes: se calculará tu resultado con lo respondido hasta ese momento.
+            • Elige una opción y pulsa «Siguiente» para confirmar.
+            • Puedes terminar antes: el resumen usará lo respondido hasta ese momento.
 
-            Puntuación: +10 por acierto, −5 por error. Los saltos valen 0.
+            Puntuación: +10 por acierto, −5 por error.
             """,
             style: .body
         )
@@ -52,12 +52,8 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
         playButton.configuration = Self.playButtonConfiguration()
         playButton.addTarget(self, action: #selector(playTapped), for: .touchUpInside)
 
-        spinner.hidesWhenStopped = true
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-
         bodyStack.addArrangedSubview(intro)
         bodyStack.addArrangedSubview(playButton)
-        bodyStack.addArrangedSubview(spinner)
 
         scrollView.addSubview(bodyStack)
         view.addSubview(scrollView)
@@ -103,14 +99,8 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
         presenter.didTapPlay(from: self)
     }
 
-    func setLoading(_ loading: Bool) {
-        if loading {
-            spinner.startAnimating()
-            playButton.isEnabled = false
-        } else {
-            spinner.stopAnimating()
-            playButton.isEnabled = true
-        }
+    func setPrepareInProgress(_ inProgress: Bool) {
+        playButton.isEnabled = !inProgress
     }
 
     func showError(message: String) {

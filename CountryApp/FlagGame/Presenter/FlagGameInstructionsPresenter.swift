@@ -26,11 +26,12 @@ final class FlagGameInstructionsPresenter: FlagGameInstructionsPresenterProtocol
     func didTapPlay(from viewController: UIViewController) {
         Self.log.debug("Jugar tapped")
         Task { @MainActor in
-            view?.setLoading(true)
+            // Solo datos locales (SwiftData): no hace falta spinner; evitamos doble tap.
+            view?.setPrepareInProgress(true)
+            defer { view?.setPrepareInProgress(false) }
             do {
                 try await interactor.ensureCountriesLoaded()
                 try await interactor.startNewRound()
-                view?.setLoading(false)
                 guard let router else {
                     Self.log.error("router is nil after prepare; cannot push quiz")
                     view?.showError(message: "Error interno: no hay router de navegación.")
@@ -39,7 +40,6 @@ final class FlagGameInstructionsPresenter: FlagGameInstructionsPresenterProtocol
                 Self.log.debug("Pushing quiz screen")
                 router.pushQuiz(from: viewController)
             } catch {
-                view?.setLoading(false)
                 Self.log.error("Prepare game failed: \(String(describing: error))")
                 let message: String
                 if let fe = error as? FlagGameError, fe == .notEnoughCountries {
