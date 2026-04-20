@@ -15,19 +15,17 @@ class MapPresenter: MapPresenterProtocol {
     weak var view: MapViewProtocol?
     var interactor: MapInteractorProtocol?
     var router: MapRouterProtocol?
-    
-    private let latitude: Double
-    private let longitude: Double
-    private let countryName: String
 
-    init(view: MapViewProtocol, latitude: Double, longitude: Double, countryName: String) {
+    init(view: MapViewProtocol) {
         self.view = view
-        self.latitude = latitude
-        self.longitude = longitude
-        self.countryName = countryName
     }
 
     func viewDidLoad() {
-        view?.showLocation(latitude: latitude, longitude: longitude, countryName: countryName)
+        guard let location = interactor?.fetchLocation() else { return }
+        view?.showLocation(
+            latitude: location.latitude,
+            longitude: location.longitude,
+            countryName: location.countryName
+        )
     }
 }

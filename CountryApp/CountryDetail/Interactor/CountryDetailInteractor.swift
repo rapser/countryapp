@@ -16,15 +16,21 @@ class CountryDetailInteractor: CountryDetailInteractorProtocol {
     }
 
     func fetchCountryDetail(name: String) async throws {
-        guard !name.isEmpty else {
-            let error = CountryDetailError.countryNameUnavailable
+        do {
+            guard !name.isEmpty else {
+                throw CountryDetailError.countryNameUnavailable
+            }
+
+            let allDetails = try await service.fetchAllCountryDetails()
+            let normalizedQuery = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            let match = allDetails.first { $0.name.common.lowercased() == normalizedQuery }
+            guard let match else {
+                throw CountryDetailError.invalidResponse
+            }
+            presenter?.didFetchCountryDetail([match])
+        } catch let error as CountryDetailError {
             presenter?.didFailWithError(error)
             throw error
-        }
-
-        do {
-            let countryDetail = try await service.fetchCountryDetail(by: name)
-            presenter?.didFetchCountryDetail(countryDetail)
         } catch {
             let error = CountryDetailError.unknownError
             presenter?.didFailWithError(error)

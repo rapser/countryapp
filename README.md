@@ -1,6 +1,6 @@
 # CountryApp
 
-CountryApp es una aplicación iOS que permite explorar información detallada sobre países del mundo. Desarrollada utilizando el patrón arquitectónico **VIPER** y **UIKit** con diseño programático.
+CountryApp es una aplicación iOS que permite explorar información sobre países del mundo. Está desarrollada con el patrón arquitectónico **VIPER** y **UIKit** con diseño programático.
 
 ## Capturas de pantalla
 
@@ -19,42 +19,61 @@ CountryApp es una aplicación iOS que permite explorar información detallada so
 
 ## Descripción
 
-La aplicación consume datos desde la API pública de REST Countries y proporciona información como:
-- Nombre del país
-- Capital
-- Bandera
-- Región
-- Idiomas
-- Ubicación geográfica
+La aplicación muestra un listado de países con búsqueda, permite ver el detalle (capital, región, fronteras y bandera) y abrir la ubicación aproximada en un mapa.
 
-## Arquitectura
+## Arquitectura (VIPER)
 
-CountryApp está desarrollada siguiendo el patrón **VIPER** (View, Interactor, Presenter, Entity, Router), lo que permite una separación clara de responsabilidades y facilita la escalabilidad y mantenimiento del código.
+El proyecto sigue **VIPER** (View, Interactor, Presenter, Entity, Router) con responsabilidades separadas:
 
-## Servicios Web Utilizados
+- **View**: UI y eventos de usuario; no navega sola al detalle.
+- **Presenter**: orquesta casos de uso y actualiza la vista.
+- **Interactor**: lógica de negocio y acceso a datos (por ejemplo, filtrar el detalle por nombre a partir del JSON completo).
+- **Router**: composición del módulo (`createModule`) y navegación (`push` / transiciones).
+- **Entity**: modelos `Codable` y errores de dominio.
 
-CountryApp utiliza los siguientes servicios RESTful de [REST Countries](https://restcountries.com/#endpoints-all):
-- **Listado de todos los países:** `https://restcountries.com/v3.1/all`
-- **Búsqueda por nombre:** `https://restcountries.com/v3.1/name/{name}`
+Módulos principales: **CountryList**, **CountryDetail** y **Map**.
 
-## Tecnologías Utilizadas
+## API y datos
 
-- **Lenguaje:** Swift 5
+Los datos se obtienen desde un backend de ejemplo alojado en **WireMock Cloud**. La base común es:
+
+`https://d494e.wiremockapi.cloud/v1.0/`
+
+| Recurso | Path | Uso en la app |
+|--------|------|----------------|
+| Listado | `all` | Lista de países (`name`, `capital`, etc.). |
+| Detalles | `name/all` | JSON con todos los detalles; el **Interactor** selecciona el país por `name.common`. |
+
+En `CountryApp/Resources/` hay JSON de referencia (`countries.json`, `country_details.json`) útiles para publicar o revisar el contrato de la API.
+
+Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets.xcassets/countries`) hay imágenes por código ISO de dos letras para uso local si lo integras en la UI.
+
+## Tecnologías
+
+- **Lenguaje:** Swift
 - **Arquitectura:** VIPER
-- **Framework:** UIKit (programático)
-- **Xcode 15.4**
+- **UI:** UIKit (programático)
+- **Red:** `URLSession` + `async`/`await`
 
 ## Instalación
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd CountryApp
+git clone https://github.com/rapser/countryapi.git
+cd countryapi
 open CountryApp.xcodeproj
+```
+
+## Tests
+
+Desde la terminal, usando el simulador disponible (por ejemplo **iPhone 17**):
+
+```bash
+xcodebuild -scheme CountryApp -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 ## Contribuciones
 
-¡Las contribuciones son bienvenidas! Por favor, abre un issue o un pull request si deseas colaborar.
+Las contribuciones son bienvenidas. Abre un issue o un pull request si deseas colaborar.
 
 ## Licencia
 
@@ -63,4 +82,3 @@ Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para má
 ---
 
 **Desarrollado por:** _Miguel Tomairo_
-

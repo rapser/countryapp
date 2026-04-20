@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 class CountryListPresenter: CountryListPresenterProtocol {
     weak var view: CountryListViewProtocol?
     var interactor: CountryListInteractorProtocol?
+    var router: CountryListRouterProtocol?
     private var allCountries: Countries = []
 
     func fetchCountryList() async {
@@ -42,6 +44,11 @@ class CountryListPresenter: CountryListPresenterProtocol {
         DispatchQueue.main.async {
             self.view?.displayFilteredCountries(filteredCountries)
         }
+    }
+    
+    func didSelectCountry(_ country: Country) {
+        guard let viewController = view as? UIViewController else { return }
+        router?.navigateToCountryDetail(from: viewController, countryName: country.name.common)
     }
 
     private func sortCountries(_ countries: Countries) -> Countries {

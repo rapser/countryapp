@@ -17,10 +17,12 @@ class MapRouter: MapRouterProtocol {
 
     static func createModule(latitude: Double, longitude: Double, countryName: String) -> UIViewController {
         let view = MapViewController()
-        let presenter = MapPresenter(view: view, latitude: latitude, longitude: longitude, countryName: countryName)
+        let presenter = MapPresenter(view: view)
+        let interactor = MapInteractor(latitude: latitude, longitude: longitude, countryName: countryName)
         let router = MapRouter()
         
         view.presenter = presenter
+        presenter.interactor = interactor
         presenter.router = router
         router.viewController = view
 

@@ -11,7 +11,7 @@ class CountryDetailServiceManager: CountryDetailService {
     private let baseURL = "https://d494e.wiremockapi.cloud/v1.0/"
     private let countryDetailPath = "name/all"
 
-    func fetchCountryDetail(by name: String) async throws -> CountryDetail {
+    func fetchAllCountryDetails() async throws -> CountryDetail {
         guard let url = URL(string: baseURL + countryDetailPath) else {
             throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
         }
@@ -23,10 +23,7 @@ class CountryDetailServiceManager: CountryDetailService {
                 print("JSON recibido: \(jsonString)")
             }
             
-            let allDetails = try JSONDecoder().decode(CountryDetail.self, from: data)
-            let normalizedQuery = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-            let match = allDetails.first { $0.name.common.lowercased() == normalizedQuery }
-            return match.map { [$0] } ?? []
+            return try JSONDecoder().decode(CountryDetail.self, from: data)
         } catch let decodingError as DecodingError {
             switch decodingError {
             case .dataCorrupted(let context):

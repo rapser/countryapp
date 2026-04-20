@@ -9,5 +9,5 @@ import UIKit
 
 protocol CountryListRouterProtocol {
     static func createModule() -> UIViewController
-    static func navigateToCountryDetail(from view: UIViewController, countryName: String)
+    func navigateToCountryDetail(from viewController: UIViewController, countryName: String)
 }

@@ -13,6 +13,7 @@ protocol CountryListPresenterProtocol: AnyObject {
     
     func fetchCountryList() async
     func filterCountries(by searchText: String)
+    func didSelectCountry(_ country: Country)
     func didFetchCountryList(_ countries: Countries)
     func didFailWithError(_ error: Error)
 }
