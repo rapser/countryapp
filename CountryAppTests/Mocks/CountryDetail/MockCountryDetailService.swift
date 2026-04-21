@@ -12,10 +12,14 @@ class MockCountryDetailService: CountryDetailService {
     var countryDetailToReturn: CountryDetail?
     var errorToThrow: Error?
     
-    func fetchCountryDetail(by name: String) async throws -> CountryDetail {
+    func fetchAllCountryDetails() async throws -> CountryDetail {
         fetchCountryDetailCalled = true
         if let error = errorToThrow {
             throw error
+        }
+
+        if let countryDetailToReturn {
+            return countryDetailToReturn
         }
         
         let countryDetailElement = CountryDetailElement(

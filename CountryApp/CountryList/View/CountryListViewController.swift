@@ -112,8 +112,7 @@ extension CountryListViewController: UITableViewDelegate, UITableViewDataSource 
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCountry = countries[indexPath.row]
-        let detailVC = CountryDetailRouter.createModule(with: selectedCountry.name.common)
-        navigationController?.pushViewController(detailVC, animated: true)
+        presenter.didSelectCountry(selectedCountry)
     }
 }
 

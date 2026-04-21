@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CountryDetailService {
-    func fetchCountryDetail(by name: String) async throws -> CountryDetail
+    func fetchAllCountryDetails() async throws -> CountryDetail
 }
