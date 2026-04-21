@@ -27,12 +27,21 @@ final class SwiftDataCountryPersistence: CountryPersistenceProtocol {
         for country in countries {
             let code = country.resolvedFlagAssetCode
             guard !code.isEmpty else { continue }
+            let spanish = country.name.nameSpanish?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let capitalSpanishFirst = country.capitalSpanish?.first?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let capitalFirst = country.capital?.first?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let capitalLine: String? = {
+                if let c = capitalSpanishFirst, !c.isEmpty { return c }
+                if let c = capitalFirst, !c.isEmpty { return c }
+                return nil
+            }()
             modelContext.insert(
                 PersistedCountry(
                     flagAssetCode: code,
                     commonName: country.name.common,
                     officialName: country.name.official,
-                    capitalSummary: country.capital?.first,
+                    capitalSummary: capitalLine,
+                    spanishCommonName: (spanish?.isEmpty == false) ? spanish : nil,
                     syncedAt: now
                 )
             )

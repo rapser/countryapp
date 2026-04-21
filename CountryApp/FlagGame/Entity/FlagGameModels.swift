@@ -10,6 +10,11 @@ enum FlagGameError: Error {
     case loadFailed
 }
 
+enum FlagGameRound {
+    /// Banderas distintas por partida.
+    static let questionsPerRound = 20
+}
+
 struct QuizQuestion: Equatable {
     let flagAssetCode: String
     /// Four country names in display order; `correctIndex` indexes this array.
@@ -17,19 +22,34 @@ struct QuizQuestion: Equatable {
     let correctIndex: Int
 }
 
+/// País + código de asset de bandera para el resumen.
+struct SummaryFlagRow: Equatable {
+    let countryName: String
+    let flagAssetCode: String
+}
+
+enum FlagGameTiming {
+    /// Si tardas más de este tiempo en confirmar un acierto, se cuenta como «duda».
+    static let doubtAnswerThresholdSeconds: TimeInterval = 15
+}
+
 struct GameSummary: Equatable {
     let correctCount: Int
     let wrongCount: Int
     let skippedCount: Int
     let duration: TimeInterval
-    /// +10 per correct, −5 per wrong, 0 per skip.
+    /// +10 per correct, −5 per wrong, 0 per skip (solo diagnóstico / logs).
     let score: Int
-    /// Nombre del país (respuesta correcta) por cada acierto, en orden.
-    let correctCountryNames: [String]
     /// País que debías acertar en cada fallo, en orden.
     let wrongCountryNames: [String]
-    /// País que saltaste (debías repasar), en orden.
+    /// País que saltaste, en orden.
     let skippedCountryNames: [String]
+    /// Fallos y saltos: qué banderas repasar (sin duplicar por nombre).
+    let reviewFlagRows: [SummaryFlagRow]
+    /// Aciertos con tiempo de respuesta ≤ `FlagGameTiming.doubtAnswerThresholdSeconds`.
+    let clearCorrectRows: [SummaryFlagRow]
+    /// Aciertos correctos pero con respuesta lenta (duda).
+    let doubtCorrectRows: [SummaryFlagRow]
 
     /// Países a repasar: fallos y saltadas, sin duplicar, conservando el orden de aparición.
     var countryNamesToReview: [String] {
@@ -44,6 +64,19 @@ struct GameSummary: Equatable {
             guard !key.isEmpty else { continue }
             if seen.insert(key).inserted {
                 out.append(name)
+            }
+        }
+        return out
+    }
+
+    static func orderedUniqueFlagRows(_ rows: [SummaryFlagRow]) -> [SummaryFlagRow] {
+        var seen = Set<String>()
+        var out: [SummaryFlagRow] = []
+        for row in rows {
+            let key = row.countryName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard !key.isEmpty else { continue }
+            if seen.insert(key).inserted {
+                out.append(row)
             }
         }
         return out

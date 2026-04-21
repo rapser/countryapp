@@ -79,6 +79,13 @@ class CountryDetailViewController: UIViewController, CountryDetailViewProtocol {
         presenter.showMap()
     }
 
+    private static func displayCapital(_ detail: CountryDetailElement) -> String? {
+        if let spanish = detail.capitalSpanish?.first(where: { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) {
+            return spanish
+        }
+        return detail.capital.first
+    }
+
     func displayCountryDetail(_ countryDetail: CountryDetail) {
         self.countryDetail = countryDetail
         guard let detail = countryDetail.first else { return }
@@ -145,7 +152,7 @@ extension CountryDetailViewController: UITableViewDataSource {
         
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = detail.capital.first
+            cell.textLabel?.text = Self.displayCapital(detail)
         case 1:
             cell.textLabel?.text = detail.region
         case 2:

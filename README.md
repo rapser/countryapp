@@ -19,7 +19,7 @@ CountryApp es una aplicación iOS que permite explorar información sobre paíse
 
 ## Descripción
 
-Pantalla inicial (**Home**) con dos accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y **juego de banderas** (30 preguntas, 4 opciones aleatorias, estilo concurso, resumen con puntuación y tiempo).
+Pantalla inicial (**Home**) con dos accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y **juego de banderas** (20 preguntas, 4 opciones aleatorias, estilo concurso, resumen con puntuación y tiempo).
 
 El listado se guarda en **SwiftData** (`PersistedCountry`) tras la primera descarga desde la API; el juego lee siempre desde esa base local.
 
@@ -37,20 +37,32 @@ Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map** y **
 
 ### Juego “Adivina la bandera”
 
-- 30 países distintos por partida, orden y opciones **aleatorios** en cada sesión.
+- 20 países distintos por partida, orden y opciones **aleatorios** en cada sesión.
 - Distractores elegidos por **similitud de nombre** (heurística) para dificultar la respuesta.
 - Puntuación: **+10** acierto, **−5** error, **0** si saltas la pregunta.
 - Puedes **terminar antes**; el resumen usa aciertos, fallos, saltos y el tiempo transcurrido hasta ese momento.
+- **Dudas en el resumen:** si tardas **más de 15 segundos** en confirmar con «Siguiente», el acierto va a la sección *Dudas*.
+- **Sin repetir banderas seguidas:** al terminar una partida (al generar el resumen), se guardan las banderas de esa ronda; las de las **tres últimas partidas** no se vuelven a elegir como preguntas en la siguiente (se necesitan bastantes países en datos; si no hubiera suficientes elegibles, se relaja y se usan todos).
 
 ### SwiftData y JSON de listado
 
 Para persistir y mostrar banderas desde **Assets** (`Assets.xcassets/countries`), el JSON de `all` debe incluir **`assetFlag`** y/o **`cca2`** (código ISO de dos letras en minúsculas, coherente con el nombre del imageset). Sin esos campos el país puede omitirse al guardar o no mostrar bandera en el juego.
+
+En cada país, **`name.nameSpanish`** es el nombre usado **solo en el juego de banderas** (opciones y resumen); si falta, se usa `name.common`. **`capitalSpanish`**: si viene en el JSON, la app lo usa para la **capital en listado** (SwiftData) y en **detalle**; si no, se muestra `capital`.
+
+### Reiniciar datos locales (SwiftData)
+
+Mientras no haya usuarios finales en producción, lo más simple es **desinstalar la app y volver a instalarla** (o borrarla del simulador y ejecutar de nuevo): eso borra el sandbox, elimina el store de SwiftData (`PersistedCountry`) y en el siguiente arranque el listado se vuelve a descargar desde la API al entrar en Home.
 
 ## API y datos
 
 Los datos se obtienen desde un backend de ejemplo alojado en **WireMock Cloud**. La base común es:
 
 `https://d494e.wiremockapi.cloud/v1.0/`
+
+**Consola web WireMock Cloud** (donde se edita y publica el mock; inicio de sesión): [https://app.wiremock.cloud/login](https://app.wiremock.cloud/login). El mock que consume esta app está expuesto en el host `d494e.wiremockapi.cloud` (ajústalo en tu cuenta si usas otro despliegue).
+
+**GET del listado `all` (URL publicada):** [https://d494e.wiremockapi.cloud/v1.0/all](https://d494e.wiremockapi.cloud/v1.0/all)
 
 | Recurso | Path | Uso en la app |
 |--------|------|----------------|

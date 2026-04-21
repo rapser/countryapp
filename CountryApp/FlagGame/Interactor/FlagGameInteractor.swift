@@ -5,6 +5,12 @@
 
 import Foundation
 
+/// Datos mínimos del listado para el juego (evita cruzar `PersistedCountry` fuera del actor principal en Swift 6).
+private struct FlagGameCountrySnapshot: Sendable {
+    let flagAssetCode: String
+    let displayName: String
+}
+
 protocol FlagGameInteractorProtocol: AnyObject {
     func ensureCountriesLoaded() async throws
     func startNewRound() async throws
@@ -12,7 +18,8 @@ protocol FlagGameInteractorProtocol: AnyObject {
     func currentQuestion() -> QuizQuestion?
     func currentProgressText() -> String
     /// Returns whether the selected option was correct. Advances to next question.
-    func submitAnswer(optionIndex: Int) -> Bool
+    /// `responseTime` es el tiempo desde que se mostró la pregunta hasta confirmar (para «dudas»).
+    func submitAnswer(optionIndex: Int, responseTime: TimeInterval) -> Bool
     func skipQuestion()
     /// Ends session with current counters (partial round supported).
     func buildSummary() -> GameSummary
@@ -27,10 +34,15 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
     private var correctCount = 0
     private var wrongCount = 0
     private var skippedCount = 0
-    private var correctCountryNames: [String] = []
     private var wrongCountryNames: [String] = []
     private var skippedCountryNames: [String] = []
+    private var wrongFlagRows: [SummaryFlagRow] = []
+    private var skippedFlagRows: [SummaryFlagRow] = []
+    private var clearCorrectRows: [SummaryFlagRow] = []
+    private var doubtCorrectRows: [SummaryFlagRow] = []
     private var sessionStart: Date?
+    /// Evita registrar el mismo mazo dos veces en el historial de exclusiones entre partidas.
+    private var exportedFlagDeckToHistoryKey: String?
 
     init(persistence: CountryPersistenceProtocol) {
         self.persistence = persistence
@@ -38,40 +50,59 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
 
     func ensureCountriesLoaded() async throws {
         // IMPORTANT: the game must not hit the network. Data should be bootstrapped in Home and stored in SwiftData.
-        let rows = try await MainActor.run { try self.persistence.fetchPersistedCountries() }
-        if rows.count < 4 {
+        let withFlagsCount = try await MainActor.run {
+            try persistence.fetchPersistedCountries().filter { !$0.flagAssetCode.isEmpty }.count
+        }
+        if withFlagsCount < 4 {
             throw FlagGameError.notEnoughCountries
         }
     }
 
     func startNewRound() async throws {
-        let rows = try await MainActor.run { try persistence.fetchPersistedCountries() }
-        let withFlags = rows.filter { !$0.flagAssetCode.isEmpty }
-        guard withFlags.count >= 4 else { throw FlagGameError.notEnoughCountries }
+        let snapshots: [FlagGameCountrySnapshot] = try await MainActor.run {
+            try persistence.fetchPersistedCountries()
+                .filter { !$0.flagAssetCode.isEmpty }
+                .map {
+                    FlagGameCountrySnapshot(
+                        flagAssetCode: $0.flagAssetCode,
+                        displayName: $0.flagGameDisplayName
+                    )
+                }
+        }
+        guard snapshots.count >= 4 else { throw FlagGameError.notEnoughCountries }
 
-        let pool = withFlags.shuffled()
-        let count = min(30, pool.count)
+        let excluded = FlagGameRecentRoundsHistory.excludedFlagAssetCodes()
+        let eligible = snapshots.filter { !excluded.contains($0.flagAssetCode) }
+        let poolSource = eligible.count >= 4 ? eligible : snapshots
+
+        let pool = poolSource.shuffled()
+        let count = min(FlagGameRound.questionsPerRound, pool.count)
         let chosen = Array(pool.prefix(count))
 
-        let allNames = withFlags.map(\.commonName)
+        let allNames = poolSource.map(\.displayName)
         questions = try chosen.map { row in
-            let distractors = Self.pickDistractors(answerName: row.commonName, poolNames: allNames)
+            let answerName = row.displayName
+            let distractors = Self.pickDistractors(answerName: answerName, poolNames: allNames)
             guard distractors.count == 3 else { throw FlagGameError.loadFailed }
-            var options = [row.commonName] + distractors
+            var options = [answerName] + distractors
             options.shuffle()
-            guard let correctIndex = options.firstIndex(of: row.commonName) else {
+            guard let correctIndex = options.firstIndex(of: answerName) else {
                 throw FlagGameError.loadFailed
             }
             return QuizQuestion(flagAssetCode: row.flagAssetCode, options: options, correctIndex: correctIndex)
         }
+        exportedFlagDeckToHistoryKey = nil
 
         currentIndex = 0
         correctCount = 0
         wrongCount = 0
         skippedCount = 0
-        correctCountryNames = []
         wrongCountryNames = []
         skippedCountryNames = []
+        wrongFlagRows = []
+        skippedFlagRows = []
+        clearCorrectRows = []
+        doubtCorrectRows = []
         sessionStart = nil
     }
 
@@ -94,16 +125,22 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         currentIndex < questions.count
     }
 
-    func submitAnswer(optionIndex: Int) -> Bool {
+    func submitAnswer(optionIndex: Int, responseTime: TimeInterval) -> Bool {
         guard let q = currentQuestion(), optionsValid(q, optionIndex) else { return false }
         let answerName = q.options[q.correctIndex]
+        let row = SummaryFlagRow(countryName: answerName, flagAssetCode: q.flagAssetCode)
         let correct = optionIndex == q.correctIndex
         if correct {
             correctCount += 1
-            correctCountryNames.append(answerName)
+            if responseTime > FlagGameTiming.doubtAnswerThresholdSeconds {
+                doubtCorrectRows.append(row)
+            } else {
+                clearCorrectRows.append(row)
+            }
         } else {
             wrongCount += 1
             wrongCountryNames.append(answerName)
+            wrongFlagRows.append(row)
         }
         currentIndex += 1
         return correct
@@ -114,22 +151,32 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         let answerName = q.options[q.correctIndex]
         skippedCount += 1
         skippedCountryNames.append(answerName)
+        skippedFlagRows.append(SummaryFlagRow(countryName: answerName, flagAssetCode: q.flagAssetCode))
         currentIndex += 1
     }
 
     func buildSummary() -> GameSummary {
+        let deckKey = questions.map(\.flagAssetCode).sorted().joined(separator: "\u{1e}")
+        if !questions.isEmpty, exportedFlagDeckToHistoryKey != deckKey {
+            FlagGameRecentRoundsHistory.appendCompletedRound(flagAssetCodes: questions.map(\.flagAssetCode))
+            exportedFlagDeckToHistoryKey = deckKey
+        }
+
         let start = sessionStart ?? Date()
         let duration = Date().timeIntervalSince(start)
         let score = correctCount * 10 - wrongCount * 5
+        let reviewRows = GameSummary.orderedUniqueFlagRows(wrongFlagRows + skippedFlagRows)
         return GameSummary(
             correctCount: correctCount,
             wrongCount: wrongCount,
             skippedCount: skippedCount,
             duration: duration,
             score: score,
-            correctCountryNames: correctCountryNames,
             wrongCountryNames: wrongCountryNames,
-            skippedCountryNames: skippedCountryNames
+            skippedCountryNames: skippedCountryNames,
+            reviewFlagRows: reviewRows,
+            clearCorrectRows: clearCorrectRows,
+            doubtCorrectRows: doubtCorrectRows
         )
     }
 

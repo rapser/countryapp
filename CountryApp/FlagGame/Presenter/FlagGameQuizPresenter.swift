@@ -24,6 +24,7 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
     private let interactor: FlagGameInteractorProtocol
     private var didRecordStart = false
     private var selectedIndex: Int?
+    private var questionShownAt: Date?
 
     init(interactor: FlagGameInteractorProtocol, router: FlagGameRouterProtocol?) {
         self.interactor = interactor
@@ -54,6 +55,7 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
             return
         }
         selectedIndex = nil
+        questionShownAt = Date()
         view?.configureQuizChrome()
         view?.showQuestion(flagAssetCode: q.flagAssetCode, options: q.options, progress: interactor.currentProgressText())
         view?.setFinalAnswerEnabled(false)
@@ -84,7 +86,8 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         view?.setFinalAnswerEnabled(false)
 
         let correctIndex = q.correctIndex
-        let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex)
+        let elapsed = questionShownAt.map { Date().timeIntervalSince($0) } ?? 0
+        let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
         Self.trace("Respuesta final=\(selectedIndex) correct=\(isCorrect) hasMore=\(interactor.hasMoreQuestions)")
         view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
 

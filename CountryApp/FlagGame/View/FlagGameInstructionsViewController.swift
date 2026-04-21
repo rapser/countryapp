@@ -38,13 +38,13 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
 
         let intro = makeLabel(
             text: """
-            Responde 30 preguntas viendo la bandera en pantalla.
+            Responde \(FlagGameRound.questionsPerRound) preguntas viendo la bandera en pantalla.
 
             • Cada pregunta tiene 4 nombres de países en orden aleatorio.
             • Elige una opción y pulsa «Siguiente» para confirmar.
             • Puedes terminar antes: el resumen usará lo respondido hasta ese momento.
 
-            Puntuación: +10 por acierto, −5 por error.
+            El resumen agrupa banderas: qué repasar si fallaste o saltaste, cuáles acertaste con rapidez, y cuáles acertaste pero tardaste más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos en pulsar «Siguiente» (se consideran dudas).
             """,
             style: .body
         )

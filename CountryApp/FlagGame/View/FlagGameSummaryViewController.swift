@@ -9,19 +9,21 @@ final class FlagGameSummaryViewController: UIViewController {
     private let presenter: FlagGameSummaryPresenterProtocol
     private let summary: GameSummary
 
-    private let textView: UITextView = {
-        let tv = UITextView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.isEditable = false
-        tv.isSelectable = true
-        tv.isScrollEnabled = true
-        tv.alwaysBounceVertical = true
-        tv.showsVerticalScrollIndicator = true
-        tv.backgroundColor = .secondarySystemGroupedBackground
-        tv.textContainerInset = UIEdgeInsets(top: 14, left: 12, bottom: 14, right: 12)
-        tv.textContainer.lineFragmentPadding = 0
-        tv.adjustsFontForContentSizeCategory = true
-        return tv
+    private let scrollView: UIScrollView = {
+        let s = UIScrollView()
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.alwaysBounceVertical = true
+        s.showsVerticalScrollIndicator = true
+        return s
+    }()
+
+    private let contentStack: UIStackView = {
+        let s = UIStackView()
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.axis = .vertical
+        s.spacing = 18
+        s.alignment = .fill
+        return s
     }()
 
     private let exitButton: UIButton = {
@@ -62,14 +64,50 @@ final class FlagGameSummaryViewController: UIViewController {
         exitButton.configuration = Self.exitButtonConfiguration()
         exitButton.addTarget(self, action: #selector(exitTapped), for: .touchUpInside)
 
-        textView.setContentHuggingPriority(.defaultLow, for: .vertical)
-        textView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        exitButton.setContentHuggingPriority(.required, for: .vertical)
-        exitButton.setContentCompressionResistancePriority(.required, for: .vertical)
+        scrollView.addSubview(contentStack)
+        NSLayoutConstraint.activate([
+            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        ])
 
-        rootStack.addArrangedSubview(textView)
+        contentStack.addArrangedSubview(Self.makeIntroLabel())
+        contentStack.addArrangedSubview(
+            Self.makeSectionCard(
+                title: "Repasa estas banderas",
+                subtitle: "Fallaste o saltaste la pregunta: conviene revisar el país correcto.",
+                accentColor: .systemRed,
+                rows: summary.reviewFlagRows
+            )
+        )
+        contentStack.addArrangedSubview(
+            Self.makeSectionCard(
+                title: "Las acertaste con claridad",
+                subtitle: "Respuesta correcta en \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos o menos.",
+                accentColor: .systemGreen,
+                rows: summary.clearCorrectRows
+            )
+        )
+        contentStack.addArrangedSubview(
+            Self.makeSectionCard(
+                title: "Dudas",
+                subtitle: "Aciertos en los que tardaste más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos en confirmar.",
+                accentColor: .systemOrange,
+                rows: summary.doubtCorrectRows
+            )
+        )
+        contentStack.addArrangedSubview(Self.makeFooterDuration(summary.duration))
+
+        rootStack.addArrangedSubview(scrollView)
         rootStack.addArrangedSubview(exitButton)
         view.addSubview(rootStack)
+
+        scrollView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        scrollView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        exitButton.setContentHuggingPriority(.required, for: .vertical)
+        exitButton.setContentCompressionResistancePriority(.required, for: .vertical)
 
         NSLayoutConstraint.activate([
             rootStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -78,9 +116,9 @@ final class FlagGameSummaryViewController: UIViewController {
             rootStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
-        let attributed = Self.buildAttributedSummary(summary)
-        textView.attributedText = attributed
-        AppLog.trace("FlagGameSummary texto length=\(attributed.length) aciertos=\(summary.correctCount)")
+        AppLog.trace(
+            "FlagGameSummary repasar=\(summary.reviewFlagRows.count) claras=\(summary.clearCorrectRows.count) dudas=\(summary.doubtCorrectRows.count)"
+        )
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -108,30 +146,129 @@ final class FlagGameSummaryViewController: UIViewController {
         return config
     }
 
-    private static func buildAttributedSummary(_ summary: GameSummary) -> NSAttributedString {
-        let labelFont = UIFont.preferredFont(forTextStyle: .title2)
-        let numberFont = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: .systemFont(ofSize: 44, weight: .bold))
-        let color = UIColor.label
+    private static func makeIntroLabel() -> UILabel {
+        let l = UILabel()
+        l.numberOfLines = 0
+        l.textAlignment = .center
+        l.font = .preferredFont(forTextStyle: .title3)
+        l.textColor = .secondaryLabel
+        l.text = "Lo esencial es saber qué repasar y qué ya dominas."
+        return l
+    }
 
-        let para = NSMutableParagraphStyle()
-        para.paragraphSpacing = 20
+    private static func makeFooterDuration(_ duration: TimeInterval) -> UILabel {
+        let l = UILabel()
+        l.numberOfLines = 1
+        l.textAlignment = .center
+        l.font = .preferredFont(forTextStyle: .footnote)
+        l.textColor = .tertiaryLabel
+        l.text = "Tiempo en esta sesión: \(formatDuration(duration))"
+        return l
+    }
 
-        let line1Label: [NSAttributedString.Key: Any] = [
-            .font: labelFont,
-            .foregroundColor: color,
-            .paragraphStyle: para
-        ]
-        let line1Value: [NSAttributedString.Key: Any] = [
-            .font: numberFont,
-            .foregroundColor: color,
-            .paragraphStyle: para
-        ]
+    private static func formatDuration(_ t: TimeInterval) -> String {
+        let total = max(0, Int(t.rounded()))
+        let m = total / 60
+        let s = total % 60
+        if m == 0 {
+            return "\(s) s"
+        }
+        return String(format: "%d min %02d s", m, s)
+    }
 
-        let out = NSMutableAttributedString()
-        out.append(NSAttributedString(string: "Aciertos\n", attributes: line1Label))
-        out.append(NSAttributedString(string: "\(summary.correctCount)\n\n", attributes: line1Value))
-        out.append(NSAttributedString(string: "Fallos\n", attributes: line1Label))
-        out.append(NSAttributedString(string: "\(summary.wrongCount)", attributes: line1Value))
-        return out
+    private static func makeSectionCard(title: String, subtitle: String?, accentColor: UIColor, rows: [SummaryFlagRow]) -> UIView {
+        let outer = UIStackView()
+        outer.axis = .vertical
+        outer.spacing = 10
+        outer.alignment = .fill
+        outer.isLayoutMarginsRelativeArrangement = true
+        outer.layoutMargins = UIEdgeInsets(top: 14, left: 14, bottom: 14, right: 14)
+        outer.backgroundColor = .secondarySystemGroupedBackground
+        outer.layer.cornerRadius = 14
+        outer.layer.cornerCurve = .continuous
+
+        let bar = UIView()
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        bar.backgroundColor = accentColor
+        bar.layer.cornerRadius = 2
+
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.font = .preferredFont(forTextStyle: .headline)
+        titleLabel.textColor = .label
+        titleLabel.numberOfLines = 0
+
+        let headerRow = UIStackView(arrangedSubviews: [bar, titleLabel])
+        headerRow.axis = .horizontal
+        headerRow.spacing = 10
+        headerRow.alignment = .center
+        NSLayoutConstraint.activate([
+            bar.widthAnchor.constraint(equalToConstant: 4),
+            bar.heightAnchor.constraint(equalToConstant: 22)
+        ])
+
+        outer.addArrangedSubview(headerRow)
+
+        if let subtitle {
+            let sub = UILabel()
+            sub.text = subtitle
+            sub.font = .preferredFont(forTextStyle: .subheadline)
+            sub.textColor = .secondaryLabel
+            sub.numberOfLines = 0
+            outer.addArrangedSubview(sub)
+        }
+
+        if rows.isEmpty {
+            let empty = UILabel()
+            empty.text = "Ninguno en esta partida."
+            empty.textColor = .tertiaryLabel
+            let base = UIFont.preferredFont(forTextStyle: .callout)
+            if let italicDesc = base.fontDescriptor.withSymbolicTraits(.traitItalic) {
+                empty.font = UIFont(descriptor: italicDesc, size: 0)
+            } else {
+                empty.font = base
+            }
+            outer.addArrangedSubview(empty)
+        } else {
+            let rowsStack = UIStackView()
+            rowsStack.axis = .vertical
+            rowsStack.spacing = 10
+            for row in rows {
+                rowsStack.addArrangedSubview(makeFlagRow(row))
+            }
+            outer.addArrangedSubview(rowsStack)
+        }
+
+        return outer
+    }
+
+    private static func makeFlagRow(_ row: SummaryFlagRow) -> UIStackView {
+        let flag = UIImageView(image: UIImage(named: row.flagAssetCode))
+        flag.contentMode = .scaleAspectFit
+        flag.clipsToBounds = true
+        flag.layer.cornerRadius = 6
+        flag.layer.borderWidth = 1
+        flag.layer.borderColor = UIColor.separator.cgColor
+        flag.backgroundColor = .tertiarySystemFill
+        flag.accessibilityLabel = "Bandera de \(row.countryName)"
+        flag.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            flag.widthAnchor.constraint(equalToConstant: 80),
+            flag.heightAnchor.constraint(equalToConstant: 52)
+        ])
+
+        let name = UILabel()
+        name.text = row.countryName
+        name.font = .preferredFont(forTextStyle: .body)
+        name.textColor = .label
+        name.numberOfLines = 0
+        name.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        let h = UIStackView(arrangedSubviews: [flag, name])
+        h.axis = .horizontal
+        h.spacing = 12
+        h.alignment = .center
+        h.distribution = .fill
+        return h
     }
 }

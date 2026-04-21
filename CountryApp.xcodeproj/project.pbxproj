@@ -38,7 +38,6 @@
 		4659F3B92D3971EC006D49F2 /* CountryListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3B82D3971EC006D49F2 /* CountryListError.swift */; };
 		4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BA2D39720E006D49F2 /* CountryDetailError.swift */; };
 		4659F3BD2D399EE0006D49F2 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */; };
-		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
 		4659F3BF2D39B8A2006D49F2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3BE2D39B8A2006D49F2 /* MapViewController.swift */; };
 		4659F3C22D39BCEE006D49F2 /* MapRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3C12D39BCEE006D49F2 /* MapRouter.swift */; };
 		4659F3C42D39BD0C006D49F2 /* MapInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3C32D39BD0C006D49F2 /* MapInteractor.swift */; };
@@ -76,6 +75,8 @@
 		A7E1F2152D386572006DC001 /* FlagGameSummaryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */; };
 		A7E1F2162D386572006DC001 /* FlagGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */; };
 		A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */; };
+		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
+		C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,7 +130,6 @@
 		4659F3B82D3971EC006D49F2 /* CountryListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListError.swift; sourceTree = "<group>"; };
 		4659F3BA2D39720E006D49F2 /* CountryDetailError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailError.swift; sourceTree = "<group>"; };
 		4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		4659F3BE2D39B8A2006D49F2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		4659F3C12D39BCEE006D49F2 /* MapRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRouter.swift; sourceTree = "<group>"; };
 		4659F3C32D39BD0C006D49F2 /* MapInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInteractor.swift; sourceTree = "<group>"; };
@@ -169,6 +169,8 @@
 		A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameSummaryPresenter.swift; sourceTree = "<group>"; };
 		A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameSummaryViewController.swift; sourceTree = "<group>"; };
 		A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInteractorTests.swift; sourceTree = "<group>"; };
+		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
+		C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameRecentRoundsHistory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,89 +234,6 @@
 				4659F34F2D386574006D49F2 /* Info.plist */,
 			);
 			path = CountryApp;
-			sourceTree = "<group>";
-		};
-		A7E1F3012D386572006DC001 /* Persistence */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F1012D386572006DC001 /* PersistedCountry.swift */,
-				A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */,
-				A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */,
-				A7E1F1042D386572006DC001 /* Country+Persisted.swift */,
-			);
-			path = Persistence;
-			sourceTree = "<group>";
-		};
-		A7E1F3022D386572006DC001 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F1052D386572006DC001 /* HomeInteractorProtocol.swift */,
-				A7E1F1062D386572006DC001 /* HomeInteractor.swift */,
-				A7E1F1072D386572006DC001 /* HomePresenterProtocol.swift */,
-				A7E1F1082D386572006DC001 /* HomePresenter.swift */,
-				A7E1F1092D386572006DC001 /* HomeRouterProtocol.swift */,
-				A7E1F10A2D386572006DC001 /* HomeRouter.swift */,
-				A7E1F10B2D386572006DC001 /* HomeViewProtocol.swift */,
-				A7E1F10C2D386572006DC001 /* HomeViewController.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		A7E1F3032D386572006DC001 /* FlagGame */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F3042D386572006DC001 /* Entity */,
-				A7E1F3052D386572006DC001 /* Interactor */,
-				A7E1F3062D386572006DC001 /* Router */,
-				A7E1F3072D386572006DC001 /* Presenter */,
-				A7E1F3082D386572006DC001 /* View */,
-			);
-			path = FlagGame;
-			sourceTree = "<group>";
-		};
-		A7E1F3042D386572006DC001 /* Entity */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F10D2D386572006DC001 /* FlagGameModels.swift */,
-			);
-			path = Entity;
-			sourceTree = "<group>";
-		};
-		A7E1F3052D386572006DC001 /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F10E2D386572006DC001 /* FlagGameInteractor.swift */,
-			);
-			path = Interactor;
-			sourceTree = "<group>";
-		};
-		A7E1F3062D386572006DC001 /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F10F2D386572006DC001 /* FlagGameRouterProtocol.swift */,
-				A7E1F1102D386572006DC001 /* FlagGameRouter.swift */,
-			);
-			path = Router;
-			sourceTree = "<group>";
-		};
-		A7E1F3072D386572006DC001 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F1112D386572006DC001 /* FlagGameInstructionsPresenter.swift */,
-				A7E1F1132D386572006DC001 /* FlagGameQuizPresenter.swift */,
-				A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
-		A7E1F3082D386572006DC001 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */,
-				A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */,
-				A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		4659F3772D386AC6006D49F2 /* Extension */ = {
@@ -579,6 +498,90 @@
 			path = CountryAppUITests;
 			sourceTree = "<group>";
 		};
+		A7E1F3012D386572006DC001 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1012D386572006DC001 /* PersistedCountry.swift */,
+				A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */,
+				A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */,
+				A7E1F1042D386572006DC001 /* Country+Persisted.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		A7E1F3022D386572006DC001 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1052D386572006DC001 /* HomeInteractorProtocol.swift */,
+				A7E1F1062D386572006DC001 /* HomeInteractor.swift */,
+				A7E1F1072D386572006DC001 /* HomePresenterProtocol.swift */,
+				A7E1F1082D386572006DC001 /* HomePresenter.swift */,
+				A7E1F1092D386572006DC001 /* HomeRouterProtocol.swift */,
+				A7E1F10A2D386572006DC001 /* HomeRouter.swift */,
+				A7E1F10B2D386572006DC001 /* HomeViewProtocol.swift */,
+				A7E1F10C2D386572006DC001 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		A7E1F3032D386572006DC001 /* FlagGame */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F3042D386572006DC001 /* Entity */,
+				A7E1F3052D386572006DC001 /* Interactor */,
+				A7E1F3062D386572006DC001 /* Router */,
+				A7E1F3072D386572006DC001 /* Presenter */,
+				A7E1F3082D386572006DC001 /* View */,
+			);
+			path = FlagGame;
+			sourceTree = "<group>";
+		};
+		A7E1F3042D386572006DC001 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10D2D386572006DC001 /* FlagGameModels.swift */,
+				C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		A7E1F3052D386572006DC001 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10E2D386572006DC001 /* FlagGameInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		A7E1F3062D386572006DC001 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10F2D386572006DC001 /* FlagGameRouterProtocol.swift */,
+				A7E1F1102D386572006DC001 /* FlagGameRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		A7E1F3072D386572006DC001 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1112D386572006DC001 /* FlagGameInstructionsPresenter.swift */,
+				A7E1F1132D386572006DC001 /* FlagGameQuizPresenter.swift */,
+				A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		A7E1F3082D386572006DC001 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */,
+				A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */,
+				A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -722,6 +725,7 @@
 				A7E1F20B2D386572006DC001 /* HomeViewProtocol.swift in Sources */,
 				A7E1F20C2D386572006DC001 /* HomeViewController.swift in Sources */,
 				A7E1F20D2D386572006DC001 /* FlagGameModels.swift in Sources */,
+				C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */,
 				A7E1F20E2D386572006DC001 /* FlagGameInteractor.swift in Sources */,
 				A7E1F20F2D386572006DC001 /* FlagGameRouterProtocol.swift in Sources */,
 				A7E1F2102D386572006DC001 /* FlagGameRouter.swift in Sources */,
@@ -962,7 +966,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -990,7 +994,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
