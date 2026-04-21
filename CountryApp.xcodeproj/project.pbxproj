@@ -52,6 +52,31 @@
 		46B801C72D3A47F70094F9A1 /* MockUserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801BE2D3A47F70094F9A1 /* MockUserDefaultsManager.swift */; };
 		46B801CF2D3A48B70094F9A1 /* CountryAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */; };
 		46B801D12D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */; };
+		A7E1F2012D386572006DC001 /* PersistedCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1012D386572006DC001 /* PersistedCountry.swift */; };
+		A7E1F2022D386572006DC001 /* CountryPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */; };
+		A7E1F2032D386572006DC001 /* SwiftDataCountryPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */; };
+		A7E1F2042D386572006DC001 /* Country+Persisted.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1042D386572006DC001 /* Country+Persisted.swift */; };
+		A7E1F2052D386572006DC001 /* HomeInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1052D386572006DC001 /* HomeInteractorProtocol.swift */; };
+		A7E1F2062D386572006DC001 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1062D386572006DC001 /* HomeInteractor.swift */; };
+		A7E1F2072D386572006DC001 /* HomePresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1072D386572006DC001 /* HomePresenterProtocol.swift */; };
+		A7E1F2082D386572006DC001 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1082D386572006DC001 /* HomePresenter.swift */; };
+		A7E1F2092D386572006DC001 /* HomeRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1092D386572006DC001 /* HomeRouterProtocol.swift */; };
+		A7E1F20A2D386572006DC001 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F10A2D386572006DC001 /* HomeRouter.swift */; };
+		A7E1F20B2D386572006DC001 /* HomeViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F10B2D386572006DC001 /* HomeViewProtocol.swift */; };
+		A7E1F20C2D386572006DC001 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F10C2D386572006DC001 /* HomeViewController.swift */; };
+		A7E1F20D2D386572006DC001 /* FlagGameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F10D2D386572006DC001 /* FlagGameModels.swift */; };
+		A7E1F20E2D386572006DC001 /* FlagGameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F10E2D386572006DC001 /* FlagGameInteractor.swift */; };
+		A7E1F20F2D386572006DC001 /* FlagGameRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F10F2D386572006DC001 /* FlagGameRouterProtocol.swift */; };
+		A7E1F2102D386572006DC001 /* FlagGameRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1102D386572006DC001 /* FlagGameRouter.swift */; };
+		A7E1F2112D386572006DC001 /* FlagGameInstructionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1112D386572006DC001 /* FlagGameInstructionsPresenter.swift */; };
+		A7E1F2122D386572006DC001 /* FlagGameInstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */; };
+		A7E1F2132D386572006DC001 /* FlagGameQuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1132D386572006DC001 /* FlagGameQuizPresenter.swift */; };
+		A7E1F2142D386572006DC001 /* FlagGameQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */; };
+		A7E1F2152D386572006DC001 /* FlagGameSummaryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */; };
+		A7E1F2162D386572006DC001 /* FlagGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */; };
+		A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */; };
+		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
+		C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +146,31 @@
 		46B801CC2D3A48B70094F9A1 /* CountryAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountryAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITests.swift; sourceTree = "<group>"; };
 		46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A7E1F1012D386572006DC001 /* PersistedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedCountry.swift; sourceTree = "<group>"; };
+		A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPersistenceProtocol.swift; sourceTree = "<group>"; };
+		A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCountryPersistence.swift; sourceTree = "<group>"; };
+		A7E1F1042D386572006DC001 /* Country+Persisted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Country+Persisted.swift"; sourceTree = "<group>"; };
+		A7E1F1052D386572006DC001 /* HomeInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractorProtocol.swift; sourceTree = "<group>"; };
+		A7E1F1062D386572006DC001 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		A7E1F1072D386572006DC001 /* HomePresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenterProtocol.swift; sourceTree = "<group>"; };
+		A7E1F1082D386572006DC001 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		A7E1F1092D386572006DC001 /* HomeRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouterProtocol.swift; sourceTree = "<group>"; };
+		A7E1F10A2D386572006DC001 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		A7E1F10B2D386572006DC001 /* HomeViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewProtocol.swift; sourceTree = "<group>"; };
+		A7E1F10C2D386572006DC001 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		A7E1F10D2D386572006DC001 /* FlagGameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameModels.swift; sourceTree = "<group>"; };
+		A7E1F10E2D386572006DC001 /* FlagGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInteractor.swift; sourceTree = "<group>"; };
+		A7E1F10F2D386572006DC001 /* FlagGameRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameRouterProtocol.swift; sourceTree = "<group>"; };
+		A7E1F1102D386572006DC001 /* FlagGameRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameRouter.swift; sourceTree = "<group>"; };
+		A7E1F1112D386572006DC001 /* FlagGameInstructionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInstructionsPresenter.swift; sourceTree = "<group>"; };
+		A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInstructionsViewController.swift; sourceTree = "<group>"; };
+		A7E1F1132D386572006DC001 /* FlagGameQuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameQuizPresenter.swift; sourceTree = "<group>"; };
+		A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameQuizViewController.swift; sourceTree = "<group>"; };
+		A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameSummaryPresenter.swift; sourceTree = "<group>"; };
+		A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameSummaryViewController.swift; sourceTree = "<group>"; };
+		A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInteractorTests.swift; sourceTree = "<group>"; };
+		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
+		C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameRecentRoundsHistory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +223,9 @@
 			children = (
 				4659F3AF2D388756006D49F2 /* App */,
 				4659F3B02D38876E006D49F2 /* Utils */,
+				A7E1F3012D386572006DC001 /* Persistence */,
+				A7E1F3022D386572006DC001 /* Home */,
+				A7E1F3032D386572006DC001 /* FlagGame */,
 				4659F37B2D3879E4006D49F2 /* CountryList */,
 				4659F37C2D3879F4006D49F2 /* CountryDetail */,
 				4659F3C02D39BCD7006D49F2 /* Map */,
@@ -319,6 +372,7 @@
 		4659F3B02D38876E006D49F2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				A7E1F1192D386572006DC001 /* AppLog.swift */,
 				4659F3752D386A9C006D49F2 /* LoadingView.swift */,
 				4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */,
 			);
@@ -401,6 +455,7 @@
 				46B801C02D3A47F70094F9A1 /* Mocks */,
 				46B801B12D3A47ED0094F9A1 /* CountryDetailInteractorTests.swift */,
 				46B801B32D3A47ED0094F9A1 /* CountryListInteractorTests.swift */,
+				A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */,
 				46B801AA2D3A47750094F9A1 /* CountryAppTests.swift */,
 			);
 			path = CountryAppTests;
@@ -441,6 +496,90 @@
 				46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */,
 			);
 			path = CountryAppUITests;
+			sourceTree = "<group>";
+		};
+		A7E1F3012D386572006DC001 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1012D386572006DC001 /* PersistedCountry.swift */,
+				A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */,
+				A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */,
+				A7E1F1042D386572006DC001 /* Country+Persisted.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		A7E1F3022D386572006DC001 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1052D386572006DC001 /* HomeInteractorProtocol.swift */,
+				A7E1F1062D386572006DC001 /* HomeInteractor.swift */,
+				A7E1F1072D386572006DC001 /* HomePresenterProtocol.swift */,
+				A7E1F1082D386572006DC001 /* HomePresenter.swift */,
+				A7E1F1092D386572006DC001 /* HomeRouterProtocol.swift */,
+				A7E1F10A2D386572006DC001 /* HomeRouter.swift */,
+				A7E1F10B2D386572006DC001 /* HomeViewProtocol.swift */,
+				A7E1F10C2D386572006DC001 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		A7E1F3032D386572006DC001 /* FlagGame */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F3042D386572006DC001 /* Entity */,
+				A7E1F3052D386572006DC001 /* Interactor */,
+				A7E1F3062D386572006DC001 /* Router */,
+				A7E1F3072D386572006DC001 /* Presenter */,
+				A7E1F3082D386572006DC001 /* View */,
+			);
+			path = FlagGame;
+			sourceTree = "<group>";
+		};
+		A7E1F3042D386572006DC001 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10D2D386572006DC001 /* FlagGameModels.swift */,
+				C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		A7E1F3052D386572006DC001 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10E2D386572006DC001 /* FlagGameInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		A7E1F3062D386572006DC001 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10F2D386572006DC001 /* FlagGameRouterProtocol.swift */,
+				A7E1F1102D386572006DC001 /* FlagGameRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		A7E1F3072D386572006DC001 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1112D386572006DC001 /* FlagGameInstructionsPresenter.swift */,
+				A7E1F1132D386572006DC001 /* FlagGameQuizPresenter.swift */,
+				A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		A7E1F3082D386572006DC001 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */,
+				A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */,
+				A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -507,7 +646,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					4659F33D2D386572006D49F2 = {
 						CreatedOnToolsVersion = 15.4;
@@ -573,6 +712,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7E1F2012D386572006DC001 /* PersistedCountry.swift in Sources */,
+				A7E1F2022D386572006DC001 /* CountryPersistenceProtocol.swift in Sources */,
+				A7E1F2032D386572006DC001 /* SwiftDataCountryPersistence.swift in Sources */,
+				A7E1F2042D386572006DC001 /* Country+Persisted.swift in Sources */,
+				A7E1F2052D386572006DC001 /* HomeInteractorProtocol.swift in Sources */,
+				A7E1F2062D386572006DC001 /* HomeInteractor.swift in Sources */,
+				A7E1F2072D386572006DC001 /* HomePresenterProtocol.swift in Sources */,
+				A7E1F2082D386572006DC001 /* HomePresenter.swift in Sources */,
+				A7E1F2092D386572006DC001 /* HomeRouterProtocol.swift in Sources */,
+				A7E1F20A2D386572006DC001 /* HomeRouter.swift in Sources */,
+				A7E1F20B2D386572006DC001 /* HomeViewProtocol.swift in Sources */,
+				A7E1F20C2D386572006DC001 /* HomeViewController.swift in Sources */,
+				A7E1F20D2D386572006DC001 /* FlagGameModels.swift in Sources */,
+				C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */,
+				A7E1F20E2D386572006DC001 /* FlagGameInteractor.swift in Sources */,
+				A7E1F20F2D386572006DC001 /* FlagGameRouterProtocol.swift in Sources */,
+				A7E1F2102D386572006DC001 /* FlagGameRouter.swift in Sources */,
+				A7E1F2112D386572006DC001 /* FlagGameInstructionsPresenter.swift in Sources */,
+				A7E1F2122D386572006DC001 /* FlagGameInstructionsViewController.swift in Sources */,
+				A7E1F2132D386572006DC001 /* FlagGameQuizPresenter.swift in Sources */,
+				A7E1F2142D386572006DC001 /* FlagGameQuizViewController.swift in Sources */,
+				A7E1F2152D386572006DC001 /* FlagGameSummaryPresenter.swift in Sources */,
+				A7E1F2162D386572006DC001 /* FlagGameSummaryViewController.swift in Sources */,
 				4659F3C22D39BCEE006D49F2 /* MapRouter.swift in Sources */,
 				4659F3742D386829006D49F2 /* CountryDetail.swift in Sources */,
 				4659F3AE2D388563006D49F2 /* CountryListService.swift in Sources */,
@@ -603,6 +765,7 @@
 				4659F39E2D38821E006D49F2 /* CountryDetailInteractorProtocol.swift in Sources */,
 				4659F38E2D387C3D006D49F2 /* CountryListInteractor.swift in Sources */,
 				4659F3BD2D399EE0006D49F2 /* UserDefaultsManager.swift in Sources */,
+				A7E1F2192D386572006DC001 /* AppLog.swift in Sources */,
 				4659F3902D387C63006D49F2 /* CountryListPresenterProtocol.swift in Sources */,
 				4659F39C2D3880C2006D49F2 /* CountryDetailServiceManager.swift in Sources */,
 				4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */,
@@ -613,6 +776,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */,
 				46B801B42D3A47ED0094F9A1 /* CountryDetailInteractorTests.swift in Sources */,
 				46B801C12D3A47F70094F9A1 /* MockCountryDetailPresenter.swift in Sources */,
 				46B801C42D3A47F70094F9A1 /* MockCountryListPresenter.swift in Sources */,
@@ -695,6 +859,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = P6FCYRT7JM;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -718,6 +883,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -758,6 +924,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = P6FCYRT7JM;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -774,6 +941,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -784,23 +952,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P6FCYRT7JM;
+				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryApp;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquiz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -812,23 +983,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P6FCYRT7JM;
+				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryApp;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquiz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -841,10 +1015,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P6FCYRT7JM;
+				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquizTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -859,10 +1033,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P6FCYRT7JM;
+				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquizTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -876,10 +1050,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P6FCYRT7JM;
+				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquizUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -893,10 +1067,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P6FCYRT7JM;
+				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.CountryAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquizUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;

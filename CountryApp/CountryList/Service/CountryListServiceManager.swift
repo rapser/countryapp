@@ -8,18 +8,21 @@
 import Foundation
 
 class CountryListServiceManager: CountryListService {
-    private let baseURL = "https://restcountries.com/v3.1/all"
+    private let baseURL = "https://d494e.wiremockapi.cloud/v1.0/"
+    private let countryListPath = "all"
 
     func fetchCountryList() async throws -> Countries {
-        guard let url = URL(string: baseURL) else {
+        guard let url = URL(string: baseURL + countryListPath) else {
             throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
         }
 
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("JSON recibido: \(jsonString)")
+            AppLog.trace("WEB GET \(url.absoluteString)")
+            let (data, response) = try await URLSession.shared.data(from: url)
+            if let http = response as? HTTPURLResponse {
+                AppLog.trace("WEB GET status=\(http.statusCode) bytes=\(data.count)")
+            } else {
+                AppLog.trace("WEB GET response no-HTTP bytes=\(data.count)")
             }
 
             let countries = try JSONDecoder().decode(Countries.self, from: data)
@@ -39,7 +42,7 @@ class CountryListServiceManager: CountryListService {
             }
             throw decodingError
         } catch {
-            print("Error en la solicitud: \(error.localizedDescription)")
+            AppLog.trace("WEB GET error: \(error.localizedDescription)")
             throw error
         }
     }

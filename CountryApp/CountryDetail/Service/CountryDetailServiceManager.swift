@@ -8,23 +8,23 @@
 import Foundation
 
 class CountryDetailServiceManager: CountryDetailService {
-    private let baseURL = "https://restcountries.com/v3.1"
+    private let baseURL = "https://d494e.wiremockapi.cloud/v1.0/"
+    private let countryDetailPath = "name/all"
 
-    func fetchCountryDetail(by name: String) async throws -> CountryDetail {
-        guard let url = URL(string: "\(baseURL)/name/\(name)") else {
+    func fetchAllCountryDetails() async throws -> CountryDetail {
+        guard let url = URL(string: baseURL + countryDetailPath) else {
             throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
         }
 
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("JSON recibido: \(jsonString)")
+            AppLog.trace("WEB GET \(url.absoluteString)")
+            let (data, response) = try await URLSession.shared.data(from: url)
+            if let http = response as? HTTPURLResponse {
+                AppLog.trace("WEB GET status=\(http.statusCode) bytes=\(data.count)")
+            } else {
+                AppLog.trace("WEB GET response no-HTTP bytes=\(data.count)")
             }
-            
-            let country = try JSONDecoder().decode(CountryDetail.self, from: data)
-            
-            return country
+            return try JSONDecoder().decode(CountryDetail.self, from: data)
         } catch let decodingError as DecodingError {
             switch decodingError {
             case .dataCorrupted(let context):
@@ -40,7 +40,7 @@ class CountryDetailServiceManager: CountryDetailService {
             }
             throw decodingError
         } catch {
-            print("Error en la solicitud: \(error.localizedDescription)")
+            AppLog.trace("WEB GET error: \(error.localizedDescription)")
             throw error
         }
     }

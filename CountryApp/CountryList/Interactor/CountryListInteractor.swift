@@ -10,25 +10,33 @@ import Foundation
 class CountryListInteractor: CountryListInteractorProtocol {
     var presenter: CountryListPresenterProtocol?
     let service: CountryListService
-    var userDefaultsManager: UserDefaultsManagerProtocol
+    let persistence: CountryPersistenceProtocol
 
-    init(service: CountryListService, userDefaultsManager: UserDefaultsManagerProtocol = UserDefaultsManager.shared) {
+    init(service: CountryListService, persistence: CountryPersistenceProtocol) {
         self.service = service
-        self.userDefaultsManager = userDefaultsManager
+        self.persistence = persistence
     }
 
     func fetchCountryList() async throws {
-        if let countries = userDefaultsManager.get(forKey: "savedCountries", as: Countries.self) {
-            presenter?.didFetchCountryList(countries)
-        } else {
-            do {
-                let countries = try await service.fetchCountryList()
-                userDefaultsManager.save(object: countries, forKey: "savedCountries")
+        do {
+            if try persistence.persistedCount() > 0 {
+                let rows = try persistence.fetchPersistedCountries()
+                let countries = rows.map { Country.from(persisted: $0) }
                 presenter?.didFetchCountryList(countries)
-            } catch {
-                presenter?.didFailWithError(error)
-                throw error
+                return
             }
+        } catch {
+            presenter?.didFailWithError(error)
+            throw error
+        }
+
+        do {
+            let countries = try await service.fetchCountryList()
+            try persistence.replaceAll(from: countries)
+            presenter?.didFetchCountryList(countries)
+        } catch {
+            presenter?.didFailWithError(error)
+            throw error
         }
     }
 }

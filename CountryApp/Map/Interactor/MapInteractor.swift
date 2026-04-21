@@ -8,11 +8,21 @@
 import Foundation
 
 protocol MapInteractorProtocol: AnyObject {
-    func fetchMapData()
+    func fetchLocation() -> (latitude: Double, longitude: Double, countryName: String)
 }
 
 class MapInteractor: MapInteractorProtocol {
-    func fetchMapData() {
-        // Aquí irían cálculos o llamadas de red si fueran necesarios
+    private let latitude: Double
+    private let longitude: Double
+    private let countryName: String
+
+    init(latitude: Double, longitude: Double, countryName: String) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.countryName = countryName
+    }
+
+    func fetchLocation() -> (latitude: Double, longitude: Double, countryName: String) {
+        (latitude, longitude, countryName)
     }
 }

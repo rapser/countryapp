@@ -22,8 +22,8 @@ class LoadingView: UIView {
     }
     
     private func setupView(message: String) {
-        self.frame = UIScreen.main.bounds
         self.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         // Configurar el indicador de actividad
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -46,5 +46,12 @@ class LoadingView: UIView {
             messageLabel.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 16),
             messageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
+    }
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        if let superview {
+            frame = superview.bounds
+        }
     }
 }

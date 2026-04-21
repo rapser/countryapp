@@ -1,6 +1,6 @@
 # CountryApp
 
-CountryApp es una aplicación iOS que permite explorar información detallada sobre países del mundo. Desarrollada utilizando el patrón arquitectónico **VIPER** y **UIKit** con diseño programático.
+CountryApp es una aplicación iOS que permite explorar información sobre países del mundo. Está desarrollada con el patrón arquitectónico **VIPER** y **UIKit** con diseño programático.
 
 ## Capturas de pantalla
 
@@ -19,42 +19,87 @@ CountryApp es una aplicación iOS que permite explorar información detallada so
 
 ## Descripción
 
-La aplicación consume datos desde la API pública de REST Countries y proporciona información como:
-- Nombre del país
-- Capital
-- Bandera
-- Región
-- Idiomas
-- Ubicación geográfica
+Pantalla inicial (**Home**) con dos accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y **juego de banderas** (20 preguntas, 4 opciones aleatorias, estilo concurso, resumen con puntuación y tiempo).
 
-## Arquitectura
+El listado se guarda en **SwiftData** (`PersistedCountry`) tras la primera descarga desde la API; el juego lee siempre desde esa base local.
 
-CountryApp está desarrollada siguiendo el patrón **VIPER** (View, Interactor, Presenter, Entity, Router), lo que permite una separación clara de responsabilidades y facilita la escalabilidad y mantenimiento del código.
+## Arquitectura (VIPER)
 
-## Servicios Web Utilizados
+El proyecto sigue **VIPER** (View, Interactor, Presenter, Entity, Router) con responsabilidades separadas:
 
-CountryApp utiliza los siguientes servicios RESTful de [REST Countries](https://restcountries.com/#endpoints-all):
-- **Listado de todos los países:** `https://restcountries.com/v3.1/all`
-- **Búsqueda por nombre:** `https://restcountries.com/v3.1/name/{name}`
+- **View**: UI y eventos de usuario; no navega sola al detalle.
+- **Presenter**: orquesta casos de uso y actualiza la vista.
+- **Interactor**: lógica de negocio y acceso a datos (por ejemplo, filtrar el detalle por nombre a partir del JSON completo).
+- **Router**: composición del módulo (`createModule`) y navegación (`push` / transiciones).
+- **Entity**: modelos `Codable` y errores de dominio.
 
-## Tecnologías Utilizadas
+Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map** y **FlagGame** (instrucciones, cuestionario, resumen).
 
-- **Lenguaje:** Swift 5
+### Juego “Adivina la bandera”
+
+- 20 países distintos por partida, orden y opciones **aleatorios** en cada sesión.
+- Distractores elegidos por **similitud de nombre** (heurística) para dificultar la respuesta.
+- Puntuación: **+10** acierto, **−5** error, **0** si saltas la pregunta.
+- Puedes **terminar antes**; el resumen usa aciertos, fallos, saltos y el tiempo transcurrido hasta ese momento.
+- **Dudas en el resumen:** si tardas **más de 15 segundos** en confirmar con «Siguiente», el acierto va a la sección *Dudas*.
+- **Sin repetir banderas seguidas:** al terminar una partida (al generar el resumen), se guardan las banderas de esa ronda; las de las **tres últimas partidas** no se vuelven a elegir como preguntas en la siguiente (se necesitan bastantes países en datos; si no hubiera suficientes elegibles, se relaja y se usan todos).
+
+### SwiftData y JSON de listado
+
+Para persistir y mostrar banderas desde **Assets** (`Assets.xcassets/countries`), el JSON de `all` debe incluir **`assetFlag`** y/o **`cca2`** (código ISO de dos letras en minúsculas, coherente con el nombre del imageset). Sin esos campos el país puede omitirse al guardar o no mostrar bandera en el juego.
+
+En cada país, **`name.nameSpanish`** es el nombre usado **solo en el juego de banderas** (opciones y resumen); si falta, se usa `name.common`. **`capitalSpanish`**: si viene en el JSON, la app lo usa para la **capital en listado** (SwiftData) y en **detalle**; si no, se muestra `capital`.
+
+### Reiniciar datos locales (SwiftData)
+
+Mientras no haya usuarios finales en producción, lo más simple es **desinstalar la app y volver a instalarla** (o borrarla del simulador y ejecutar de nuevo): eso borra el sandbox, elimina el store de SwiftData (`PersistedCountry`) y en el siguiente arranque el listado se vuelve a descargar desde la API al entrar en Home.
+
+## API y datos
+
+Los datos se obtienen desde un backend de ejemplo alojado en **WireMock Cloud**. La base común es:
+
+`https://d494e.wiremockapi.cloud/v1.0/`
+
+**Consola web WireMock Cloud** (donde se edita y publica el mock; inicio de sesión): [https://app.wiremock.cloud/login](https://app.wiremock.cloud/login). El mock que consume esta app está expuesto en el host `d494e.wiremockapi.cloud` (ajústalo en tu cuenta si usas otro despliegue).
+
+**GET del listado `all` (URL publicada):** [https://d494e.wiremockapi.cloud/v1.0/all](https://d494e.wiremockapi.cloud/v1.0/all)
+
+| Recurso | Path | Uso en la app |
+|--------|------|----------------|
+| Listado | `all` | Lista de países (`name`, `capital`, etc.). |
+| Detalles | `name/all` | JSON con todos los detalles; el **Interactor** selecciona el país por `name.common`. |
+
+En `CountryApp/Resources/` hay JSON de referencia (`countries.json`, `country_details.json`) útiles para publicar o revisar el contrato de la API.
+
+Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets.xcassets/countries`) hay imágenes por código ISO de dos letras para uso local si lo integras en la UI.
+
+## Tecnologías
+
+- **Lenguaje:** Swift
 - **Arquitectura:** VIPER
-- **Framework:** UIKit (programático)
-- **Xcode 15.4**
+- **UI:** UIKit (programático)
+- **Red:** `URLSession` + `async`/`await`
+- **Persistencia:** SwiftData (`ModelContainer` / `ModelContext`)
 
 ## Instalación
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd CountryApp
+git clone https://github.com/rapser/countryapp.git
+cd countryapp
 open CountryApp.xcodeproj
+```
+
+## Tests
+
+Desde la terminal, usando el simulador disponible (por ejemplo **iPhone 17**):
+
+```bash
+xcodebuild -scheme CountryApp -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 ## Contribuciones
 
-¡Las contribuciones son bienvenidas! Por favor, abre un issue o un pull request si deseas colaborar.
+Las contribuciones son bienvenidas. Abre un issue o un pull request si deseas colaborar.
 
 ## Licencia
 
@@ -63,4 +108,3 @@ Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para má
 ---
 
 **Desarrollado por:** _Miguel Tomairo_
-
