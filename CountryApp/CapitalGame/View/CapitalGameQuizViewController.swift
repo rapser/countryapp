@@ -1,34 +1,24 @@
 //
-//  FlagGameQuizViewController.swift
+//  CapitalGameQuizViewController.swift
 //  CountryApp
 //
 
 import UIKit
 
-protocol FlagGameQuizViewProtocol: AnyObject {
-    func configureQuizChrome()
-    func showQuestion(flagAssetCode: String, options: [String], progress: String)
-    func setOptionsEnabled(_ enabled: Bool)
-    func setFinalAnswerEnabled(_ enabled: Bool)
-    func highlightSelectedOption(index: Int)
-    func revealAnswer(selectedIndex: Int, correctIndex: Int, isCorrect: Bool)
-    func clearAnswerHighlight()
-}
-
-final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtocol {
-    private let presenter: FlagGameQuizPresenterProtocol
-    /// Referencia directa al router del juego: «Terminar partida» debe mostrar el resumen aunque falle otra ruta del presenter.
-    private let gameRouter: FlagGameRouterProtocol
+final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizViewProtocol {
+    private let presenter: CapitalGameQuizPresenterProtocol
+    private let gameRouter: CapitalGameRouterProtocol
     private var gradientLayer: CAGradientLayer?
 
     private let progressLabel = UILabel()
     private let flagContainer = UIView()
     private let flagImageView = UIImageView()
+    private let countryLabel = UILabel()
     private let optionsStack = UIStackView()
     private var optionButtons: [UIButton] = []
     private let finalAnswerButton = UIButton(type: .system)
 
-    init(presenter: FlagGameQuizPresenterProtocol, gameRouter: FlagGameRouterProtocol) {
+    init(presenter: CapitalGameQuizPresenterProtocol, gameRouter: CapitalGameRouterProtocol) {
         self.presenter = presenter
         self.gameRouter = gameRouter
         super.init(nibName: nil, bundle: nil)
@@ -40,7 +30,7 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "¿De qué país es?"
+        title = "¿Cuál es la capital?"
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "xmark.circle.fill"),
@@ -65,6 +55,12 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         flagImageView.translatesAutoresizingMaskIntoConstraints = false
         flagContainer.addSubview(flagImageView)
 
+        countryLabel.textColor = .white
+        countryLabel.font = .preferredFont(forTextStyle: .title3)
+        countryLabel.numberOfLines = 0
+        countryLabel.textAlignment = .center
+        countryLabel.translatesAutoresizingMaskIntoConstraints = false
+
         optionsStack.axis = .vertical
         optionsStack.spacing = 10
         optionsStack.translatesAutoresizingMaskIntoConstraints = false
@@ -73,12 +69,13 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
             title: "Siguiente",
             font: .systemFont(ofSize: 18, weight: .bold)
         )
+        finalAnswerButton.translatesAutoresizingMaskIntoConstraints = false
         finalAnswerButton.isEnabled = false
         finalAnswerButton.addTarget(self, action: #selector(finalAnswerTapped), for: .touchUpInside)
-        finalAnswerButton.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(progressLabel)
         view.addSubview(flagContainer)
+        view.addSubview(countryLabel)
         view.addSubview(optionsStack)
         view.addSubview(finalAnswerButton)
 
@@ -89,21 +86,25 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
             flagContainer.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 16),
             flagContainer.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             flagContainer.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            flagContainer.heightAnchor.constraint(equalToConstant: 220),
+            flagContainer.heightAnchor.constraint(equalToConstant: 200),
 
             flagImageView.topAnchor.constraint(equalTo: flagContainer.topAnchor, constant: 8),
             flagImageView.bottomAnchor.constraint(equalTo: flagContainer.bottomAnchor, constant: -8),
             flagImageView.leadingAnchor.constraint(equalTo: flagContainer.leadingAnchor, constant: 12),
             flagImageView.trailingAnchor.constraint(equalTo: flagContainer.trailingAnchor, constant: -12),
 
-            optionsStack.topAnchor.constraint(equalTo: flagContainer.bottomAnchor, constant: 20),
+            countryLabel.topAnchor.constraint(equalTo: flagContainer.bottomAnchor, constant: 12),
+            countryLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            countryLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+
+            optionsStack.topAnchor.constraint(equalTo: countryLabel.bottomAnchor, constant: 16),
             optionsStack.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             optionsStack.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             optionsStack.bottomAnchor.constraint(lessThanOrEqualTo: finalAnswerButton.topAnchor, constant: -20),
 
             finalAnswerButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             finalAnswerButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            finalAnswerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            finalAnswerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
         ])
     }
 
@@ -123,7 +124,7 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
             g.colors = [
                 UIColor(red: 0.01, green: 0.04, blue: 0.20, alpha: 1).cgColor,
                 UIColor(red: 0.03, green: 0.10, blue: 0.35, alpha: 1).cgColor,
-                UIColor(red: 0.01, green: 0.03, blue: 0.16, alpha: 1).cgColor
+                UIColor(red: 0.01, green: 0.03, blue: 0.16, alpha: 1).cgColor,
             ]
             g.locations = [0, 0.5, 1]
             g.startPoint = CGPoint(x: 0.2, y: 0)
@@ -134,9 +135,10 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         gradientLayer?.frame = view.bounds
     }
 
-    func showQuestion(flagAssetCode: String, options: [String], progress: String) {
+    func showQuestion(flagAssetCode: String, countryName: String, options: [String], progress: String) {
         progressLabel.text = "Pregunta \(progress)"
         flagImageView.image = UIImage(named: flagAssetCode)
+        countryLabel.text = countryName
 
         optionButtons.forEach { $0.removeFromSuperview() }
         optionButtons.removeAll()
@@ -147,92 +149,6 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
             optionButtons.append(b)
             optionsStack.addArrangedSubview(b)
         }
-    }
-
-    private func makeOptionButton(title: String, tag: Int) -> UIButton {
-        let b = UIButton(type: .system)
-        b.tag = tag
-        b.configuration = Self.optionButtonConfiguration(title: title)
-        b.addTarget(self, action: #selector(optionTapped(_:)), for: .touchUpInside)
-        return b
-    }
-
-    private static func optionButtonConfiguration(title: String) -> UIButton.Configuration {
-        var config = UIButton.Configuration.filled()
-        config.title = title
-        config.titleLineBreakMode = .byWordWrapping
-        config.titleAlignment = .center
-        config.baseForegroundColor = .white
-        config.baseBackgroundColor = UIColor(red: 0.06, green: 0.20, blue: 0.52, alpha: 1)
-        config.background.cornerRadius = 10
-        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 12, bottom: 14, trailing: 12)
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 16, weight: .semibold)
-            return outgoing
-        }
-        return config
-    }
-
-    private static func secondaryButtonConfiguration(title: String, font: UIFont) -> UIButton.Configuration {
-        var config = UIButton.Configuration.filled()
-        config.title = title
-        config.baseForegroundColor = .white
-        config.baseBackgroundColor = UIColor(red: 0.03, green: 0.12, blue: 0.35, alpha: 1)
-        config.background.cornerRadius = 12
-        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = font
-            return outgoing
-        }
-        return config
-    }
-
-    private static func primaryButtonConfiguration(title: String, font: UIFont) -> UIButton.Configuration {
-        var config = UIButton.Configuration.filled()
-        config.title = title
-        config.baseForegroundColor = .black
-        // Mostaza / amarillo tipo concurso
-        config.baseBackgroundColor = UIColor(red: 0.95, green: 0.80, blue: 0.22, alpha: 1)
-        config.background.cornerRadius = 12
-        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 14, bottom: 14, trailing: 14)
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = font
-            return outgoing
-        }
-        return config
-    }
-
-    private func applyOptionColors(button: UIButton, background: UIColor, foreground: UIColor) {
-        guard var config = button.configuration else { return }
-        config.baseBackgroundColor = background
-        config.baseForegroundColor = foreground
-        button.configuration = config
-    }
-
-    @objc private func optionTapped(_ sender: UIButton) {
-        presenter.didSelectOption(index: sender.tag, from: self)
-    }
-
-    @objc private func finalAnswerTapped() {
-        presenter.didTapFinalAnswer(from: self)
-    }
-
-    @objc private func finishTapped() {
-        let alert = UIAlertController(
-            title: "¿Terminar partida?",
-            message: "Se mostrará el resumen con lo respondido hasta ahora.",
-            preferredStyle: .actionSheet
-        )
-        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Terminar", style: .destructive) { [weak self] _ in
-            guard let self else { return }
-            AppLog.trace("FlagGameQuizVC Terminar partida (nav icon) → pushSummary")
-            self.gameRouter.pushSummary(from: self)
-        })
-        present(alert, animated: true)
     }
 
     func setOptionsEnabled(_ enabled: Bool) {
@@ -274,4 +190,74 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
             applyOptionColors(button: b, background: normalBlue, foreground: .white)
         }
     }
+
+    private func makeOptionButton(title: String, tag: Int) -> UIButton {
+        let b = UIButton(type: .system)
+        b.tag = tag
+        b.configuration = Self.optionButtonConfiguration(title: title)
+        b.addTarget(self, action: #selector(optionTapped(_:)), for: .touchUpInside)
+        return b
+    }
+
+    @objc private func optionTapped(_ sender: UIButton) {
+        presenter.didSelectOption(index: sender.tag, from: self)
+    }
+
+    @objc private func finalAnswerTapped() {
+        presenter.didTapFinalAnswer(from: self)
+    }
+
+    @objc private func finishTapped() {
+        let alert = UIAlertController(
+            title: "¿Terminar partida?",
+            message: "Se mostrará el resumen con lo respondido hasta ahora.",
+            preferredStyle: .actionSheet
+        )
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Terminar", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            self.gameRouter.pushSummary(from: self)
+        })
+        present(alert, animated: true)
+    }
+
+    private func applyOptionColors(button: UIButton, background: UIColor, foreground: UIColor) {
+        guard var config = button.configuration else { return }
+        config.baseBackgroundColor = background
+        config.baseForegroundColor = foreground
+        button.configuration = config
+    }
+
+    private static func optionButtonConfiguration(title: String) -> UIButton.Configuration {
+        var config = UIButton.Configuration.filled()
+        config.title = title
+        config.titleLineBreakMode = .byWordWrapping
+        config.titleAlignment = .center
+        config.baseForegroundColor = .white
+        config.baseBackgroundColor = UIColor(red: 0.06, green: 0.20, blue: 0.52, alpha: 1)
+        config.background.cornerRadius = 10
+        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 12, bottom: 14, trailing: 12)
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = .systemFont(ofSize: 16, weight: .semibold)
+            return outgoing
+        }
+        return config
+    }
+
+    private static func primaryButtonConfiguration(title: String, font: UIFont) -> UIButton.Configuration {
+        var config = UIButton.Configuration.filled()
+        config.title = title
+        config.baseForegroundColor = .black
+        config.baseBackgroundColor = UIColor(red: 0.95, green: 0.80, blue: 0.22, alpha: 1)
+        config.background.cornerRadius = 12
+        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 14, bottom: 14, trailing: 14)
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = font
+            return outgoing
+        }
+        return config
+    }
 }
+

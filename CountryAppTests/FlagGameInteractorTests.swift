@@ -14,7 +14,7 @@ final class FlagGameInteractorTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        FlagGameRecentRoundsHistory.resetForTesting()
+        FlagGamePoolState.resetForTesting()
         let schema = Schema([PersistedCountry.self])
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         modelContainer = try! ModelContainer(for: schema, configurations: [configuration])
@@ -22,7 +22,7 @@ final class FlagGameInteractorTests: XCTestCase {
     }
 
     override func tearDown() {
-        FlagGameRecentRoundsHistory.resetForTesting()
+        FlagGamePoolState.resetForTesting()
         modelContext = nil
         modelContainer = nil
         super.tearDown()
@@ -182,13 +182,16 @@ final class FlagGameInteractorTests: XCTestCase {
     }
 
     func testRecentRoundsHistory_keepsOnlyLastThreeRoundsForExclusion() {
-        FlagGameRecentRoundsHistory.resetForTesting()
-        FlagGameRecentRoundsHistory.appendCompletedRound(flagAssetCodes: ["a"])
-        FlagGameRecentRoundsHistory.appendCompletedRound(flagAssetCodes: ["b"])
-        FlagGameRecentRoundsHistory.appendCompletedRound(flagAssetCodes: ["c"])
-        XCTAssertEqual(FlagGameRecentRoundsHistory.excludedFlagAssetCodes(), Set(["a", "b", "c"]))
-        FlagGameRecentRoundsHistory.appendCompletedRound(flagAssetCodes: ["d"])
-        XCTAssertEqual(FlagGameRecentRoundsHistory.excludedFlagAssetCodes(), Set(["b", "c", "d"]))
+        // La lógica de exclusión por "últimas 3" fue reemplazada por un pool global (remaining + lastRound).
+        // Validamos que al registrar una ronda se actualice lastRound y se reste de remaining.
+        FlagGamePoolState.resetForTesting()
+        let available: Set<String> = Set(["a", "b", "c", "d", "e"])
+        _ = FlagGamePoolState.loadOrInitialize(availableFlagCodes: available)
+        FlagGamePoolState.registerCompletedRound(Set(["a", "b"]), availableFlagCodes: available)
+        let state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: available)
+        XCTAssertEqual(state.lastRoundFlagCodes, Set(["a", "b"]))
+        XCTAssertFalse(state.remainingFlagCodes.contains("a"))
+        XCTAssertFalse(state.remainingFlagCodes.contains("b"))
     }
 
     func testStartNewRound_excludesFlagsFromImmediatelyPreviousRound() async throws {
@@ -224,6 +227,6 @@ final class FlagGameInteractorTests: XCTestCase {
             round2.insert(q.flagAssetCode)
             _ = interactor.submitAnswer(optionIndex: q.correctIndex, responseTime: 0)
         }
-        XCTAssertTrue(round1.isDisjoint(with: round2), "Las banderas de la partida anterior no deben repetirse en la siguiente")
+        XCTAssertTrue(round1.isDisjoint(with: round2), "La partida siguiente no debe repetir la última partida mientras existan alternativas")
     }
 }
