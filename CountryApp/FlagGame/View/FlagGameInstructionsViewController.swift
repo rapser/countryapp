@@ -71,6 +71,21 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
         ])
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Pantalla oscura: nav en blanco para legibilidad (aquí es donde aterrizas desde Home).
+        guard let navBar = navigationController?.navigationBar else { return }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
+        navBar.tintColor = .white
+    }
+
     private static func playButtonConfiguration() -> UIButton.Configuration {
         var config = UIButton.Configuration.filled()
         config.title = "Bueno, a jugar"

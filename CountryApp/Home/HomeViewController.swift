@@ -42,6 +42,18 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Home es una pantalla clara: fuerza el estilo por defecto para que no “herede” estilos oscuros de los juegos.
+        guard let navBar = navigationController?.navigationBar else { return }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
+        navBar.tintColor = nil
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer?.frame = view.bounds
