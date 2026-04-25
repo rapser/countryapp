@@ -183,7 +183,6 @@
 		A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInteractorTests.swift; sourceTree = "<group>"; };
 		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameRecentRoundsHistory.swift; sourceTree = "<group>"; };
-		D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGamePoolState.swift; sourceTree = "<group>"; };
 		D0C0A1102F20B000006DC001 /* CapitalGameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameModels.swift; sourceTree = "<group>"; };
 		D0C0A1112F20B000006DC001 /* CapitalGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGamePoolState.swift; sourceTree = "<group>"; };
 		D0C0A1122F20B000006DC001 /* CapitalGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameInteractor.swift; sourceTree = "<group>"; };
@@ -195,6 +194,7 @@
 		D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameInstructionsViewController.swift; sourceTree = "<group>"; };
 		D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameQuizViewController.swift; sourceTree = "<group>"; };
 		D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameSummaryViewController.swift; sourceTree = "<group>"; };
+		D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGamePoolState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -571,6 +571,43 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
+		A7E1F3052D386572006DC001 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10E2D386572006DC001 /* FlagGameInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		A7E1F3062D386572006DC001 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F10F2D386572006DC001 /* FlagGameRouterProtocol.swift */,
+				A7E1F1102D386572006DC001 /* FlagGameRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		A7E1F3072D386572006DC001 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1112D386572006DC001 /* FlagGameInstructionsPresenter.swift */,
+				A7E1F1132D386572006DC001 /* FlagGameQuizPresenter.swift */,
+				A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		A7E1F3082D386572006DC001 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */,
+				A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */,
+				A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		D0C0A1002F20B000006DC001 /* CapitalGame */ = {
 			isa = PBXGroup;
 			children = (
@@ -625,43 +662,6 @@
 				D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */,
 				D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */,
 				D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		A7E1F3052D386572006DC001 /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F10E2D386572006DC001 /* FlagGameInteractor.swift */,
-			);
-			path = Interactor;
-			sourceTree = "<group>";
-		};
-		A7E1F3062D386572006DC001 /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F10F2D386572006DC001 /* FlagGameRouterProtocol.swift */,
-				A7E1F1102D386572006DC001 /* FlagGameRouter.swift */,
-			);
-			path = Router;
-			sourceTree = "<group>";
-		};
-		A7E1F3072D386572006DC001 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F1112D386572006DC001 /* FlagGameInstructionsPresenter.swift */,
-				A7E1F1132D386572006DC001 /* FlagGameQuizPresenter.swift */,
-				A7E1F1152D386572006DC001 /* FlagGameSummaryPresenter.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
-		A7E1F3082D386572006DC001 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */,
-				A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */,
-				A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1050,7 +1050,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
@@ -1081,7 +1081,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
