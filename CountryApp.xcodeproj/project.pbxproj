@@ -77,6 +77,18 @@
 		A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */; };
 		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
 		C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */; };
+		D0C0A2002F20B000006DC001 /* FlagGamePoolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */; };
+		D0C0A2012F20B000006DC001 /* CapitalGameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1102F20B000006DC001 /* CapitalGameModels.swift */; };
+		D0C0A2022F20B000006DC001 /* CapitalGamePoolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1112F20B000006DC001 /* CapitalGamePoolState.swift */; };
+		D0C0A2032F20B000006DC001 /* CapitalGameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1122F20B000006DC001 /* CapitalGameInteractor.swift */; };
+		D0C0A2042F20B000006DC001 /* CapitalGameRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1132F20B000006DC001 /* CapitalGameRouterProtocol.swift */; };
+		D0C0A2052F20B000006DC001 /* CapitalGameRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1142F20B000006DC001 /* CapitalGameRouter.swift */; };
+		D0C0A2062F20B000006DC001 /* CapitalGameInstructionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1152F20B000006DC001 /* CapitalGameInstructionsPresenter.swift */; };
+		D0C0A2072F20B000006DC001 /* CapitalGameQuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1162F20B000006DC001 /* CapitalGameQuizPresenter.swift */; };
+		D0C0A2082F20B000006DC001 /* CapitalGameSummaryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1172F20B000006DC001 /* CapitalGameSummaryPresenter.swift */; };
+		D0C0A2092F20B000006DC001 /* CapitalGameInstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */; };
+		D0C0A20A2F20B000006DC001 /* CapitalGameQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */; };
+		D0C0A20B2F20B000006DC001 /* CapitalGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +183,18 @@
 		A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInteractorTests.swift; sourceTree = "<group>"; };
 		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameRecentRoundsHistory.swift; sourceTree = "<group>"; };
+		D0C0A1102F20B000006DC001 /* CapitalGameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameModels.swift; sourceTree = "<group>"; };
+		D0C0A1112F20B000006DC001 /* CapitalGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGamePoolState.swift; sourceTree = "<group>"; };
+		D0C0A1122F20B000006DC001 /* CapitalGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameInteractor.swift; sourceTree = "<group>"; };
+		D0C0A1132F20B000006DC001 /* CapitalGameRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameRouterProtocol.swift; sourceTree = "<group>"; };
+		D0C0A1142F20B000006DC001 /* CapitalGameRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameRouter.swift; sourceTree = "<group>"; };
+		D0C0A1152F20B000006DC001 /* CapitalGameInstructionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameInstructionsPresenter.swift; sourceTree = "<group>"; };
+		D0C0A1162F20B000006DC001 /* CapitalGameQuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameQuizPresenter.swift; sourceTree = "<group>"; };
+		D0C0A1172F20B000006DC001 /* CapitalGameSummaryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameSummaryPresenter.swift; sourceTree = "<group>"; };
+		D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameInstructionsViewController.swift; sourceTree = "<group>"; };
+		D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameQuizViewController.swift; sourceTree = "<group>"; };
+		D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameSummaryViewController.swift; sourceTree = "<group>"; };
+		D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGamePoolState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +250,7 @@
 				A7E1F3012D386572006DC001 /* Persistence */,
 				A7E1F3022D386572006DC001 /* Home */,
 				A7E1F3032D386572006DC001 /* FlagGame */,
+				D0C0A1002F20B000006DC001 /* CapitalGame */,
 				4659F37B2D3879E4006D49F2 /* CountryList */,
 				4659F37C2D3879F4006D49F2 /* CountryDetail */,
 				4659F3C02D39BCD7006D49F2 /* Map */,
@@ -541,6 +566,7 @@
 			children = (
 				A7E1F10D2D386572006DC001 /* FlagGameModels.swift */,
 				C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */,
+				D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -578,6 +604,64 @@
 				A7E1F1122D386572006DC001 /* FlagGameInstructionsViewController.swift */,
 				A7E1F1142D386572006DC001 /* FlagGameQuizViewController.swift */,
 				A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D0C0A1002F20B000006DC001 /* CapitalGame */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0A1012F20B000006DC001 /* Entity */,
+				D0C0A1022F20B000006DC001 /* Interactor */,
+				D0C0A1032F20B000006DC001 /* Router */,
+				D0C0A1042F20B000006DC001 /* Presenter */,
+				D0C0A1052F20B000006DC001 /* View */,
+			);
+			path = CapitalGame;
+			sourceTree = "<group>";
+		};
+		D0C0A1012F20B000006DC001 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0A1102F20B000006DC001 /* CapitalGameModels.swift */,
+				D0C0A1112F20B000006DC001 /* CapitalGamePoolState.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		D0C0A1022F20B000006DC001 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0A1122F20B000006DC001 /* CapitalGameInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		D0C0A1032F20B000006DC001 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0A1132F20B000006DC001 /* CapitalGameRouterProtocol.swift */,
+				D0C0A1142F20B000006DC001 /* CapitalGameRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		D0C0A1042F20B000006DC001 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0A1152F20B000006DC001 /* CapitalGameInstructionsPresenter.swift */,
+				D0C0A1162F20B000006DC001 /* CapitalGameQuizPresenter.swift */,
+				D0C0A1172F20B000006DC001 /* CapitalGameSummaryPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		D0C0A1052F20B000006DC001 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */,
+				D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */,
+				D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -726,6 +810,7 @@
 				A7E1F20C2D386572006DC001 /* HomeViewController.swift in Sources */,
 				A7E1F20D2D386572006DC001 /* FlagGameModels.swift in Sources */,
 				C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */,
+				D0C0A2002F20B000006DC001 /* FlagGamePoolState.swift in Sources */,
 				A7E1F20E2D386572006DC001 /* FlagGameInteractor.swift in Sources */,
 				A7E1F20F2D386572006DC001 /* FlagGameRouterProtocol.swift in Sources */,
 				A7E1F2102D386572006DC001 /* FlagGameRouter.swift in Sources */,
@@ -735,6 +820,17 @@
 				A7E1F2142D386572006DC001 /* FlagGameQuizViewController.swift in Sources */,
 				A7E1F2152D386572006DC001 /* FlagGameSummaryPresenter.swift in Sources */,
 				A7E1F2162D386572006DC001 /* FlagGameSummaryViewController.swift in Sources */,
+				D0C0A2012F20B000006DC001 /* CapitalGameModels.swift in Sources */,
+				D0C0A2022F20B000006DC001 /* CapitalGamePoolState.swift in Sources */,
+				D0C0A2032F20B000006DC001 /* CapitalGameInteractor.swift in Sources */,
+				D0C0A2042F20B000006DC001 /* CapitalGameRouterProtocol.swift in Sources */,
+				D0C0A2052F20B000006DC001 /* CapitalGameRouter.swift in Sources */,
+				D0C0A2062F20B000006DC001 /* CapitalGameInstructionsPresenter.swift in Sources */,
+				D0C0A2072F20B000006DC001 /* CapitalGameQuizPresenter.swift in Sources */,
+				D0C0A2082F20B000006DC001 /* CapitalGameSummaryPresenter.swift in Sources */,
+				D0C0A2092F20B000006DC001 /* CapitalGameInstructionsViewController.swift in Sources */,
+				D0C0A20A2F20B000006DC001 /* CapitalGameQuizViewController.swift in Sources */,
+				D0C0A20B2F20B000006DC001 /* CapitalGameSummaryViewController.swift in Sources */,
 				4659F3C22D39BCEE006D49F2 /* MapRouter.swift in Sources */,
 				4659F3742D386829006D49F2 /* CountryDetail.swift in Sources */,
 				4659F3AE2D388563006D49F2 /* CountryListService.swift in Sources */,
@@ -954,7 +1050,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
@@ -985,7 +1081,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;

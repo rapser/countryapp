@@ -41,8 +41,10 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
     private var clearCorrectRows: [SummaryFlagRow] = []
     private var doubtCorrectRows: [SummaryFlagRow] = []
     private var sessionStart: Date?
-    /// Evita registrar el mismo mazo dos veces en el historial de exclusiones entre partidas.
-    private var exportedFlagDeckToHistoryKey: String?
+    /// Códigos disponibles en el dataset al iniciar la ronda (para persistir estado al generar el resumen).
+    private var lastAvailableFlagCodes: Set<String> = []
+    /// Evita registrar dos veces la misma ronda al construir el resumen.
+    private var exportedRoundKey: String?
 
     init(persistence: CountryPersistenceProtocol) {
         self.persistence = persistence
@@ -71,16 +73,20 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         }
         guard snapshots.count >= 4 else { throw FlagGameError.notEnoughCountries }
 
-        let excluded = FlagGameRecentRoundsHistory.excludedFlagAssetCodes()
-        let eligible = snapshots.filter { !excluded.contains($0.flagAssetCode) }
-        let poolSource = eligible.count >= 4 ? eligible : snapshots
+        lastAvailableFlagCodes = Set(snapshots.map(\.flagAssetCode))
+        let state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: lastAvailableFlagCodes)
+        let remainingSnapshots = snapshots.filter { state.remainingFlagCodes.contains($0.flagAssetCode) }
 
-        let pool = poolSource.shuffled()
-        let count = min(FlagGameRound.questionsPerRound, pool.count)
-        let chosen = Array(pool.prefix(count))
+        let lastRound = state.lastRoundFlagCodes
+        let chosenSnapshots = Self.pickVariedRound(
+            primaryPool: remainingSnapshots,
+            fallbackPool: snapshots,
+            lastRoundExcluded: lastRound,
+            count: FlagGameRound.questionsPerRound
+        )
 
-        let allNames = poolSource.map(\.displayName)
-        questions = try chosen.map { row in
+        let allNames = snapshots.map(\.displayName)
+        questions = try chosenSnapshots.map { row in
             let answerName = row.displayName
             let distractors = Self.pickDistractors(answerName: answerName, poolNames: allNames)
             guard distractors.count == 3 else { throw FlagGameError.loadFailed }
@@ -91,7 +97,7 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
             }
             return QuizQuestion(flagAssetCode: row.flagAssetCode, options: options, correctIndex: correctIndex)
         }
-        exportedFlagDeckToHistoryKey = nil
+        exportedRoundKey = nil
 
         currentIndex = 0
         correctCount = 0
@@ -156,10 +162,10 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
     }
 
     func buildSummary() -> GameSummary {
-        let deckKey = questions.map(\.flagAssetCode).sorted().joined(separator: "\u{1e}")
-        if !questions.isEmpty, exportedFlagDeckToHistoryKey != deckKey {
-            FlagGameRecentRoundsHistory.appendCompletedRound(flagAssetCodes: questions.map(\.flagAssetCode))
-            exportedFlagDeckToHistoryKey = deckKey
+        let roundKey = questions.map(\.flagAssetCode).sorted().joined(separator: "\u{1e}")
+        if !questions.isEmpty, exportedRoundKey != roundKey {
+            FlagGamePoolState.registerCompletedRound(Set(questions.map(\.flagAssetCode)), availableFlagCodes: lastAvailableFlagCodes)
+            exportedRoundKey = roundKey
         }
 
         let start = sessionStart ?? Date()
@@ -182,6 +188,76 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
 
     private func optionsValid(_ q: QuizQuestion, _ index: Int) -> Bool {
         index >= 0 && index < q.options.count
+    }
+
+    /// Selección “variada”:
+    /// - Si hay suficientes en el pool primario (`remaining`), elige desde ahí.\n+    /// - Si faltan, completa desde fallback evitando repetir la **última** partida (`lastRoundExcluded`) si es posible.
+    private static func pickVariedRound(
+        primaryPool: [FlagGameCountrySnapshot],
+        fallbackPool: [FlagGameCountrySnapshot],
+        lastRoundExcluded: Set<String>,
+        count: Int
+    ) -> [FlagGameCountrySnapshot] {
+        let primaryPicked = variedSample(from: primaryPool, count: min(count, primaryPool.count))
+        if primaryPicked.count >= count {
+            return Array(primaryPicked.prefix(count))
+        }
+
+        var picked = primaryPicked
+        let pickedCodes = Set(picked.map(\.flagAssetCode))
+
+        // Completa sin usar la última partida.
+        let eligibleFill = fallbackPool.filter { !pickedCodes.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode) }
+        let fillNeeded = count - picked.count
+        let fill = variedSample(from: eligibleFill, count: min(fillNeeded, eligibleFill.count))
+        picked.append(contentsOf: fill)
+
+        if picked.count >= count {
+            return Array(picked.prefix(count))
+        }
+
+        // Último fallback: si no hay suficientes (dataset muy pequeño), completa con cualquiera no elegido.
+        let eligibleAny = fallbackPool.filter { cand in
+            !pickedCodes.contains(cand.flagAssetCode)
+                && !picked.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
+        }
+        let fill2Needed = count - picked.count
+        picked.append(contentsOf: variedSample(from: eligibleAny, count: min(fill2Needed, eligibleAny.count)))
+        return Array(picked.prefix(count))
+    }
+
+    /// Muestreo round-robin por buckets simples basados en la primera letra del nombre.
+    private static func variedSample(from pool: [FlagGameCountrySnapshot], count: Int) -> [FlagGameCountrySnapshot] {
+        guard count > 0, !pool.isEmpty else { return [] }
+        var buckets: [String: [FlagGameCountrySnapshot]] = [:]
+        for s in pool {
+            let key = String(s.displayName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased().prefix(1))
+            buckets[key, default: []].append(s)
+        }
+        var keys = buckets.keys.sorted()
+        keys.shuffle()
+        keys.forEach { buckets[$0]?.shuffle() }
+
+        var out: [FlagGameCountrySnapshot] = []
+        var idx = 0
+        while out.count < count, !keys.isEmpty {
+            let k = keys[idx % keys.count]
+            if var arr = buckets[k], !arr.isEmpty {
+                out.append(arr.removeLast())
+                buckets[k] = arr
+            }
+            // Limpia buckets vacíos y avanza.
+            keys = keys.filter { (buckets[$0]?.isEmpty == false) }
+            idx += 1
+        }
+        if out.count < count {
+            // Completa con shuffle normal si faltó.
+            let leftover = pool.shuffled().filter { cand in
+                !out.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
+            }
+            out.append(contentsOf: leftover.prefix(count - out.count))
+        }
+        return out
     }
 
     /// Picks 3 names similar to `answerName` from `poolNames` (excluding the answer).

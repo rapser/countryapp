@@ -1,23 +1,20 @@
 //
-//  FlagGameInstructionsViewController.swift
+//  CapitalGameInstructionsViewController.swift
 //  CountryApp
 //
 
 import UIKit
 
-protocol FlagGameInstructionsViewProtocol: AnyObject {
-    /// Deshabilita el botón de jugar mientras se prepara la ronda (solo SwiftData, sin red).
-    func setPrepareInProgress(_ inProgress: Bool)
-    func showError(message: String)
-}
+protocol CapitalGameInstructionsViewProtocol: AnyObject {}
 
-final class FlagGameInstructionsViewController: UIViewController, FlagGameInstructionsViewProtocol {
-    private let presenter: FlagGameInstructionsPresenterProtocol
+final class CapitalGameInstructionsViewController: UIViewController, CapitalGameInstructionsViewProtocol {
+    private let presenter: CapitalGameInstructionsPresenterProtocol
+
     private let scrollView = UIScrollView()
     private let bodyStack = UIStackView()
     private let playButton = UIButton(type: .system)
 
-    init(presenter: FlagGameInstructionsPresenterProtocol) {
+    init(presenter: CapitalGameInstructionsPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -28,7 +25,7 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Adivina la bandera"
+        title = "Adivina la capital"
         view.backgroundColor = UIColor(red: 0.04, green: 0.08, blue: 0.22, alpha: 1)
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,13 +35,11 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
 
         let intro = makeLabel(
             text: """
-            Responde \(FlagGameRound.questionsPerRound) preguntas viendo la bandera en pantalla.
+            Responde \(FlagGameRound.questionsPerRound) preguntas viendo la bandera y el país.
 
-            • Cada pregunta tiene 4 nombres de países en orden aleatorio.
+            • Cada pregunta tiene 4 opciones de capitales.
             • Elige una opción y pulsa «Siguiente» para confirmar.
-            • Puedes terminar antes: el resumen usará lo respondido hasta ese momento.
-
-            El resumen agrupa banderas: qué repasar si fallaste o saltaste, cuáles acertaste con rapidez, y cuáles acertaste pero tardaste más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos en pulsar «Siguiente» (se consideran dudas).
+            • El resumen te dirá qué banderas repasar y qué acertaste con dudas (más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) s).
             """,
             style: .body
         )
@@ -67,7 +62,7 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
             bodyStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
             bodyStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
             bodyStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -20),
-            bodyStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -24)
+            bodyStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -24),
         ])
     }
 
@@ -113,14 +108,5 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
     @objc private func playTapped() {
         presenter.didTapPlay(from: self)
     }
-
-    func setPrepareInProgress(_ inProgress: Bool) {
-        playButton.isEnabled = !inProgress
-    }
-
-    func showError(message: String) {
-        let alert = UIAlertController(title: "No se pudo preparar el juego", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
 }
+
