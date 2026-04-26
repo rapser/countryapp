@@ -39,4 +39,11 @@ final class HomeRouter: HomeRouterProtocol {
         let game = FlagGameRouter.createModule(modelContext: modelContext, hostingNavigationController: nav)
         nav?.pushViewController(game, animated: true)
     }
+
+    func showCapitalGame(from viewController: UIViewController) {
+        let nav = viewController.navigationController
+        AppLog.trace("HomeRouter showCapitalGame nav=\(nav != nil)")
+        let game = CapitalGameRouter.createModule(modelContext: modelContext, hostingNavigationController: nav)
+        nav?.pushViewController(game, animated: true)
+    }
 }

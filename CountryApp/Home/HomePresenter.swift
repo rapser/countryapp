@@ -16,4 +16,8 @@ final class HomePresenter: HomePresenterProtocol {
     func didTapFlagGame(from viewController: UIViewController) {
         router?.showFlagGame(from: viewController)
     }
+
+    func didTapCapitalGame(from viewController: UIViewController) {
+        router?.showCapitalGame(from: viewController)
+    }
 }

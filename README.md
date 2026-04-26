@@ -42,13 +42,22 @@ Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map** y **
 - Puntuación: **+10** acierto, **−5** error, **0** si saltas la pregunta.
 - Puedes **terminar antes**; el resumen usa aciertos, fallos, saltos y el tiempo transcurrido hasta ese momento.
 - **Dudas en el resumen:** si tardas **más de 15 segundos** en confirmar con «Siguiente», el acierto va a la sección *Dudas*.
-- **Sin repetir banderas seguidas:** al terminar una partida (al generar el resumen), se guardan las banderas de esa ronda; las de las **tres últimas partidas** no se vuelven a elegir como preguntas en la siguiente (se necesitan bastantes países en datos; si no hubiera suficientes elegibles, se relaja y se usan todos).
+- **Sin repetición global (pool):**
+  - Mientras queden países por salir en el ciclo, cada nueva partida elige 20 de los **no usados aún**.
+  - Cuando ya se usaron **todos**, se reinicia el ciclo con **todos menos los 20 de la última partida**.
+  - Si en la última partida del ciclo quedan menos de 20 por elegir, se completa con países “de cualquier parte” **excepto** los de la **última** partida (sí pueden ser de la penúltima).
+
+### Juego “Adivina la capital”
+
+- 20 preguntas por partida.
+- En cada pregunta ves **bandera + país** y eliges la **capital** correcta entre 4 opciones.
+- Reusa la misma lógica de **dudas** y **pool sin repetición**.
 
 ### SwiftData y JSON de listado
 
 Para persistir y mostrar banderas desde **Assets** (`Assets.xcassets/countries`), el JSON de `all` debe incluir **`assetFlag`** y/o **`cca2`** (código ISO de dos letras en minúsculas, coherente con el nombre del imageset). Sin esos campos el país puede omitirse al guardar o no mostrar bandera en el juego.
 
-En cada país, **`name.nameSpanish`** es el nombre usado **solo en el juego de banderas** (opciones y resumen); si falta, se usa `name.common`. **`capitalSpanish`**: si viene en el JSON, la app lo usa para la **capital en listado** (SwiftData) y en **detalle**; si no, se muestra `capital`.
+En cada país, **`name.nameSpanish`** es el nombre usado **en los juegos** (banderas y capitales); si falta, se usa `name.common`. **`capitalSpanish`**: si viene en el JSON, la app lo usa para la **capital en listado** (SwiftData) y en **detalle**; si no, se muestra `capital`.
 
 ### Reiniciar datos locales (SwiftData)
 
