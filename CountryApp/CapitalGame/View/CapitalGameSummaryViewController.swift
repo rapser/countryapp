@@ -60,6 +60,13 @@ final class CapitalGameSummaryViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = .systemGroupedBackground
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "square.and.arrow.up"),
+            style: .plain,
+            target: self,
+            action: #selector(shareTapped)
+        )
+
         exitButton.configuration = Self.exitButtonConfiguration()
         exitButton.addTarget(self, action: #selector(exitTapped), for: .touchUpInside)
 
@@ -118,6 +125,16 @@ final class CapitalGameSummaryViewController: UIViewController {
 
     @objc private func exitTapped() {
         presenter.didTapExit(from: self)
+    }
+
+    @objc private func shareTapped() {
+        let card = GameShareCardRenderer(summary: summary, gameModeName: "Adivina la capital").render()
+        let text = "🌍 Acerté \(summary.correctCount) de \(summary.correctCount + summary.wrongCount + summary.skippedCount) capitales. ¿Puedes superarme? #CountryApp"
+        let ac = UIActivityViewController(activityItems: [card, text], applicationActivities: nil)
+        if let pop = ac.popoverPresentationController {
+            pop.barButtonItem = navigationItem.rightBarButtonItem
+        }
+        present(ac, animated: true)
     }
 
     private static func exitButtonConfiguration() -> UIButton.Configuration {

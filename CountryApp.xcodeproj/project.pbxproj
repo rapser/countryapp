@@ -15,6 +15,7 @@
 		4659F3742D386829006D49F2 /* CountryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3732D386829006D49F2 /* CountryDetail.swift */; };
 		4659F3762D386A9C006D49F2 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3752D386A9C006D49F2 /* LoadingView.swift */; };
 		CC12345601000000006DC001 /* FlagSynonymGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345602000000006DC001 /* FlagSynonymGroups.swift */; };
+		CC12345603000000006DC001 /* GameShareCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345604000000006DC001 /* GameShareCardRenderer.swift */; };
 		4659F3792D386AEF006D49F2 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */; };
 		4659F38C2D387C02006D49F2 /* CountryListInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F38B2D387C02006D49F2 /* CountryListInteractorProtocol.swift */; };
 		4659F38E2D387C3D006D49F2 /* CountryListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F38D2D387C3D006D49F2 /* CountryListInteractor.swift */; };
@@ -120,6 +121,7 @@
 		4659F3732D386829006D49F2 /* CountryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetail.swift; sourceTree = "<group>"; };
 		4659F3752D386A9C006D49F2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		CC12345602000000006DC001 /* FlagSynonymGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagSynonymGroups.swift; sourceTree = "<group>"; };
+		CC12345604000000006DC001 /* GameShareCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShareCardRenderer.swift; sourceTree = "<group>"; };
 		4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		4659F38B2D387C02006D49F2 /* CountryListInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListInteractorProtocol.swift; sourceTree = "<group>"; };
 		4659F38D2D387C3D006D49F2 /* CountryListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListInteractor.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				4659F3752D386A9C006D49F2 /* LoadingView.swift */,
 				4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */,
 				CC12345602000000006DC001 /* FlagSynonymGroups.swift */,
+				CC12345604000000006DC001 /* GameShareCardRenderer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -866,6 +869,7 @@
 				4659F3BD2D399EE0006D49F2 /* UserDefaultsManager.swift in Sources */,
 				A7E1F2192D386572006DC001 /* AppLog.swift in Sources */,
 				CC12345601000000006DC001 /* FlagSynonymGroups.swift in Sources */,
+				CC12345603000000006DC001 /* GameShareCardRenderer.swift in Sources */,
 				4659F3902D387C63006D49F2 /* CountryListPresenterProtocol.swift in Sources */,
 				4659F39C2D3880C2006D49F2 /* CountryDetailServiceManager.swift in Sources */,
 				4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */,
