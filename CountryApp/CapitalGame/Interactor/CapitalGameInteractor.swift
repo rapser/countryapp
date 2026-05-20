@@ -11,6 +11,7 @@ protocol CapitalGameInteractorProtocol: AnyObject {
     func recordQuizStarted()
     func currentQuestion() -> CapitalQuizQuestion?
     func currentProgressText() -> String
+    func currentProgressFraction() -> Float
     func submitAnswer(optionIndex: Int, responseTime: TimeInterval) -> Bool
     func skipQuestion()
     func buildSummary() -> GameSummary
@@ -75,12 +76,12 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         lastAvailableFlagCodes = Set(snapshots.map(\.flagAssetCode))
         let state = CapitalGamePoolState.loadOrInitialize(availableFlagCodes: lastAvailableFlagCodes)
         let remainingSnapshots = snapshots.filter { state.remainingFlagCodes.contains($0.flagAssetCode) }
-        let lastRound = state.lastRoundFlagCodes
 
+        let recentExcluded = state.lastRoundFlagCodes.union(state.penultimateRoundFlagCodes)
         let chosen = Self.pickVariedRound(
             primaryPool: remainingSnapshots,
             fallbackPool: snapshots,
-            lastRoundExcluded: lastRound,
+            lastRoundExcluded: recentExcluded,
             count: FlagGameRound.questionsPerRound
         )
 
@@ -119,6 +120,11 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
 
     func currentProgressText() -> String {
         "\(min(currentIndex + 1, max(questions.count, 1))) / \(questions.count)"
+    }
+
+    func currentProgressFraction() -> Float {
+        guard !questions.isEmpty else { return 0 }
+        return Float(currentIndex) / Float(questions.count)
     }
 
     var hasMoreQuestions: Bool { currentIndex < questions.count }
@@ -178,17 +184,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         )
     }
 
-    private static func pickDistractorCapitals(answerCapital: String, poolCapitals: [String]) -> [String] {
-        let answer = answerCapital.trimmingCharacters(in: .whitespacesAndNewlines)
-        let candidates = poolCapitals.filter { $0.caseInsensitiveCompare(answer) != .orderedSame }
-        var picked: [String] = []
-        for c in candidates.shuffled() where picked.count < 3 {
-            if !picked.contains(where: { $0.caseInsensitiveCompare(c) == .orderedSame }) {
-                picked.append(c)
-            }
-        }
-        return Array(picked.prefix(3))
-    }
+    // MARK: - Pool selection
 
     private static func pickVariedRound(
         primaryPool: [CapitalGameCountrySnapshot],
@@ -196,28 +192,50 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         lastRoundExcluded: Set<String>,
         count: Int
     ) -> [CapitalGameCountrySnapshot] {
-        let primaryPicked = variedSample(from: primaryPool, count: min(count, primaryPool.count))
+        let dedupedPrimary  = deduplicateSameFlag(primaryPool)
+        let dedupedFallback = deduplicateSameFlag(fallbackPool)
+
+        let primaryPicked = variedSample(from: dedupedPrimary, count: min(count, dedupedPrimary.count))
         if primaryPicked.count >= count {
             return Array(primaryPicked.prefix(count))
         }
 
         var picked = primaryPicked
-        let pickedCodes = Set(picked.map(\.flagAssetCode))
+        let pickedSynonyms = Set(picked.map(\.flagAssetCode)).reduce(into: Set<String>()) { acc, code in
+            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
+        }
 
-        let eligibleFill = fallbackPool.filter { !pickedCodes.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode) }
-        let fillNeeded = count - picked.count
-        picked.append(contentsOf: variedSample(from: eligibleFill, count: min(fillNeeded, eligibleFill.count)))
+        let eligibleFill = dedupedFallback.filter {
+            !pickedSynonyms.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode)
+        }
+        let fill = variedSample(from: eligibleFill, count: min(count - picked.count, eligibleFill.count))
+        picked.append(contentsOf: fill)
 
         if picked.count >= count {
             return Array(picked.prefix(count))
         }
 
-        let eligibleAny = fallbackPool.filter { cand in
-            !pickedCodes.contains(cand.flagAssetCode) && !picked.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
+        let pickedSynonyms2 = Set(picked.map(\.flagAssetCode)).reduce(into: Set<String>()) { acc, code in
+            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
         }
-        let fill2Needed = count - picked.count
-        picked.append(contentsOf: variedSample(from: eligibleAny, count: min(fill2Needed, eligibleAny.count)))
+        let eligibleAny = dedupedFallback.filter { !pickedSynonyms2.contains($0.flagAssetCode) }
+        picked.append(contentsOf: variedSample(from: eligibleAny, count: min(count - picked.count, eligibleAny.count)))
         return Array(picked.prefix(count))
+    }
+
+    private static func deduplicateSameFlag(_ pool: [CapitalGameCountrySnapshot]) -> [CapitalGameCountrySnapshot] {
+        var seenGroupIndices = Set<Int>()
+        var result: [CapitalGameCountrySnapshot] = []
+        for snapshot in pool.shuffled() {
+            if let groupIdx = FlagSynonymGroups.groups.firstIndex(where: { $0.contains(snapshot.flagAssetCode) }) {
+                if seenGroupIndices.insert(groupIdx).inserted {
+                    result.append(snapshot)
+                }
+            } else {
+                result.append(snapshot)
+            }
+        }
+        return result
     }
 
     private static func variedSample(from pool: [CapitalGameCountrySnapshot], count: Int) -> [CapitalGameCountrySnapshot] {
@@ -239,7 +257,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
                 out.append(arr.removeLast())
                 buckets[k] = arr
             }
-            keys = keys.filter { (buckets[$0]?.isEmpty == false) }
+            keys = keys.filter { buckets[$0]?.isEmpty == false }
             idx += 1
         }
         if out.count < count {
@@ -250,5 +268,18 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         }
         return out
     }
-}
 
+    // MARK: - Distractor selection
+
+    private static func pickDistractorCapitals(answerCapital: String, poolCapitals: [String]) -> [String] {
+        let answer = answerCapital.trimmingCharacters(in: .whitespacesAndNewlines)
+        let candidates = poolCapitals.filter { $0.caseInsensitiveCompare(answer) != .orderedSame }
+        var picked: [String] = []
+        for c in candidates.shuffled() where picked.count < 3 {
+            if !picked.contains(where: { $0.caseInsensitiveCompare(c) == .orderedSame }) {
+                picked.append(c)
+            }
+        }
+        return Array(picked.prefix(3))
+    }
+}

@@ -16,6 +16,7 @@ protocol CapitalGameQuizPresenterProtocol: AnyObject {
 protocol CapitalGameQuizViewProtocol: AnyObject {
     func configureQuizChrome()
     func showQuestion(flagAssetCode: String, countryName: String, options: [String], progress: String)
+    func setProgress(fraction: Float)
     func setOptionsEnabled(_ enabled: Bool)
     func setFinalAnswerEnabled(_ enabled: Bool)
     func highlightSelectedOption(index: Int)
@@ -60,6 +61,7 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
             options: q.options,
             progress: interactor.currentProgressText()
         )
+        view?.setProgress(fraction: interactor.currentProgressFraction())
         view?.setFinalAnswerEnabled(false)
     }
 
@@ -82,7 +84,8 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
         let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
         view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
 
-        let revealPause: TimeInterval = 0.32
+        // Pausa suficiente para leer el resultado verde/rojo antes de avanzar.
+        let revealPause: TimeInterval = 1.0
         DispatchQueue.main.asyncAfter(deadline: .now() + revealPause) { [weak self] in
             guard let self else { return }
             self.view?.clearAnswerHighlight()
@@ -99,4 +102,3 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
         router?.pushSummary(from: viewController)
     }
 }
-
