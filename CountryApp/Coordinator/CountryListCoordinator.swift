@@ -11,8 +11,9 @@ protocol CountryListCoordinatorProtocol: AnyObject {
     func showCountryDetail(countryName: String, from viewController: UIViewController)
 }
 
-final class CountryListCoordinator: Coordinator {
+final class CountryListCoordinator: Coordinator, CoordinatorTrackable {
     var childCoordinators: [Coordinator] = []
+    private(set) weak var rootViewController: UIViewController?
 
     private let navigationController: UINavigationController
     private let modelContext: ModelContext
@@ -24,6 +25,7 @@ final class CountryListCoordinator: Coordinator {
 
     func start() {
         let vc = CountryListRouter.createModule(modelContext: modelContext, coordinator: self)
+        rootViewController = vc
         AppLog.trace("CountryListCoordinator start")
         navigationController.pushViewController(vc, animated: true)
     }

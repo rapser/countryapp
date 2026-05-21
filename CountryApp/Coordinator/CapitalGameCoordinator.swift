@@ -10,9 +10,10 @@ protocol CapitalGameCoordinatorDelegate: AnyObject {
     func capitalGameCoordinatorDidFinish(_ coordinator: CapitalGameCoordinator)
 }
 
-final class CapitalGameCoordinator: Coordinator {
+final class CapitalGameCoordinator: Coordinator, CoordinatorTrackable {
     var childCoordinators: [Coordinator] = []
     weak var delegate: CapitalGameCoordinatorDelegate?
+    private(set) weak var rootViewController: UIViewController?
 
     private let navigationController: UINavigationController
     private let modelContext: ModelContext
@@ -28,6 +29,7 @@ final class CapitalGameCoordinator: Coordinator {
             hostingNavigationController: navigationController,
             exitDelegate: self
         )
+        rootViewController = vc
         AppLog.trace("CapitalGameCoordinator start")
         navigationController.pushViewController(vc, animated: true)
     }

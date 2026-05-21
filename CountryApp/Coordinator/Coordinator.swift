@@ -22,3 +22,9 @@ extension Coordinator {
 protocol GameCoordinatorExitDelegate: AnyObject {
     func gameCoordinatorDidRequestExit()
 }
+
+/// Lets AppCoordinator track which VC a child coordinator owns, so it can
+/// detect back-button pops and release the coordinator from childCoordinators.
+protocol CoordinatorTrackable: AnyObject {
+    var rootViewController: UIViewController? { get }
+}

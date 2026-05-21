@@ -8,7 +8,7 @@ import UIKit
 
 /// Root coordinator. Owns the navigation controller and model context.
 /// Creates and manages all child coordinators; routes inter-module navigation.
-final class AppCoordinator: Coordinator {
+final class AppCoordinator: NSObject, Coordinator {
     var childCoordinators: [Coordinator] = []
 
     private let navigationController: UINavigationController
@@ -20,6 +20,7 @@ final class AppCoordinator: Coordinator {
     }
 
     func start() {
+        navigationController.delegate = self
         let homeCoordinator = HomeCoordinator(
             navigationController: navigationController,
             modelContext: modelContext
@@ -72,5 +73,31 @@ extension AppCoordinator: CapitalGameCoordinatorDelegate {
     func capitalGameCoordinatorDidFinish(_ coordinator: CapitalGameCoordinator) {
         childDidFinish(coordinator)
         AppLog.trace("AppCoordinator CapitalGame finished — childCoordinators=\(childCoordinators.count)")
+    }
+}
+
+// MARK: - UINavigationControllerDelegate (back-button cleanup)
+
+extension AppCoordinator: UINavigationControllerDelegate {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        didShow viewController: UIViewController,
+        animated: Bool
+    ) {
+        // Only act when a VC was popped (not pushed).
+        guard
+            let fromVC = navigationController.transitionCoordinator?.viewController(forKey: .from),
+            !navigationController.viewControllers.contains(fromVC)
+        else { return }
+
+        // Find child coordinators whose root was the popped VC and clean them up.
+        childCoordinators
+            .compactMap { $0 as? CoordinatorTrackable }
+            .filter { $0.rootViewController === fromVC }
+            .compactMap { $0 as? Coordinator }
+            .forEach {
+                AppLog.trace("AppCoordinator back-button pop detected — releasing \(type(of: $0))")
+                childDidFinish($0)
+            }
     }
 }
