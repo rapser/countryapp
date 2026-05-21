@@ -11,6 +11,8 @@ final class CapitalGameRouter: CapitalGameRouterProtocol {
     private static let log = Logger(subsystem: "CountryApp", category: "CapitalGameRouter")
     private(set) var interactor: CapitalGameInteractor
     private weak var hostingNavigationController: UINavigationController?
+    /// When set, exitToHome delegates here instead of calling popToRootViewController directly.
+    weak var exitDelegate: GameCoordinatorExitDelegate?
 
     init(interactor: CapitalGameInteractor, hostingNavigationController: UINavigationController? = nil) {
         self.interactor = interactor
@@ -18,9 +20,18 @@ final class CapitalGameRouter: CapitalGameRouterProtocol {
     }
 
     static func createModule(modelContext: ModelContext, hostingNavigationController: UINavigationController? = nil) -> UIViewController {
+        createModule(modelContext: modelContext, hostingNavigationController: hostingNavigationController, exitDelegate: nil)
+    }
+
+    static func createModule(
+        modelContext: ModelContext,
+        hostingNavigationController: UINavigationController?,
+        exitDelegate: GameCoordinatorExitDelegate?
+    ) -> UIViewController {
         let persistence = SwiftDataCountryPersistence(modelContext: modelContext)
         let interactor = CapitalGameInteractor(persistence: persistence)
         let router = CapitalGameRouter(interactor: interactor, hostingNavigationController: hostingNavigationController)
+        router.exitDelegate = exitDelegate
         let presenter = CapitalGameInstructionsPresenter(interactor: interactor, router: router)
         let vc = CapitalGameInstructionsViewController(presenter: presenter)
         presenter.view = vc
@@ -58,6 +69,10 @@ final class CapitalGameRouter: CapitalGameRouterProtocol {
     }
 
     func exitToHome(from viewController: UIViewController) {
+        if let exitDelegate {
+            exitDelegate.gameCoordinatorDidRequestExit()
+            return
+        }
         let nav = viewController.navigationController ?? hostingNavigationController
         nav?.popToRootViewController(animated: true)
     }

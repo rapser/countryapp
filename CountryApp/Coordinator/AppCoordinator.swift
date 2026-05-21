@@ -7,7 +7,7 @@ import SwiftData
 import UIKit
 
 /// Root coordinator. Owns the navigation controller and model context.
-/// Creates child coordinators and routes inter-module navigation.
+/// Creates and manages all child coordinators; routes inter-module navigation.
 final class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
 
@@ -27,6 +27,7 @@ final class AppCoordinator: Coordinator {
         homeCoordinator.delegate = self
         childCoordinators.append(homeCoordinator)
         homeCoordinator.start()
+        AppLog.trace("AppCoordinator start")
     }
 }
 
@@ -34,22 +35,42 @@ final class AppCoordinator: Coordinator {
 
 extension AppCoordinator: HomeCoordinatorDelegate {
     func homeCoordinatorWantsToShowFlagGame(_ coordinator: HomeCoordinator) {
-        let nav = navigationController
-        let vc = FlagGameRouter.createModule(modelContext: modelContext, hostingNavigationController: nav)
-        AppLog.trace("AppCoordinator showFlagGame")
-        nav.pushViewController(vc, animated: true)
+        let child = FlagGameCoordinator(navigationController: navigationController, modelContext: modelContext)
+        child.delegate = self
+        childCoordinators.append(child)
+        child.start()
     }
 
     func homeCoordinatorWantsToShowCapitalGame(_ coordinator: HomeCoordinator) {
-        let nav = navigationController
-        let vc = CapitalGameRouter.createModule(modelContext: modelContext, hostingNavigationController: nav)
-        AppLog.trace("AppCoordinator showCapitalGame")
-        nav.pushViewController(vc, animated: true)
+        let child = CapitalGameCoordinator(navigationController: navigationController, modelContext: modelContext)
+        child.delegate = self
+        childCoordinators.append(child)
+        child.start()
     }
 
     func homeCoordinatorWantsToShowCountryList(_ coordinator: HomeCoordinator) {
-        let vc = CountryListRouter.createModule(modelContext: modelContext)
-        AppLog.trace("AppCoordinator showCountryList")
-        navigationController.pushViewController(vc, animated: true)
+        // Replace any existing CountryListCoordinator so we don't accumulate them.
+        childCoordinators.removeAll { $0 is CountryListCoordinator }
+        let child = CountryListCoordinator(navigationController: navigationController, modelContext: modelContext)
+        childCoordinators.append(child)
+        child.start()
+    }
+}
+
+// MARK: - FlagGameCoordinatorDelegate
+
+extension AppCoordinator: FlagGameCoordinatorDelegate {
+    func flagGameCoordinatorDidFinish(_ coordinator: FlagGameCoordinator) {
+        childDidFinish(coordinator)
+        AppLog.trace("AppCoordinator FlagGame finished — childCoordinators=\(childCoordinators.count)")
+    }
+}
+
+// MARK: - CapitalGameCoordinatorDelegate
+
+extension AppCoordinator: CapitalGameCoordinatorDelegate {
+    func capitalGameCoordinatorDidFinish(_ coordinator: CapitalGameCoordinator) {
+        childDidFinish(coordinator)
+        AppLog.trace("AppCoordinator CapitalGame finished — childCoordinators=\(childCoordinators.count)")
     }
 }

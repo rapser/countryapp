@@ -9,8 +9,17 @@ import SwiftData
 import UIKit
 
 class CountryListRouter: CountryListRouterProtocol {
+    weak var coordinator: CountryListCoordinatorProtocol?
+
+    // MARK: - Module factory
+
     static func createModule(modelContext: ModelContext) -> UIViewController {
+        createModule(modelContext: modelContext, coordinator: nil)
+    }
+
+    static func createModule(modelContext: ModelContext, coordinator: CountryListCoordinatorProtocol?) -> UIViewController {
         let router = CountryListRouter()
+        router.coordinator = coordinator
         let service = CountryListServiceManager()
         let persistence = SwiftDataCountryPersistence(modelContext: modelContext)
         let interactor = CountryListInteractor(service: service, persistence: persistence)
@@ -26,8 +35,12 @@ class CountryListRouter: CountryListRouterProtocol {
     }
 
     func navigateToCountryDetail(from viewController: UIViewController, countryName: String) {
-        let countryDetailViewController = CountryDetailRouter.createModule(with: countryName)
-        viewController.navigationController?.pushViewController(countryDetailViewController, animated: true)
+        if let coordinator {
+            coordinator.showCountryDetail(countryName: countryName, from: viewController)
+        } else {
+            let detailVC = CountryDetailRouter.createModule(with: countryName)
+            viewController.navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
 }
 

@@ -19,6 +19,9 @@
 		CC12345606000000006DC001 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345605000000006DC001 /* Coordinator.swift */; };
 		CC12345608000000006DC001 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345607000000006DC001 /* HomeCoordinator.swift */; };
 		CC1234560A000000006DC001 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345609000000006DC001 /* AppCoordinator.swift */; };
+		CC1234560D000000006DC001 /* FlagGameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234560E000000006DC001 /* FlagGameCoordinator.swift */; };
+		CC1234560F000000006DC001 /* CapitalGameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345610000000006DC001 /* CapitalGameCoordinator.swift */; };
+		CC12345611000000006DC001 /* CountryListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345612000000006DC001 /* CountryListCoordinator.swift */; };
 		4659F3792D386AEF006D49F2 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */; };
 		4659F38C2D387C02006D49F2 /* CountryListInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F38B2D387C02006D49F2 /* CountryListInteractorProtocol.swift */; };
 		4659F38E2D387C3D006D49F2 /* CountryListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F38D2D387C3D006D49F2 /* CountryListInteractor.swift */; };
@@ -128,6 +131,9 @@
 		CC12345605000000006DC001 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		CC12345607000000006DC001 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		CC12345609000000006DC001 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		CC1234560E000000006DC001 /* FlagGameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameCoordinator.swift; sourceTree = "<group>"; };
+		CC12345610000000006DC001 /* CapitalGameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameCoordinator.swift; sourceTree = "<group>"; };
+		CC12345612000000006DC001 /* CountryListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListCoordinator.swift; sourceTree = "<group>"; };
 		4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		4659F38B2D387C02006D49F2 /* CountryListInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListInteractorProtocol.swift; sourceTree = "<group>"; };
 		4659F38D2D387C3D006D49F2 /* CountryListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListInteractor.swift; sourceTree = "<group>"; };
@@ -411,6 +417,9 @@
 				CC12345605000000006DC001 /* Coordinator.swift */,
 				CC12345607000000006DC001 /* HomeCoordinator.swift */,
 				CC12345609000000006DC001 /* AppCoordinator.swift */,
+				CC1234560E000000006DC001 /* FlagGameCoordinator.swift */,
+				CC12345610000000006DC001 /* CapitalGameCoordinator.swift */,
+				CC12345612000000006DC001 /* CountryListCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -890,6 +899,9 @@
 				CC12345606000000006DC001 /* Coordinator.swift in Sources */,
 				CC12345608000000006DC001 /* HomeCoordinator.swift in Sources */,
 				CC1234560A000000006DC001 /* AppCoordinator.swift in Sources */,
+				CC1234560D000000006DC001 /* FlagGameCoordinator.swift in Sources */,
+				CC1234560F000000006DC001 /* CapitalGameCoordinator.swift in Sources */,
+				CC12345611000000006DC001 /* CountryListCoordinator.swift in Sources */,
 				4659F3902D387C63006D49F2 /* CountryListPresenterProtocol.swift in Sources */,
 				4659F39C2D3880C2006D49F2 /* CountryDetailServiceManager.swift in Sources */,
 				4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */,
