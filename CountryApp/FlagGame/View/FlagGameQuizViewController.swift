@@ -37,6 +37,12 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
     private let optionsStack = UIStackView()
     private var optionButtons: [UIButton] = []
     private let finalAnswerButton = UIButton(type: .system)
+    /// Índice actualmente resaltado en verde (selección sin confirmar). Permite recolorear solo
+    /// los botones que cambian en vez de los 4, evitando reasignar `UIButton.Configuration`
+    /// (operación costosa en UIKit) de más en cada tap.
+    private var highlightedIndex: Int?
+    /// Índices coloreados por `revealAnswer`, para que `clearAnswerHighlight` solo revierta esos.
+    private var revealedIndices: Set<Int> = []
 
     init(presenter: FlagGameQuizPresenterProtocol, gameRouter: FlagGameRouterProtocol) {
         self.presenter = presenter
@@ -168,6 +174,8 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         progressLabel.text = "Pregunta \(progress)"
         flagImageView.image = UIImage(named: flagAssetCode)
 
+        highlightedIndex = nil
+        revealedIndices.removeAll()
         optionButtons.forEach { $0.removeFromSuperview() }
         optionButtons.removeAll()
         optionsStack.arrangedSubviews.forEach { optionsStack.removeArrangedSubview($0); $0.removeFromSuperview() }
@@ -272,15 +280,14 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
     }
 
     func highlightSelectedOption(index: Int) {
+        guard index >= 0, index < optionButtons.count, highlightedIndex != index else { return }
         let normalBlue = UIColor(red: 0.06, green: 0.20, blue: 0.52, alpha: 1)
         let selectGreen = UIColor(red: 0.2, green: 0.65, blue: 0.3, alpha: 1)
-        for (i, b) in optionButtons.enumerated() {
-            if i == index {
-                applyOptionColors(button: b, background: selectGreen, foreground: .white)
-            } else {
-                applyOptionColors(button: b, background: normalBlue, foreground: .white)
-            }
+        if let previous = highlightedIndex, previous < optionButtons.count {
+            applyOptionColors(button: optionButtons[previous], background: normalBlue, foreground: .white)
         }
+        applyOptionColors(button: optionButtons[index], background: selectGreen, foreground: .white)
+        highlightedIndex = index
     }
 
     func revealAnswer(selectedIndex: Int, correctIndex: Int, isCorrect: Bool) {
@@ -293,12 +300,15 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
                 applyOptionColors(button: b, background: red, foreground: .white)
             }
         }
+        revealedIndices = isCorrect ? [correctIndex] : [correctIndex, selectedIndex]
+        highlightedIndex = nil
     }
 
     func clearAnswerHighlight() {
         let normalBlue = UIColor(red: 0.06, green: 0.20, blue: 0.52, alpha: 1)
-        for b in optionButtons {
-            applyOptionColors(button: b, background: normalBlue, foreground: .white)
+        for i in revealedIndices where i < optionButtons.count {
+            applyOptionColors(button: optionButtons[i], background: normalBlue, foreground: .white)
         }
+        revealedIndices.removeAll()
     }
 }

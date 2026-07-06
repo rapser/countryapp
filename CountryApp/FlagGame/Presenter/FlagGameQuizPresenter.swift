@@ -93,7 +93,7 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
 
         // Pausa suficiente para leer el resultado verde/rojo antes de avanzar.
-        let revealPause: TimeInterval = 1.0
+        let revealPause: TimeInterval = 0.5
         DispatchQueue.main.asyncAfter(deadline: .now() + revealPause) { [weak self] in
             guard let self else { return }
             self.view?.clearAnswerHighlight()
