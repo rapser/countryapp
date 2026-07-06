@@ -41,10 +41,10 @@ final class FlagGameInstructionsViewController: UIViewController, FlagGameInstru
             Responde \(FlagGameRound.questionsPerRound) preguntas viendo la bandera en pantalla.
 
             • Cada pregunta tiene 4 nombres de países en orden aleatorio.
-            • Elige una opción y pulsa «Siguiente» para confirmar.
+            • Elige una opción y pulsa «Confirmar» para registrar tu respuesta.
             • Puedes terminar antes: el resumen usará lo respondido hasta ese momento.
 
-            El resumen agrupa banderas: qué repasar si fallaste o saltaste, cuáles acertaste con rapidez, y cuáles acertaste pero tardaste más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos en pulsar «Siguiente» (se consideran dudas).
+            El resumen agrupa banderas: qué repasar si fallaste o saltaste, cuáles acertaste con rapidez, y cuáles acertaste pero tardaste más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos en pulsar «Confirmar» (se consideran dudas).
             """,
             style: .body
         )

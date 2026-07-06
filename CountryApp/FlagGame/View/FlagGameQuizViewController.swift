@@ -8,6 +8,7 @@ import UIKit
 protocol FlagGameQuizViewProtocol: AnyObject {
     func configureQuizChrome()
     func showQuestion(flagAssetCode: String, options: [String], progress: String)
+    func setProgress(fraction: Float)
     func setOptionsEnabled(_ enabled: Bool)
     func setFinalAnswerEnabled(_ enabled: Bool)
     func highlightSelectedOption(index: Int)
@@ -22,6 +23,15 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
     private var gradientLayer: CAGradientLayer?
 
     private let progressLabel = UILabel()
+    private let progressBar: UIProgressView = {
+        let p = UIProgressView(progressViewStyle: .default)
+        p.translatesAutoresizingMaskIntoConstraints = false
+        p.progressTintColor = UIColor(red: 0.95, green: 0.80, blue: 0.22, alpha: 1)
+        p.trackTintColor = UIColor(white: 1, alpha: 0.18)
+        p.layer.cornerRadius = 3
+        p.clipsToBounds = true
+        return p
+    }()
     private let flagContainer = UIView()
     private let flagImageView = UIImageView()
     private let optionsStack = UIStackView()
@@ -50,8 +60,8 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         )
         navigationItem.rightBarButtonItem?.tintColor = UIColor(white: 1, alpha: 0.92)
 
-        progressLabel.textColor = .white
-        progressLabel.font = .monospacedDigitSystemFont(ofSize: 16, weight: .semibold)
+        progressLabel.textColor = UIColor(white: 1, alpha: 0.75)
+        progressLabel.font = .monospacedDigitSystemFont(ofSize: 14, weight: .medium)
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
 
         flagContainer.backgroundColor = UIColor(red: 0.03, green: 0.12, blue: 0.35, alpha: 1)
@@ -70,7 +80,7 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         optionsStack.translatesAutoresizingMaskIntoConstraints = false
 
         finalAnswerButton.configuration = Self.primaryButtonConfiguration(
-            title: "Siguiente",
+            title: "Confirmar",
             font: .systemFont(ofSize: 18, weight: .bold)
         )
         finalAnswerButton.isEnabled = false
@@ -78,6 +88,7 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         finalAnswerButton.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(progressLabel)
+        view.addSubview(progressBar)
         view.addSubview(flagContainer)
         view.addSubview(optionsStack)
         view.addSubview(finalAnswerButton)
@@ -86,7 +97,12 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
             progressLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
             progressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            flagContainer.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 16),
+            progressBar.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 8),
+            progressBar.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            progressBar.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            progressBar.heightAnchor.constraint(equalToConstant: 6),
+
+            flagContainer.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 14),
             flagContainer.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             flagContainer.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             flagContainer.heightAnchor.constraint(equalToConstant: 220),
@@ -109,7 +125,6 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Pantalla oscura: nav en blanco para legibilidad.
         guard let navBar = navigationController?.navigationBar else { return }
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -162,6 +177,12 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
             optionButtons.append(b)
             optionsStack.addArrangedSubview(b)
         }
+
+        updateConfirmButtonTitle(answered: false)
+    }
+
+    func setProgress(fraction: Float) {
+        progressBar.setProgress(fraction, animated: true)
     }
 
     private func makeOptionButton(title: String, tag: Int) -> UIButton {
@@ -189,26 +210,10 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         return config
     }
 
-    private static func secondaryButtonConfiguration(title: String, font: UIFont) -> UIButton.Configuration {
-        var config = UIButton.Configuration.filled()
-        config.title = title
-        config.baseForegroundColor = .white
-        config.baseBackgroundColor = UIColor(red: 0.03, green: 0.12, blue: 0.35, alpha: 1)
-        config.background.cornerRadius = 12
-        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = font
-            return outgoing
-        }
-        return config
-    }
-
     private static func primaryButtonConfiguration(title: String, font: UIFont) -> UIButton.Configuration {
         var config = UIButton.Configuration.filled()
         config.title = title
         config.baseForegroundColor = .black
-        // Mostaza / amarillo tipo concurso
         config.baseBackgroundColor = UIColor(red: 0.95, green: 0.80, blue: 0.22, alpha: 1)
         config.background.cornerRadius = 12
         config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 14, bottom: 14, trailing: 14)
@@ -227,11 +232,18 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         button.configuration = config
     }
 
+    private func updateConfirmButtonTitle(answered: Bool) {
+        guard var config = finalAnswerButton.configuration else { return }
+        config.title = answered ? "Siguiente →" : "Confirmar"
+        finalAnswerButton.configuration = config
+    }
+
     @objc private func optionTapped(_ sender: UIButton) {
         presenter.didSelectOption(index: sender.tag, from: self)
     }
 
     @objc private func finalAnswerTapped() {
+        updateConfirmButtonTitle(answered: true)
         presenter.didTapFinalAnswer(from: self)
     }
 

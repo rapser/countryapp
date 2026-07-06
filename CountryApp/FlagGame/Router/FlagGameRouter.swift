@@ -12,6 +12,8 @@ final class FlagGameRouter: FlagGameRouterProtocol {
     private(set) var interactor: FlagGameInteractor
     /// Nav stack used for instrucciones → quiz → resumen. Se fija al crear el módulo desde Home y al entrar al quiz por si `navigationController` del VC activo viene nil.
     private weak var hostingNavigationController: UINavigationController?
+    /// When set, exitToHome delegates here instead of calling popToRootViewController directly.
+    weak var exitDelegate: GameCoordinatorExitDelegate?
 
     /// Último resorte cuando `navigationController` del VC activo viene nil (p. ej. transición / jerarquía rara).
     private static func navigationControllerFromKeyWindow() -> UINavigationController? {
@@ -39,10 +41,19 @@ final class FlagGameRouter: FlagGameRouterProtocol {
     }
 
     static func createModule(modelContext: ModelContext, hostingNavigationController: UINavigationController? = nil) -> UIViewController {
+        createModule(modelContext: modelContext, hostingNavigationController: hostingNavigationController, exitDelegate: nil)
+    }
+
+    static func createModule(
+        modelContext: ModelContext,
+        hostingNavigationController: UINavigationController?,
+        exitDelegate: GameCoordinatorExitDelegate?
+    ) -> UIViewController {
         let persistence = SwiftDataCountryPersistence(modelContext: modelContext)
         let interactor = FlagGameInteractor(persistence: persistence)
         let router = FlagGameRouter(interactor: interactor, hostingNavigationController: hostingNavigationController)
-        AppLog.trace("FlagGameRouter createModule hostingNav=\(hostingNavigationController != nil)")
+        router.exitDelegate = exitDelegate
+        AppLog.trace("FlagGameRouter createModule hostingNav=\(hostingNavigationController != nil) coordinator=\(exitDelegate != nil)")
         let presenter = FlagGameInstructionsPresenter(interactor: interactor, router: router)
         let vc = FlagGameInstructionsViewController(presenter: presenter)
         presenter.view = vc
@@ -101,6 +112,11 @@ final class FlagGameRouter: FlagGameRouterProtocol {
     }
 
     func exitToHome(from viewController: UIViewController) {
+        if let exitDelegate {
+            AppLog.trace("FlagGameRouter exitToHome → coordinator")
+            exitDelegate.gameCoordinatorDidRequestExit()
+            return
+        }
         if let presentedNav = viewController.navigationController,
            presentedNav.presentingViewController != nil {
             AppLog.trace("FlagGameRouter exitToHome dismiss modal")

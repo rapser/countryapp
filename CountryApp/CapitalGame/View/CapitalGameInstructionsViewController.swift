@@ -38,7 +38,7 @@ final class CapitalGameInstructionsViewController: UIViewController, CapitalGame
             Responde \(FlagGameRound.questionsPerRound) preguntas viendo la bandera y el país.
 
             • Cada pregunta tiene 4 opciones de capitales.
-            • Elige una opción y pulsa «Siguiente» para confirmar.
+            • Elige una opción y pulsa «Confirmar» para registrar tu respuesta.
             • El resumen te dirá qué banderas repasar y qué acertaste con dudas (más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) s).
             """,
             style: .body

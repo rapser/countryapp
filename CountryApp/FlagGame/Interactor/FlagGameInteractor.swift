@@ -17,6 +17,7 @@ protocol FlagGameInteractorProtocol: AnyObject {
     func recordQuizStarted()
     func currentQuestion() -> QuizQuestion?
     func currentProgressText() -> String
+    func currentProgressFraction() -> Float
     /// Returns whether the selected option was correct. Advances to next question.
     /// `responseTime` es el tiempo desde que se mostró la pregunta hasta confirmar (para «dudas»).
     func submitAnswer(optionIndex: Int, responseTime: TimeInterval) -> Bool
@@ -77,18 +78,18 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         let state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: lastAvailableFlagCodes)
         let remainingSnapshots = snapshots.filter { state.remainingFlagCodes.contains($0.flagAssetCode) }
 
-        let lastRound = state.lastRoundFlagCodes
+        // Excluye las dos últimas partidas en el fallback para maximizar variedad entre rondas.
+        let recentExcluded = state.lastRoundFlagCodes.union(state.penultimateRoundFlagCodes)
         let chosenSnapshots = Self.pickVariedRound(
             primaryPool: remainingSnapshots,
             fallbackPool: snapshots,
-            lastRoundExcluded: lastRound,
+            lastRoundExcluded: recentExcluded,
             count: FlagGameRound.questionsPerRound
         )
 
-        let allNames = snapshots.map(\.displayName)
         questions = try chosenSnapshots.map { row in
             let answerName = row.displayName
-            let distractors = Self.pickDistractors(answerName: answerName, poolNames: allNames)
+            let distractors = Self.pickDistractors(answer: row, allSnapshots: snapshots)
             guard distractors.count == 3 else { throw FlagGameError.loadFailed }
             var options = [answerName] + distractors
             options.shuffle()
@@ -125,6 +126,11 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
 
     func currentProgressText() -> String {
         "\(min(currentIndex + 1, max(questions.count, 1))) / \(questions.count)"
+    }
+
+    func currentProgressFraction() -> Float {
+        guard !questions.isEmpty else { return 0 }
+        return Float(currentIndex) / Float(questions.count)
     }
 
     var hasMoreQuestions: Bool {
@@ -190,24 +196,36 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         index >= 0 && index < q.options.count
     }
 
-    /// Selección “variada”:
-    /// - Si hay suficientes en el pool primario (`remaining`), elige desde ahí.\n+    /// - Si faltan, completa desde fallback evitando repetir la **última** partida (`lastRoundExcluded`) si es posible.
+    // MARK: - Pool selection
+
+    /// Elige `count` países garantizando:
+    ///   1. Ningún país comparte bandera visual con otro ya elegido (deduplica grupos de sinónimos).
+    ///   2. Si el pool primario no alcanza, completa desde el fallback evitando las últimas rondas.
     private static func pickVariedRound(
         primaryPool: [FlagGameCountrySnapshot],
         fallbackPool: [FlagGameCountrySnapshot],
         lastRoundExcluded: Set<String>,
         count: Int
     ) -> [FlagGameCountrySnapshot] {
-        let primaryPicked = variedSample(from: primaryPool, count: min(count, primaryPool.count))
+        // Deduplica banderas idénticas: por cada grupo de sinónimos sólo pasa UN representante aleatorio.
+        let dedupedPrimary  = deduplicateSameFlag(primaryPool)
+        let dedupedFallback = deduplicateSameFlag(fallbackPool)
+
+        let primaryPicked = variedSample(from: dedupedPrimary, count: min(count, dedupedPrimary.count))
         if primaryPicked.count >= count {
             return Array(primaryPicked.prefix(count))
         }
 
         var picked = primaryPicked
         let pickedCodes = Set(picked.map(\.flagAssetCode))
+        // Al filtrar el fallback también excluimos sinónimos de los ya elegidos.
+        let pickedSynonyms = pickedCodes.reduce(into: Set<String>()) { acc, code in
+            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
+        }
 
-        // Completa sin usar la última partida.
-        let eligibleFill = fallbackPool.filter { !pickedCodes.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode) }
+        let eligibleFill = dedupedFallback.filter {
+            !pickedSynonyms.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode)
+        }
         let fillNeeded = count - picked.count
         let fill = variedSample(from: eligibleFill, count: min(fillNeeded, eligibleFill.count))
         picked.append(contentsOf: fill)
@@ -216,17 +234,35 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
             return Array(picked.prefix(count))
         }
 
-        // Último fallback: si no hay suficientes (dataset muy pequeño), completa con cualquiera no elegido.
-        let eligibleAny = fallbackPool.filter { cand in
-            !pickedCodes.contains(cand.flagAssetCode)
-                && !picked.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
+        // Último fallback: si el dataset es pequeño, admite cualquiera no elegido.
+        let pickedSynonyms2 = Set(picked.map(\.flagAssetCode)).reduce(into: Set<String>()) { acc, code in
+            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
         }
+        let eligibleAny = dedupedFallback.filter { !pickedSynonyms2.contains($0.flagAssetCode) }
         let fill2Needed = count - picked.count
         picked.append(contentsOf: variedSample(from: eligibleAny, count: min(fill2Needed, eligibleAny.count)))
         return Array(picked.prefix(count))
     }
 
-    /// Muestreo round-robin por buckets simples basados en la primera letra del nombre.
+    /// Filtra el pool para que haya como máximo un representante por grupo de banderas idénticas.
+    /// El representante se elige al azar (shuffle previo), por lo que varía en cada partida.
+    private static func deduplicateSameFlag(_ pool: [FlagGameCountrySnapshot]) -> [FlagGameCountrySnapshot] {
+        var seenGroupIndices = Set<Int>()
+        var result: [FlagGameCountrySnapshot] = []
+        for snapshot in pool.shuffled() {
+            if let groupIdx = FlagSynonymGroups.groups.firstIndex(where: { $0.contains(snapshot.flagAssetCode) }) {
+                if seenGroupIndices.insert(groupIdx).inserted {
+                    result.append(snapshot)
+                }
+                // else: ya hay un representante de este grupo, descarta.
+            } else {
+                result.append(snapshot)
+            }
+        }
+        return result
+    }
+
+    /// Muestreo round-robin por buckets de primera letra para maximizar diversidad alfabética.
     private static func variedSample(from pool: [FlagGameCountrySnapshot], count: Int) -> [FlagGameCountrySnapshot] {
         guard count > 0, !pool.isEmpty else { return [] }
         var buckets: [String: [FlagGameCountrySnapshot]] = [:]
@@ -246,12 +282,10 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
                 out.append(arr.removeLast())
                 buckets[k] = arr
             }
-            // Limpia buckets vacíos y avanza.
-            keys = keys.filter { (buckets[$0]?.isEmpty == false) }
+            keys = keys.filter { buckets[$0]?.isEmpty == false }
             idx += 1
         }
         if out.count < count {
-            // Completa con shuffle normal si faltó.
             let leftover = pool.shuffled().filter { cand in
                 !out.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
             }
@@ -260,13 +294,25 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         return out
     }
 
-    /// Picks 3 names similar to `answerName` from `poolNames` (excluding the answer).
-    private static func pickDistractors(answerName: String, poolNames: [String]) -> [String] {
-        let answer = answerName.trimmingCharacters(in: .whitespacesAndNewlines)
-        let candidates = poolNames.filter { $0.caseInsensitiveCompare(answer) != .orderedSame }
+    // MARK: - Distractor selection
 
-        let scored = candidates.map { name -> (String, Int) in
-            (name, similarityScore(answer: answer, candidate: name))
+    /// Elige 3 nombres de países similares al de la respuesta, excluyendo los países cuya bandera
+    /// sea visualmente idéntica a la de la respuesta (evita opciones indistinguibles).
+    private static func pickDistractors(
+        answer: FlagGameCountrySnapshot,
+        allSnapshots: [FlagGameCountrySnapshot]
+    ) -> [String] {
+        let answerName = answer.displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let synonymCodes = FlagSynonymGroups.synonyms(for: answer.flagAssetCode)
+
+        let candidates = allSnapshots.filter {
+            $0.displayName.caseInsensitiveCompare(answerName) != .orderedSame &&
+            !synonymCodes.contains($0.flagAssetCode)
+        }
+
+        let candidateNames = candidates.map(\.displayName)
+        let scored = candidateNames.map { name -> (String, Int) in
+            (name, similarityScore(answer: answerName, candidate: name))
         }
         let sorted = scored.sorted { $0.1 > $1.1 }
         let topSlice = Array(sorted.prefix(min(15, sorted.count)))
@@ -278,9 +324,9 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
             }
         }
         if picked.count < 3 {
-            let filler = candidates.shuffled().filter { c in
+            let filler = candidateNames.shuffled().filter { c in
                 !picked.contains(where: { $0.caseInsensitiveCompare(c) == .orderedSame })
-                    && c.caseInsensitiveCompare(answer) != .orderedSame
+                    && c.caseInsensitiveCompare(answerName) != .orderedSame
             }
             for name in filler where picked.count < 3 {
                 picked.append(name)

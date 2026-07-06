@@ -10,7 +10,7 @@ protocol FlagGameQuizPresenterProtocol: AnyObject {
     func viewDidAppear(from viewController: UIViewController)
     /// Solo selecciona una opción (no avanza).
     func didSelectOption(index: Int, from viewController: UIViewController)
-    /// Confirma la selección (Respuesta final) y avanza.
+    /// Confirma la selección y avanza automáticamente tras mostrar el resultado.
     func didTapFinalAnswer(from viewController: UIViewController)
     func didTapFinish(from viewController: UIViewController)
 }
@@ -58,6 +58,7 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         questionShownAt = Date()
         view?.configureQuizChrome()
         view?.showQuestion(flagAssetCode: q.flagAssetCode, options: q.options, progress: interactor.currentProgressText())
+        view?.setProgress(fraction: interactor.currentProgressFraction())
         view?.setFinalAnswerEnabled(false)
     }
 
@@ -91,8 +92,8 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         Self.trace("Respuesta final=\(selectedIndex) correct=\(isCorrect) hasMore=\(interactor.hasMoreQuestions)")
         view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
 
-        // Breve pausa para leer verde/rojo sin notar el juego “atascado” (antes 0,75 s).
-        let revealPause: TimeInterval = 0.32
+        // Pausa suficiente para leer el resultado verde/rojo antes de avanzar.
+        let revealPause: TimeInterval = 1.0
         DispatchQueue.main.asyncAfter(deadline: .now() + revealPause) { [weak self] in
             guard let self else { return }
             self.view?.clearAnswerHighlight()

@@ -11,6 +11,15 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
     private var gradientLayer: CAGradientLayer?
 
     private let progressLabel = UILabel()
+    private let progressBar: UIProgressView = {
+        let p = UIProgressView(progressViewStyle: .default)
+        p.translatesAutoresizingMaskIntoConstraints = false
+        p.progressTintColor = UIColor(red: 0.95, green: 0.80, blue: 0.22, alpha: 1)
+        p.trackTintColor = UIColor(white: 1, alpha: 0.18)
+        p.layer.cornerRadius = 3
+        p.clipsToBounds = true
+        return p
+    }()
     private let flagContainer = UIView()
     private let flagImageView = UIImageView()
     private let countryLabel = UILabel()
@@ -40,8 +49,8 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         )
         navigationItem.rightBarButtonItem?.tintColor = UIColor(white: 1, alpha: 0.92)
 
-        progressLabel.textColor = .white
-        progressLabel.font = .monospacedDigitSystemFont(ofSize: 16, weight: .semibold)
+        progressLabel.textColor = UIColor(white: 1, alpha: 0.75)
+        progressLabel.font = .monospacedDigitSystemFont(ofSize: 14, weight: .medium)
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
 
         flagContainer.backgroundColor = UIColor(red: 0.03, green: 0.12, blue: 0.35, alpha: 1)
@@ -66,7 +75,7 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         optionsStack.translatesAutoresizingMaskIntoConstraints = false
 
         finalAnswerButton.configuration = Self.primaryButtonConfiguration(
-            title: "Siguiente",
+            title: "Confirmar",
             font: .systemFont(ofSize: 18, weight: .bold)
         )
         finalAnswerButton.translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +83,7 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         finalAnswerButton.addTarget(self, action: #selector(finalAnswerTapped), for: .touchUpInside)
 
         view.addSubview(progressLabel)
+        view.addSubview(progressBar)
         view.addSubview(flagContainer)
         view.addSubview(countryLabel)
         view.addSubview(optionsStack)
@@ -83,7 +93,12 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
             progressLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
             progressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            flagContainer.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 16),
+            progressBar.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 8),
+            progressBar.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            progressBar.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            progressBar.heightAnchor.constraint(equalToConstant: 6),
+
+            flagContainer.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 14),
             flagContainer.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             flagContainer.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             flagContainer.heightAnchor.constraint(equalToConstant: 200),
@@ -110,7 +125,6 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Pantalla oscura: nav en blanco para legibilidad.
         guard let navBar = navigationController?.navigationBar else { return }
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -164,6 +178,12 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
             optionButtons.append(b)
             optionsStack.addArrangedSubview(b)
         }
+
+        updateConfirmButtonTitle(answered: false)
+    }
+
+    func setProgress(fraction: Float) {
+        progressBar.setProgress(fraction, animated: true)
     }
 
     func setOptionsEnabled(_ enabled: Bool) {
@@ -219,6 +239,7 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
     }
 
     @objc private func finalAnswerTapped() {
+        updateConfirmButtonTitle(answered: true)
         presenter.didTapFinalAnswer(from: self)
     }
 
@@ -241,6 +262,12 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         config.baseBackgroundColor = background
         config.baseForegroundColor = foreground
         button.configuration = config
+    }
+
+    private func updateConfirmButtonTitle(answered: Bool) {
+        guard var config = finalAnswerButton.configuration else { return }
+        config.title = answered ? "Siguiente →" : "Confirmar"
+        finalAnswerButton.configuration = config
     }
 
     private static func optionButtonConfiguration(title: String) -> UIButton.Configuration {
@@ -275,4 +302,3 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         return config
     }
 }
-

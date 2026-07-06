@@ -19,39 +19,59 @@ CountryApp es una aplicación iOS que permite explorar información sobre paíse
 
 ## Descripción
 
-Pantalla inicial (**Home**) con dos accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y **juego de banderas** (20 preguntas, 4 opciones aleatorias, estilo concurso, resumen con puntuación y tiempo).
+Pantalla inicial (**Home**) con tres accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y dos juegos de preguntas — **Adivina la bandera** y **Adivina la capital** — con resumen de resultados compartible como tarjeta visual.
 
-El listado se guarda en **SwiftData** (`PersistedCountry`) tras la primera descarga desde la API; el juego lee siempre desde esa base local.
+El listado se guarda en **SwiftData** (`PersistedCountry`) tras la primera descarga desde la API; los juegos leen siempre desde esa base local.
 
-## Arquitectura (VIPER)
+## Arquitectura (VIPER + Coordinator)
 
-El proyecto sigue **VIPER** (View, Interactor, Presenter, Entity, Router) con responsabilidades separadas:
+El proyecto combina **VIPER** con una capa **Coordinator** para separar la navegación inter-módulo de la intra-módulo:
 
-- **View**: UI y eventos de usuario; no navega sola al detalle.
+### VIPER
+
+- **View**: UI y eventos de usuario; no navega por cuenta propia.
 - **Presenter**: orquesta casos de uso y actualiza la vista.
-- **Interactor**: lógica de negocio y acceso a datos (por ejemplo, filtrar el detalle por nombre a partir del JSON completo).
-- **Router**: composición del módulo (`createModule`) y navegación (`push` / transiciones).
+- **Interactor**: lógica de negocio y acceso a datos.
+- **Router**: composición del módulo (`createModule`) y navegación **intra-módulo** (instrucciones → cuestionario → resumen).
 - **Entity**: modelos `Codable` y errores de dominio.
 
-Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map** y **FlagGame** (instrucciones, cuestionario, resumen).
+### Coordinator
+
+La capa de coordinators gestiona la navegación **inter-módulo** y el ciclo de vida de cada flujo:
+
+```
+AppCoordinator
+├── HomeCoordinator          → crea Home; delega apertura de módulos a AppCoordinator
+├── FlagGameCoordinator      → gestiona el flujo del juego de banderas
+├── CapitalGameCoordinator   → gestiona el flujo del juego de capitales
+└── CountryListCoordinator   → gestiona lista de países → detalle
+```
+
+- `AppCoordinator` implementa `UINavigationControllerDelegate` para detectar pops con el botón de sistema (< Atrás) y liberar coordinators automáticamente, evitando fugas de memoria.
+- Los **Routers** conservan toda la navegación interna; cuando hay coordinator, delegan en él en lugar de hacer el `push` directamente.
+
+Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map**, **FlagGame** y **CapitalGame**.
 
 ### Juego “Adivina la bandera”
 
 - 20 países distintos por partida, orden y opciones **aleatorios** en cada sesión.
 - Distractores elegidos por **similitud de nombre** (heurística) para dificultar la respuesta.
+- **Deduplicación de bandera idéntica:** países con la misma bandera visual (Francia y sus territorios, Noruega y dependencias, etc.) nunca aparecen juntos como pregunta + distractor en la misma ronda (`FlagSynonymGroups`).
 - Puntuación: **+10** acierto, **−5** error, **0** si saltas la pregunta.
+- **Barra de progreso** en la pantalla de cuestionario (pregunta X de 20).
 - Puedes **terminar antes**; el resumen usa aciertos, fallos, saltos y el tiempo transcurrido hasta ese momento.
-- **Dudas en el resumen:** si tardas **más de 15 segundos** en confirmar con «Siguiente», el acierto va a la sección *Dudas*.
+- **Botón compartir**: genera una tarjeta visual (@3×) con tu resultado para compartir en redes sociales.
+- **Dudas en el resumen:** si tardas **más de 15 segundos** en confirmar, el acierto va a la sección *Dudas*.
 - **Sin repetición global (pool):**
   - Mientras queden países por salir en el ciclo, cada nueva partida elige 20 de los **no usados aún**.
   - Cuando ya se usaron **todos**, se reinicia el ciclo con **todos menos los 20 de la última partida**.
-  - Si en la última partida del ciclo quedan menos de 20 por elegir, se completa con países “de cualquier parte” **excepto** los de la **última** partida (sí pueden ser de la penúltima).
+  - La ventana de exclusión cubre las **dos últimas partidas** para minimizar la percepción de repetición.
 
 ### Juego “Adivina la capital”
 
 - 20 preguntas por partida.
 - En cada pregunta ves **bandera + país** y eliges la **capital** correcta entre 4 opciones.
-- Reusa la misma lógica de **dudas** y **pool sin repetición**.
+- Misma lógica de **barra de progreso**, **dudas**, **botón compartir** y **pool sin repetición** que el juego de banderas.
 
 ### SwiftData y JSON de listado
 
@@ -85,8 +105,8 @@ Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets
 ## Tecnologías
 
 - **Lenguaje:** Swift
-- **Arquitectura:** VIPER
-- **UI:** UIKit (programático)
+- **Arquitectura:** VIPER + Coordinator
+- **UI:** UIKit (programático, sin Storyboards)
 - **Red:** `URLSession` + `async`/`await`
 - **Persistencia:** SwiftData (`ModelContainer` / `ModelContext`)
 
