@@ -181,17 +181,32 @@ final class FlagGameInteractorTests: XCTestCase {
         XCTAssertEqual(rows.first { $0.flagAssetCode == "aa" }?.flagGameDisplayName, "Alpha")
     }
 
-    func testRecentRoundsHistory_keepsOnlyLastThreeRoundsForExclusion() {
-        // La lógica de exclusión por "últimas 3" fue reemplazada por un pool global (remaining + lastRound).
-        // Validamos que al registrar una ronda se actualice lastRound y se reste de remaining.
+    func testPoolState_recentRoundsTracksLastFourRoundsForExclusion() {
+        // El historial de rondas recientes tiene tope FlagGameRound.recentRoundsTracked (4):
+        // al registrar una 5ta ronda, la más antigua debe descartarse.
         FlagGamePoolState.resetForTesting()
-        let available: Set<String> = Set(["a", "b", "c", "d", "e"])
+        let available: Set<String> = Set(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"])
         _ = FlagGamePoolState.loadOrInitialize(availableFlagCodes: available)
         FlagGamePoolState.registerCompletedRound(Set(["a", "b"]), availableFlagCodes: available)
-        let state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: available)
-        XCTAssertEqual(state.lastRoundFlagCodes, Set(["a", "b"]))
+        var state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: available)
+        XCTAssertEqual(state.recentRoundsFlagCodes, [Set(["a", "b"])])
         XCTAssertFalse(state.remainingFlagCodes.contains("a"))
         XCTAssertFalse(state.remainingFlagCodes.contains("b"))
+
+        FlagGamePoolState.registerCompletedRound(Set(["c"]), availableFlagCodes: available)
+        FlagGamePoolState.registerCompletedRound(Set(["d"]), availableFlagCodes: available)
+        FlagGamePoolState.registerCompletedRound(Set(["e"]), availableFlagCodes: available)
+        state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: available)
+        XCTAssertEqual(state.recentRoundsFlagCodes.count, 4)
+        XCTAssertEqual(state.recentRoundsUnion, Set(["a", "b", "c", "d", "e"]))
+
+        // Una 5ta ronda debe descartar la más antigua ("a","b") del historial.
+        FlagGamePoolState.registerCompletedRound(Set(["f"]), availableFlagCodes: available)
+        state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: available)
+        XCTAssertEqual(state.recentRoundsFlagCodes.count, 4)
+        XCTAssertFalse(state.recentRoundsUnion.contains("a"))
+        XCTAssertFalse(state.recentRoundsUnion.contains("b"))
+        XCTAssertEqual(state.recentRoundsUnion, Set(["c", "d", "e", "f"]))
     }
 
     func testStartNewRound_excludesFlagsFromImmediatelyPreviousRound() async throws {
@@ -228,5 +243,43 @@ final class FlagGameInteractorTests: XCTestCase {
             _ = interactor.submitAnswer(optionIndex: q.correctIndex, responseTime: 0)
         }
         XCTAssertTrue(round1.isDisjoint(with: round2), "La partida siguiente no debe repetir la última partida mientras existan alternativas")
+    }
+
+    func testStartNewRound_excludesFlagsFromLastFourRounds() async throws {
+        // Dataset amplio: 120 países independientes (códigos que no están en TerritoryCountryCodes)
+        // para poder jugar 5 rondas de 20 sin agotar el mazo antes de tiempo.
+        let countries = (0..<120).map { i -> Country in
+            Country(
+                name: Name(common: "C\(i)", official: "O\(i)"),
+                capital: nil,
+                cca2: nil,
+                assetFlag: "z\(i)"
+            )
+        }
+        let persistence = SwiftDataCountryPersistence(modelContext: modelContext)
+        try persistence.replaceAll(from: countries)
+        let interactor = FlagGameInteractor(persistence: persistence)
+
+        var rounds: [Set<String>] = []
+        for _ in 0..<5 {
+            try await interactor.startNewRound()
+            var round = Set<String>()
+            for _ in 0..<FlagGameRound.questionsPerRound {
+                guard let q = interactor.currentQuestion() else {
+                    XCTFail("expected question")
+                    return
+                }
+                round.insert(q.flagAssetCode)
+                _ = interactor.submitAnswer(optionIndex: q.correctIndex, responseTime: 0)
+            }
+            _ = interactor.buildSummary()
+            rounds.append(round)
+        }
+
+        let firstFourUnion = rounds[0].union(rounds[1]).union(rounds[2]).union(rounds[3])
+        XCTAssertTrue(
+            rounds[4].isDisjoint(with: firstFourUnion),
+            "Un país no debe repetirse hasta después de jugar 4 partidas"
+        )
     }
 }

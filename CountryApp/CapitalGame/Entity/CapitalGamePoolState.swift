@@ -10,22 +10,24 @@ enum CapitalGamePoolState {
     private static let defaults = UserDefaults.standard
 
     private static let remainingKey       = "CountryApp.CapitalGame.pool.remainingFlagCodes"
-    private static let lastRoundKey       = "CountryApp.CapitalGame.pool.lastRoundFlagCodes"
-    private static let penultimateKey     = "CountryApp.CapitalGame.pool.penultimateRoundFlagCodes"
+    private static let recentRoundsKey    = "CountryApp.CapitalGame.pool.recentRoundsFlagCodes"
     private static let fingerprintKey     = "CountryApp.CapitalGame.pool.datasetFingerprint"
 
     static func resetForTesting() {
         defaults.removeObject(forKey: remainingKey)
-        defaults.removeObject(forKey: lastRoundKey)
-        defaults.removeObject(forKey: penultimateKey)
+        defaults.removeObject(forKey: recentRoundsKey)
         defaults.removeObject(forKey: fingerprintKey)
     }
 
     struct State: Equatable {
         var datasetFingerprint: String
         var remainingFlagCodes: Set<String>
-        var lastRoundFlagCodes: Set<String>
-        var penultimateRoundFlagCodes: Set<String>
+        /// Últimas rondas completadas, más antigua primero. Tope: `FlagGameRound.recentRoundsTracked`.
+        var recentRoundsFlagCodes: [Set<String>]
+
+        var recentRoundsUnion: Set<String> {
+            recentRoundsFlagCodes.reduce(into: Set<String>()) { $0.formUnion($1) }
+        }
     }
 
     static func loadOrInitialize(availableFlagCodes: Set<String>) -> State {
@@ -33,27 +35,24 @@ enum CapitalGamePoolState {
         var state = load() ?? State(
             datasetFingerprint: fingerprint,
             remainingFlagCodes: availableFlagCodes,
-            lastRoundFlagCodes: [],
-            penultimateRoundFlagCodes: []
+            recentRoundsFlagCodes: []
         )
 
         if state.datasetFingerprint != fingerprint {
             state = State(
                 datasetFingerprint: fingerprint,
                 remainingFlagCodes: availableFlagCodes,
-                lastRoundFlagCodes: [],
-                penultimateRoundFlagCodes: []
+                recentRoundsFlagCodes: []
             )
             save(state)
             return state
         }
 
-        state.remainingFlagCodes        = state.remainingFlagCodes.intersection(availableFlagCodes)
-        state.lastRoundFlagCodes        = state.lastRoundFlagCodes.intersection(availableFlagCodes)
-        state.penultimateRoundFlagCodes  = state.penultimateRoundFlagCodes.intersection(availableFlagCodes)
+        state.remainingFlagCodes = state.remainingFlagCodes.intersection(availableFlagCodes)
+        state.recentRoundsFlagCodes = state.recentRoundsFlagCodes.map { $0.intersection(availableFlagCodes) }
 
         if state.remainingFlagCodes.isEmpty {
-            let next = availableFlagCodes.subtracting(state.lastRoundFlagCodes)
+            let next = availableFlagCodes.subtracting(state.recentRoundsUnion)
             state.remainingFlagCodes = next.isEmpty ? availableFlagCodes : next
         }
 
@@ -65,8 +64,10 @@ enum CapitalGamePoolState {
         guard !roundFlagCodes.isEmpty else { return }
         var state = loadOrInitialize(availableFlagCodes: availableFlagCodes)
         state.remainingFlagCodes.subtract(roundFlagCodes)
-        state.penultimateRoundFlagCodes = state.lastRoundFlagCodes
-        state.lastRoundFlagCodes = roundFlagCodes
+        state.recentRoundsFlagCodes.append(roundFlagCodes)
+        while state.recentRoundsFlagCodes.count > FlagGameRound.recentRoundsTracked {
+            state.recentRoundsFlagCodes.removeFirst()
+        }
         save(state)
     }
 
@@ -74,30 +75,24 @@ enum CapitalGamePoolState {
         guard
             let fp            = defaults.string(forKey: fingerprintKey),
             let remainingData = defaults.data(forKey: remainingKey),
-            let lastData      = defaults.data(forKey: lastRoundKey),
+            let recentData    = defaults.data(forKey: recentRoundsKey),
             let remaining     = try? JSONDecoder().decode([String].self, from: remainingData),
-            let last          = try? JSONDecoder().decode([String].self, from: lastData)
+            let recentRounds  = try? JSONDecoder().decode([[String]].self, from: recentData)
         else { return nil }
-
-        var penultimate: Set<String> = []
-        if let penData = defaults.data(forKey: penultimateKey),
-           let pen = try? JSONDecoder().decode([String].self, from: penData) {
-            penultimate = Set(pen)
-        }
 
         return State(
             datasetFingerprint: fp,
             remainingFlagCodes: Set(remaining),
-            lastRoundFlagCodes: Set(last),
-            penultimateRoundFlagCodes: penultimate
+            recentRoundsFlagCodes: recentRounds.map(Set.init)
         )
     }
 
     private static func save(_ state: State) {
         defaults.set(state.datasetFingerprint, forKey: fingerprintKey)
-        if let d = try? JSONEncoder().encode(Array(state.remainingFlagCodes))        { defaults.set(d, forKey: remainingKey) }
-        if let d = try? JSONEncoder().encode(Array(state.lastRoundFlagCodes))        { defaults.set(d, forKey: lastRoundKey) }
-        if let d = try? JSONEncoder().encode(Array(state.penultimateRoundFlagCodes))  { defaults.set(d, forKey: penultimateKey) }
+        if let d = try? JSONEncoder().encode(Array(state.remainingFlagCodes)) { defaults.set(d, forKey: remainingKey) }
+        if let d = try? JSONEncoder().encode(state.recentRoundsFlagCodes.map { Array($0) }) {
+            defaults.set(d, forKey: recentRoundsKey)
+        }
     }
 
     private static func fingerprint(for codes: Set<String>) -> String {

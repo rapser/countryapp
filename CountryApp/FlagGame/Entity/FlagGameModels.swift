@@ -13,6 +13,10 @@ enum FlagGameError: Error {
 enum FlagGameRound {
     /// Banderas distintas por partida.
     static let questionsPerRound = 20
+    /// Probabilidad de que una pregunta sea de un territorio/colonia en vez de un país independiente.
+    static let territoryProbability = 0.02
+    /// Cantidad de rondas recientes a excluir para evitar repetir país antes de jugar esa cantidad de partidas.
+    static let recentRoundsTracked = 4
 }
 
 struct QuizQuestion: Equatable {
