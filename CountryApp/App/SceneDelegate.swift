@@ -12,6 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var modelContainer: ModelContainer?
+    private var appCoordinator: AppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -28,12 +29,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
 
         let modelContext = ModelContext(modelContainer)
-        let homeViewController = HomeRouter.createModule(modelContext: modelContext)
-        let navigationController = UINavigationController(rootViewController: homeViewController)
-        window.rootViewController = navigationController
+        let navigationController = UINavigationController()
+        let coordinator = AppCoordinator(navigationController: navigationController, modelContext: modelContext)
+        appCoordinator = coordinator
+        coordinator.start()
 
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
-        AppLog.trace("SceneDelegate: ventana activa, raíz UINavigationController")
+        AppLog.trace("SceneDelegate: ventana activa, AppCoordinator iniciado")
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

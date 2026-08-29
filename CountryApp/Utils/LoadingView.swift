@@ -27,7 +27,7 @@ class LoadingView: UIView {
         
         // Configurar el indicador de actividad
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.color = .yellow
+        activityIndicator.color = AppColor.primary
         activityIndicator.startAnimating()
         self.addSubview(activityIndicator)
         
@@ -35,7 +35,7 @@ class LoadingView: UIView {
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.text = message
         messageLabel.textColor = .white
-        messageLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        messageLabel.font = AppFont.body
         messageLabel.textAlignment = .center
         self.addSubview(messageLabel)
         

@@ -11,17 +11,24 @@ protocol CapitalGameInteractorProtocol: AnyObject {
     func recordQuizStarted()
     func currentQuestion() -> CapitalQuizQuestion?
     func currentProgressText() -> String
+    func currentProgressFraction() -> Float
     func submitAnswer(optionIndex: Int, responseTime: TimeInterval) -> Bool
     func skipQuestion()
     func buildSummary() -> GameSummary
     var hasMoreQuestions: Bool { get }
+    /// Puntos acumulados en la ronda.
+    var totalScore: Int { get }
+    /// Puntos otorgados por la última pregunta confirmada (0 tras un fallo o salto).
+    var lastAwardedPoints: Int { get }
 }
 
 /// Snapshot Sendable (Swift 6): país + capital.
-private struct CapitalGameCountrySnapshot: Sendable {
+private struct CapitalGameCountrySnapshot: Sendable, FlagCodeIdentifiable {
     let flagAssetCode: String
     let countryName: String
     let capitalName: String
+
+    var alphabeticBucketKey: String { countryName }
 }
 
 final class CapitalGameInteractor: CapitalGameInteractorProtocol {
@@ -39,6 +46,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
     private var clearCorrectRows: [SummaryFlagRow] = []
     private var doubtCorrectRows: [SummaryFlagRow] = []
     private var sessionStart: Date?
+    private(set) var totalScore = 0
+    private(set) var lastAwardedPoints = 0
 
     private var lastAvailableFlagCodes: Set<String> = []
     private var exportedRoundKey: String?
@@ -75,12 +84,12 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         lastAvailableFlagCodes = Set(snapshots.map(\.flagAssetCode))
         let state = CapitalGamePoolState.loadOrInitialize(availableFlagCodes: lastAvailableFlagCodes)
         let remainingSnapshots = snapshots.filter { state.remainingFlagCodes.contains($0.flagAssetCode) }
-        let lastRound = state.lastRoundFlagCodes
 
-        let chosen = Self.pickVariedRound(
+        let recentExcluded = state.recentRoundsUnion
+        let chosen = VariedRoundSelector.pickWeightedRound(
             primaryPool: remainingSnapshots,
             fallbackPool: snapshots,
-            lastRoundExcluded: lastRound,
+            lastRoundExcluded: recentExcluded,
             count: FlagGameRound.questionsPerRound
         )
 
@@ -106,6 +115,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         clearCorrectRows = []
         doubtCorrectRows = []
         sessionStart = nil
+        totalScore = 0
+        lastAwardedPoints = 0
     }
 
     func recordQuizStarted() {
@@ -119,6 +130,11 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
 
     func currentProgressText() -> String {
         "\(min(currentIndex + 1, max(questions.count, 1))) / \(questions.count)"
+    }
+
+    func currentProgressFraction() -> Float {
+        guard !questions.isEmpty else { return 0 }
+        return Float(currentIndex) / Float(questions.count)
     }
 
     var hasMoreQuestions: Bool { currentIndex < questions.count }
@@ -140,6 +156,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
             wrongCountryNames.append(answerCountryName)
             wrongFlagRows.append(row)
         }
+        lastAwardedPoints = FlagGameScoring.points(correct: correct, responseTime: responseTime)
+        totalScore += lastAwardedPoints
         currentIndex += 1
         return correct
     }
@@ -147,6 +165,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
     func skipQuestion() {
         guard let q = currentQuestion() else { return }
         let answerCountryName = q.countryName
+        lastAwardedPoints = 0
         skippedCount += 1
         skippedCountryNames.append(answerCountryName)
         skippedFlagRows.append(SummaryFlagRow(countryName: answerCountryName, flagAssetCode: q.flagAssetCode))
@@ -162,7 +181,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
 
         let start = sessionStart ?? Date()
         let duration = Date().timeIntervalSince(start)
-        let score = correctCount * 10 - wrongCount * 5
+        let score = totalScore
         let reviewRows = GameSummary.orderedUniqueFlagRows(wrongFlagRows + skippedFlagRows)
         return GameSummary(
             correctCount: correctCount,
@@ -178,6 +197,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         )
     }
 
+    // MARK: - Distractor selection
+
     private static func pickDistractorCapitals(answerCapital: String, poolCapitals: [String]) -> [String] {
         let answer = answerCapital.trimmingCharacters(in: .whitespacesAndNewlines)
         let candidates = poolCapitals.filter { $0.caseInsensitiveCompare(answer) != .orderedSame }
@@ -189,66 +210,4 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         }
         return Array(picked.prefix(3))
     }
-
-    private static func pickVariedRound(
-        primaryPool: [CapitalGameCountrySnapshot],
-        fallbackPool: [CapitalGameCountrySnapshot],
-        lastRoundExcluded: Set<String>,
-        count: Int
-    ) -> [CapitalGameCountrySnapshot] {
-        let primaryPicked = variedSample(from: primaryPool, count: min(count, primaryPool.count))
-        if primaryPicked.count >= count {
-            return Array(primaryPicked.prefix(count))
-        }
-
-        var picked = primaryPicked
-        let pickedCodes = Set(picked.map(\.flagAssetCode))
-
-        let eligibleFill = fallbackPool.filter { !pickedCodes.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode) }
-        let fillNeeded = count - picked.count
-        picked.append(contentsOf: variedSample(from: eligibleFill, count: min(fillNeeded, eligibleFill.count)))
-
-        if picked.count >= count {
-            return Array(picked.prefix(count))
-        }
-
-        let eligibleAny = fallbackPool.filter { cand in
-            !pickedCodes.contains(cand.flagAssetCode) && !picked.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
-        }
-        let fill2Needed = count - picked.count
-        picked.append(contentsOf: variedSample(from: eligibleAny, count: min(fill2Needed, eligibleAny.count)))
-        return Array(picked.prefix(count))
-    }
-
-    private static func variedSample(from pool: [CapitalGameCountrySnapshot], count: Int) -> [CapitalGameCountrySnapshot] {
-        guard count > 0, !pool.isEmpty else { return [] }
-        var buckets: [String: [CapitalGameCountrySnapshot]] = [:]
-        for s in pool {
-            let key = String(s.countryName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased().prefix(1))
-            buckets[key, default: []].append(s)
-        }
-        var keys = buckets.keys.sorted()
-        keys.shuffle()
-        keys.forEach { buckets[$0]?.shuffle() }
-
-        var out: [CapitalGameCountrySnapshot] = []
-        var idx = 0
-        while out.count < count, !keys.isEmpty {
-            let k = keys[idx % keys.count]
-            if var arr = buckets[k], !arr.isEmpty {
-                out.append(arr.removeLast())
-                buckets[k] = arr
-            }
-            keys = keys.filter { (buckets[$0]?.isEmpty == false) }
-            idx += 1
-        }
-        if out.count < count {
-            let leftover = pool.shuffled().filter { cand in
-                !out.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
-            }
-            out.append(contentsOf: leftover.prefix(count - out.count))
-        }
-        return out
-    }
 }
-

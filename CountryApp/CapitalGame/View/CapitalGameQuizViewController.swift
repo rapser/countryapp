@@ -8,15 +8,15 @@ import UIKit
 final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizViewProtocol {
     private let presenter: CapitalGameQuizPresenterProtocol
     private let gameRouter: CapitalGameRouterProtocol
-    private var gradientLayer: CAGradientLayer?
 
-    private let progressLabel = UILabel()
-    private let flagContainer = UIView()
+    private let header = QuizHeaderView()
+    private let flagCard = CardView()
     private let flagImageView = UIImageView()
     private let countryLabel = UILabel()
     private let optionsStack = UIStackView()
-    private var optionButtons: [UIButton] = []
-    private let finalAnswerButton = UIButton(type: .system)
+    private var optionButtons: [OptionButton] = []
+    private let finalAnswerButton = PillButton(title: "Confirmar", style: .primary)
+    private var highlightedIndex: Int?
 
     init(presenter: CapitalGameQuizPresenterProtocol, gameRouter: CapitalGameRouterProtocol) {
         self.presenter = presenter
@@ -30,102 +30,71 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "¿Cuál es la capital?"
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "xmark.circle.fill"),
-            style: .plain,
-            target: self,
-            action: #selector(finishTapped)
-        )
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(white: 1, alpha: 0.92)
+        view.backgroundColor = AppColor.background
 
-        progressLabel.textColor = .white
-        progressLabel.font = .monospacedDigitSystemFont(ofSize: 16, weight: .semibold)
-        progressLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        flagContainer.backgroundColor = UIColor(red: 0.03, green: 0.12, blue: 0.35, alpha: 1)
-        flagContainer.layer.cornerRadius = 12
-        flagContainer.layer.borderWidth = 2
-        flagContainer.layer.borderColor = UIColor(white: 1, alpha: 0.22).cgColor
-        flagContainer.translatesAutoresizingMaskIntoConstraints = false
+        header.configure(title: "¿Cuál es la capital?")
+        header.translatesAutoresizingMaskIntoConstraints = false
+        header.onMenuTapped = { [weak self] in self?.finishTapped() }
 
         flagImageView.contentMode = .scaleAspectFit
         flagImageView.clipsToBounds = true
         flagImageView.translatesAutoresizingMaskIntoConstraints = false
-        flagContainer.addSubview(flagImageView)
+        flagCard.contentView.addSubview(flagImageView)
 
-        countryLabel.textColor = .white
-        countryLabel.font = .preferredFont(forTextStyle: .title3)
+        countryLabel.textColor = AppColor.textPrimary
+        countryLabel.font = AppFont.headline
         countryLabel.numberOfLines = 0
         countryLabel.textAlignment = .center
         countryLabel.translatesAutoresizingMaskIntoConstraints = false
 
         optionsStack.axis = .vertical
-        optionsStack.spacing = 10
+        optionsStack.spacing = AppMetrics.spacing3
         optionsStack.translatesAutoresizingMaskIntoConstraints = false
 
-        finalAnswerButton.configuration = Self.primaryButtonConfiguration(
-            title: "Siguiente",
-            font: .systemFont(ofSize: 18, weight: .bold)
-        )
-        finalAnswerButton.translatesAutoresizingMaskIntoConstraints = false
         finalAnswerButton.isEnabled = false
         finalAnswerButton.addTarget(self, action: #selector(finalAnswerTapped), for: .touchUpInside)
 
-        view.addSubview(progressLabel)
-        view.addSubview(flagContainer)
+        view.addSubview(header)
+        view.addSubview(flagCard)
         view.addSubview(countryLabel)
         view.addSubview(optionsStack)
         view.addSubview(finalAnswerButton)
 
+        let margins = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            progressLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
-            progressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: AppMetrics.spacing3),
+            header.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            header.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
 
-            flagContainer.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 16),
-            flagContainer.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            flagContainer.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            flagContainer.heightAnchor.constraint(equalToConstant: 200),
+            flagCard.topAnchor.constraint(equalTo: header.bottomAnchor, constant: AppMetrics.spacing5),
+            flagCard.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            flagCard.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            flagCard.heightAnchor.constraint(equalToConstant: 200),
 
-            flagImageView.topAnchor.constraint(equalTo: flagContainer.topAnchor, constant: 8),
-            flagImageView.bottomAnchor.constraint(equalTo: flagContainer.bottomAnchor, constant: -8),
-            flagImageView.leadingAnchor.constraint(equalTo: flagContainer.leadingAnchor, constant: 12),
-            flagImageView.trailingAnchor.constraint(equalTo: flagContainer.trailingAnchor, constant: -12),
+            flagImageView.topAnchor.constraint(equalTo: flagCard.contentView.topAnchor, constant: AppMetrics.spacing3),
+            flagImageView.bottomAnchor.constraint(equalTo: flagCard.contentView.bottomAnchor, constant: -AppMetrics.spacing3),
+            flagImageView.leadingAnchor.constraint(equalTo: flagCard.contentView.leadingAnchor, constant: AppMetrics.spacing4),
+            flagImageView.trailingAnchor.constraint(equalTo: flagCard.contentView.trailingAnchor, constant: -AppMetrics.spacing4),
 
-            countryLabel.topAnchor.constraint(equalTo: flagContainer.bottomAnchor, constant: 12),
-            countryLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            countryLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            countryLabel.topAnchor.constraint(equalTo: flagCard.bottomAnchor, constant: AppMetrics.spacing3),
+            countryLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            countryLabel.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
 
-            optionsStack.topAnchor.constraint(equalTo: countryLabel.bottomAnchor, constant: 16),
-            optionsStack.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            optionsStack.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            optionsStack.bottomAnchor.constraint(lessThanOrEqualTo: finalAnswerButton.topAnchor, constant: -20),
+            optionsStack.topAnchor.constraint(equalTo: countryLabel.bottomAnchor, constant: AppMetrics.spacing4),
+            optionsStack.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            optionsStack.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            optionsStack.bottomAnchor.constraint(lessThanOrEqualTo: finalAnswerButton.topAnchor, constant: -AppMetrics.spacing5),
 
-            finalAnswerButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            finalAnswerButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            finalAnswerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            finalAnswerButton.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            finalAnswerButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            finalAnswerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -AppMetrics.spacing4)
         ])
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Pantalla oscura: nav en blanco para legibilidad.
-        guard let navBar = navigationController?.navigationBar else { return }
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = .clear
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navBar.standardAppearance = appearance
-        navBar.scrollEdgeAppearance = appearance
-        navBar.compactAppearance = appearance
-        navBar.tintColor = .white
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        gradientLayer?.frame = view.bounds
+        UINavigationController.applyLightAppTheme(to: navigationController)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -133,42 +102,31 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         presenter.viewDidAppear(from: self)
     }
 
-    func configureQuizChrome() {
-        if gradientLayer == nil {
-            let g = CAGradientLayer()
-            g.colors = [
-                UIColor(red: 0.01, green: 0.04, blue: 0.20, alpha: 1).cgColor,
-                UIColor(red: 0.03, green: 0.10, blue: 0.35, alpha: 1).cgColor,
-                UIColor(red: 0.01, green: 0.03, blue: 0.16, alpha: 1).cgColor,
-            ]
-            g.locations = [0, 0.5, 1]
-            g.startPoint = CGPoint(x: 0.2, y: 0)
-            g.endPoint = CGPoint(x: 0.8, y: 1)
-            view.layer.insertSublayer(g, at: 0)
-            gradientLayer = g
-        }
-        gradientLayer?.frame = view.bounds
-    }
-
     func showQuestion(flagAssetCode: String, countryName: String, options: [String], progress: String) {
-        progressLabel.text = "Pregunta \(progress)"
+        header.setCount(progress)
         flagImageView.image = UIImage(named: flagAssetCode)
         countryLabel.text = countryName
 
+        highlightedIndex = nil
         optionButtons.forEach { $0.removeFromSuperview() }
         optionButtons.removeAll()
         optionsStack.arrangedSubviews.forEach { optionsStack.removeArrangedSubview($0); $0.removeFromSuperview() }
 
         for (i, title) in options.enumerated() {
-            let b = makeOptionButton(title: title, tag: i)
+            let b = OptionButton(title: title, colorIndex: i)
+            b.tag = i
+            b.addTarget(self, action: #selector(optionTapped(_:)), for: .touchUpInside)
             optionButtons.append(b)
             optionsStack.addArrangedSubview(b)
         }
     }
 
+    func setProgress(fraction: Float) {
+        header.setProgress(CGFloat(fraction), animated: true)
+    }
+
     func setOptionsEnabled(_ enabled: Bool) {
         optionButtons.forEach { $0.isEnabled = enabled }
-        navigationItem.rightBarButtonItem?.isEnabled = enabled
     }
 
     func setFinalAnswerEnabled(_ enabled: Bool) {
@@ -176,42 +134,21 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
     }
 
     func highlightSelectedOption(index: Int) {
-        let normalBlue = UIColor(red: 0.06, green: 0.20, blue: 0.52, alpha: 1)
-        let selectGreen = UIColor(red: 0.2, green: 0.65, blue: 0.3, alpha: 1)
-        for (i, b) in optionButtons.enumerated() {
-            if i == index {
-                applyOptionColors(button: b, background: selectGreen, foreground: .white)
-            } else {
-                applyOptionColors(button: b, background: normalBlue, foreground: .white)
+        guard index >= 0, index < optionButtons.count, highlightedIndex != index else { return }
+        highlightedIndex = index
+        UIView.animate(withDuration: 0.15) {
+            for (i, button) in self.optionButtons.enumerated() {
+                button.setState(i == index ? .selected : .dimmed)
+                button.layoutIfNeeded()
             }
         }
     }
 
-    func revealAnswer(selectedIndex: Int, correctIndex: Int, isCorrect: Bool) {
-        let green = UIColor(red: 0.2, green: 0.65, blue: 0.3, alpha: 1)
-        let red = UIColor(red: 0.75, green: 0.15, blue: 0.12, alpha: 1)
-        for (i, b) in optionButtons.enumerated() {
-            if i == correctIndex {
-                applyOptionColors(button: b, background: green, foreground: .white)
-            } else if i == selectedIndex && !isCorrect {
-                applyOptionColors(button: b, background: red, foreground: .white)
-            }
+    func presentFeedback(_ result: QuizFeedbackResult, onContinue: @escaping () -> Void) {
+        let feedback = QuizFeedbackViewController(result: result) { [weak self] in
+            self?.dismiss(animated: true) { onContinue() }
         }
-    }
-
-    func clearAnswerHighlight() {
-        let normalBlue = UIColor(red: 0.06, green: 0.20, blue: 0.52, alpha: 1)
-        for b in optionButtons {
-            applyOptionColors(button: b, background: normalBlue, foreground: .white)
-        }
-    }
-
-    private func makeOptionButton(title: String, tag: Int) -> UIButton {
-        let b = UIButton(type: .system)
-        b.tag = tag
-        b.configuration = Self.optionButtonConfiguration(title: title)
-        b.addTarget(self, action: #selector(optionTapped(_:)), for: .touchUpInside)
-        return b
+        present(feedback, animated: true)
     }
 
     @objc private func optionTapped(_ sender: UIButton) {
@@ -222,7 +159,7 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         presenter.didTapFinalAnswer(from: self)
     }
 
-    @objc private func finishTapped() {
+    private func finishTapped() {
         let alert = UIAlertController(
             title: "¿Terminar partida?",
             message: "Se mostrará el resumen con lo respondido hasta ahora.",
@@ -235,44 +172,4 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         })
         present(alert, animated: true)
     }
-
-    private func applyOptionColors(button: UIButton, background: UIColor, foreground: UIColor) {
-        guard var config = button.configuration else { return }
-        config.baseBackgroundColor = background
-        config.baseForegroundColor = foreground
-        button.configuration = config
-    }
-
-    private static func optionButtonConfiguration(title: String) -> UIButton.Configuration {
-        var config = UIButton.Configuration.filled()
-        config.title = title
-        config.titleLineBreakMode = .byWordWrapping
-        config.titleAlignment = .center
-        config.baseForegroundColor = .white
-        config.baseBackgroundColor = UIColor(red: 0.06, green: 0.20, blue: 0.52, alpha: 1)
-        config.background.cornerRadius = 10
-        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 12, bottom: 14, trailing: 12)
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 16, weight: .semibold)
-            return outgoing
-        }
-        return config
-    }
-
-    private static func primaryButtonConfiguration(title: String, font: UIFont) -> UIButton.Configuration {
-        var config = UIButton.Configuration.filled()
-        config.title = title
-        config.baseForegroundColor = .black
-        config.baseBackgroundColor = UIColor(red: 0.95, green: 0.80, blue: 0.22, alpha: 1)
-        config.background.cornerRadius = 12
-        config.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 14, bottom: 14, trailing: 14)
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = font
-            return outgoing
-        }
-        return config
-    }
 }
-

@@ -16,6 +16,7 @@ final class MockCountryListPresenter: CountryListPresenterProtocol {
     var fetchedCountries: Countries = []
     var filteredCountries: Countries = []
     var capturedError: Error?
+    var selectedCountry: Country?
 
     func fetchCountryList() async {}
 
@@ -23,6 +24,10 @@ final class MockCountryListPresenter: CountryListPresenterProtocol {
         filteredCountries = fetchedCountries.filter {
             $0.name.common.contains(searchText) || $0.name.official.contains(searchText)
         }
+    }
+
+    func didSelectCountry(_ country: Country) {
+        selectedCountry = country
     }
 
     func didFetchCountryList(_ countries: Countries) {

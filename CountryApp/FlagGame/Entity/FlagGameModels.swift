@@ -13,6 +13,10 @@ enum FlagGameError: Error {
 enum FlagGameRound {
     /// Banderas distintas por partida.
     static let questionsPerRound = 20
+    /// Probabilidad de que una pregunta sea de un territorio/colonia en vez de un país independiente.
+    static let territoryProbability = 0.02
+    /// Cantidad de rondas recientes a excluir para evitar repetir país antes de jugar esa cantidad de partidas.
+    static let recentRoundsTracked = 4
 }
 
 struct QuizQuestion: Equatable {
@@ -33,12 +37,30 @@ enum FlagGameTiming {
     static let doubtAnswerThresholdSeconds: TimeInterval = 15
 }
 
+/// Puntuación con bonus por rapidez. Compartida por FlagGame y CapitalGame.
+enum FlagGameScoring {
+    /// Puntos fijos por respuesta correcta.
+    static let basePointsPerCorrect = 500
+    /// Bonus máximo por responder al instante.
+    static let maxSpeedBonus = 500
+    /// El bonus decae linealmente hasta 0 a lo largo de esta ventana.
+    static let speedBonusWindowSeconds: TimeInterval = 10
+
+    /// Puntos otorgados por una pregunta. 0 si se falló; base + bonus (múltiplo de 5) si se acertó.
+    static func points(correct: Bool, responseTime: TimeInterval) -> Int {
+        guard correct else { return 0 }
+        let clamped = max(0, min(responseTime, speedBonusWindowSeconds))
+        let bonus = Double(maxSpeedBonus) * (1 - clamped / speedBonusWindowSeconds)
+        return basePointsPerCorrect + (Int(bonus.rounded()) / 5) * 5
+    }
+}
+
 struct GameSummary: Equatable {
     let correctCount: Int
     let wrongCount: Int
     let skippedCount: Int
     let duration: TimeInterval
-    /// +10 per correct, −5 per wrong, 0 per skip (solo diagnóstico / logs).
+    /// Puntos totales acumulados en la ronda (base + bonus por rapidez, ver `FlagGameScoring`).
     let score: Int
     /// País que debías acertar en cada fallo, en orden.
     let wrongCountryNames: [String]
