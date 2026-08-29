@@ -14,14 +14,6 @@
 		4659F3722D38660D006D49F2 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3712D38660D006D49F2 /* Country.swift */; };
 		4659F3742D386829006D49F2 /* CountryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3732D386829006D49F2 /* CountryDetail.swift */; };
 		4659F3762D386A9C006D49F2 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3752D386A9C006D49F2 /* LoadingView.swift */; };
-		CC12345601000000006DC001 /* FlagSynonymGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345602000000006DC001 /* FlagSynonymGroups.swift */; };
-		CC12345603000000006DC001 /* GameShareCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345604000000006DC001 /* GameShareCardRenderer.swift */; };
-		CC12345606000000006DC001 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345605000000006DC001 /* Coordinator.swift */; };
-		CC12345608000000006DC001 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345607000000006DC001 /* HomeCoordinator.swift */; };
-		CC1234560A000000006DC001 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345609000000006DC001 /* AppCoordinator.swift */; };
-		CC1234560D000000006DC001 /* FlagGameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234560E000000006DC001 /* FlagGameCoordinator.swift */; };
-		CC1234560F000000006DC001 /* CapitalGameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345610000000006DC001 /* CapitalGameCoordinator.swift */; };
-		CC12345611000000006DC001 /* CountryListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345612000000006DC001 /* CountryListCoordinator.swift */; };
 		4659F3792D386AEF006D49F2 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */; };
 		4659F38C2D387C02006D49F2 /* CountryListInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F38B2D387C02006D49F2 /* CountryListInteractorProtocol.swift */; };
 		4659F38E2D387C3D006D49F2 /* CountryListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F38D2D387C3D006D49F2 /* CountryListInteractor.swift */; };
@@ -84,7 +76,19 @@
 		A7E1F2162D386572006DC001 /* FlagGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */; };
 		A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */; };
 		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
-		C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */; };
+		CC12345601000000006DC001 /* FlagSynonymGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345602000000006DC001 /* FlagSynonymGroups.swift */; };
+		CC12345603000000006DC001 /* GameShareCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345604000000006DC001 /* GameShareCardRenderer.swift */; };
+		CC12345606000000006DC001 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345605000000006DC001 /* Coordinator.swift */; };
+		CC12345608000000006DC001 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345607000000006DC001 /* HomeCoordinator.swift */; };
+		CC1234560A000000006DC001 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345609000000006DC001 /* AppCoordinator.swift */; };
+		CC1234560D000000006DC001 /* FlagGameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234560E000000006DC001 /* FlagGameCoordinator.swift */; };
+		CC1234560F000000006DC001 /* CapitalGameCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345610000000006DC001 /* CapitalGameCoordinator.swift */; };
+		CC12345611000000006DC001 /* CountryListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345612000000006DC001 /* CountryListCoordinator.swift */; };
+		CC12345613000000006DC001 /* TerritoryCountryCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345614000000006DC001 /* TerritoryCountryCodes.swift */; };
+		CC12345615000000006DC001 /* VariedRoundSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345616000000006DC001 /* VariedRoundSelector.swift */; };
+		CC12345617000000006DC001 /* VariedRoundSelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345618000000006DC001 /* VariedRoundSelectorTests.swift */; };
+		CC12345619000000006DC001 /* TerritoryCountryCodesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234561A000000006DC001 /* TerritoryCountryCodesTests.swift */; };
+		CC1234561B000000006DC001 /* CapitalGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234561C000000006DC001 /* CapitalGameInteractorTests.swift */; };
 		D0C0A2002F20B000006DC001 /* FlagGamePoolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */; };
 		D0C0A2012F20B000006DC001 /* CapitalGameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1102F20B000006DC001 /* CapitalGameModels.swift */; };
 		D0C0A2022F20B000006DC001 /* CapitalGamePoolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1112F20B000006DC001 /* CapitalGamePoolState.swift */; };
@@ -126,14 +130,6 @@
 		4659F3712D38660D006D49F2 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		4659F3732D386829006D49F2 /* CountryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetail.swift; sourceTree = "<group>"; };
 		4659F3752D386A9C006D49F2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		CC12345602000000006DC001 /* FlagSynonymGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagSynonymGroups.swift; sourceTree = "<group>"; };
-		CC12345604000000006DC001 /* GameShareCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShareCardRenderer.swift; sourceTree = "<group>"; };
-		CC12345605000000006DC001 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		CC12345607000000006DC001 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		CC12345609000000006DC001 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		CC1234560E000000006DC001 /* FlagGameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameCoordinator.swift; sourceTree = "<group>"; };
-		CC12345610000000006DC001 /* CapitalGameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameCoordinator.swift; sourceTree = "<group>"; };
-		CC12345612000000006DC001 /* CountryListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListCoordinator.swift; sourceTree = "<group>"; };
 		4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		4659F38B2D387C02006D49F2 /* CountryListInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListInteractorProtocol.swift; sourceTree = "<group>"; };
 		4659F38D2D387C3D006D49F2 /* CountryListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListInteractor.swift; sourceTree = "<group>"; };
@@ -198,7 +194,19 @@
 		A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameSummaryViewController.swift; sourceTree = "<group>"; };
 		A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInteractorTests.swift; sourceTree = "<group>"; };
 		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
-		C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameRecentRoundsHistory.swift; sourceTree = "<group>"; };
+		CC12345602000000006DC001 /* FlagSynonymGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagSynonymGroups.swift; sourceTree = "<group>"; };
+		CC12345604000000006DC001 /* GameShareCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShareCardRenderer.swift; sourceTree = "<group>"; };
+		CC12345605000000006DC001 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		CC12345607000000006DC001 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		CC12345609000000006DC001 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		CC1234560E000000006DC001 /* FlagGameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameCoordinator.swift; sourceTree = "<group>"; };
+		CC12345610000000006DC001 /* CapitalGameCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameCoordinator.swift; sourceTree = "<group>"; };
+		CC12345612000000006DC001 /* CountryListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListCoordinator.swift; sourceTree = "<group>"; };
+		CC12345614000000006DC001 /* TerritoryCountryCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerritoryCountryCodes.swift; sourceTree = "<group>"; };
+		CC12345616000000006DC001 /* VariedRoundSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariedRoundSelector.swift; sourceTree = "<group>"; };
+		CC12345618000000006DC001 /* VariedRoundSelectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariedRoundSelectorTests.swift; sourceTree = "<group>"; };
+		CC1234561A000000006DC001 /* TerritoryCountryCodesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerritoryCountryCodesTests.swift; sourceTree = "<group>"; };
+		CC1234561C000000006DC001 /* CapitalGameInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameInteractorTests.swift; sourceTree = "<group>"; };
 		D0C0A1102F20B000006DC001 /* CapitalGameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameModels.swift; sourceTree = "<group>"; };
 		D0C0A1112F20B000006DC001 /* CapitalGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGamePoolState.swift; sourceTree = "<group>"; };
 		D0C0A1122F20B000006DC001 /* CapitalGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameInteractor.swift; sourceTree = "<group>"; };
@@ -411,20 +419,7 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		CC1234560C000000006DC001 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				CC12345605000000006DC001 /* Coordinator.swift */,
-				CC12345607000000006DC001 /* HomeCoordinator.swift */,
-				CC12345609000000006DC001 /* AppCoordinator.swift */,
-				CC1234560E000000006DC001 /* FlagGameCoordinator.swift */,
-				CC12345610000000006DC001 /* CapitalGameCoordinator.swift */,
-				CC12345612000000006DC001 /* CountryListCoordinator.swift */,
-			);
-			path = Coordinator;
-			sourceTree = "<group>";
-		};
-				4659F3B02D38876E006D49F2 /* Utils */ = {
+		4659F3B02D38876E006D49F2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				A7E1F1192D386572006DC001 /* AppLog.swift */,
@@ -432,6 +427,8 @@
 				4659F3BC2D399EE0006D49F2 /* UserDefaultsManager.swift */,
 				CC12345602000000006DC001 /* FlagSynonymGroups.swift */,
 				CC12345604000000006DC001 /* GameShareCardRenderer.swift */,
+				CC12345614000000006DC001 /* TerritoryCountryCodes.swift */,
+				CC12345616000000006DC001 /* VariedRoundSelector.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -513,6 +510,9 @@
 				46B801B12D3A47ED0094F9A1 /* CountryDetailInteractorTests.swift */,
 				46B801B32D3A47ED0094F9A1 /* CountryListInteractorTests.swift */,
 				A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */,
+				CC12345618000000006DC001 /* VariedRoundSelectorTests.swift */,
+				CC1234561A000000006DC001 /* TerritoryCountryCodesTests.swift */,
+				CC1234561C000000006DC001 /* CapitalGameInteractorTests.swift */,
 				46B801AA2D3A47750094F9A1 /* CountryAppTests.swift */,
 			);
 			path = CountryAppTests;
@@ -597,7 +597,6 @@
 			isa = PBXGroup;
 			children = (
 				A7E1F10D2D386572006DC001 /* FlagGameModels.swift */,
-				C1B2F3012F20A001006DC001 /* FlagGameRecentRoundsHistory.swift */,
 				D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */,
 			);
 			path = Entity;
@@ -638,6 +637,19 @@
 				A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CC1234560C000000006DC001 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CC12345605000000006DC001 /* Coordinator.swift */,
+				CC12345607000000006DC001 /* HomeCoordinator.swift */,
+				CC12345609000000006DC001 /* AppCoordinator.swift */,
+				CC1234560E000000006DC001 /* FlagGameCoordinator.swift */,
+				CC12345610000000006DC001 /* CapitalGameCoordinator.swift */,
+				CC12345612000000006DC001 /* CountryListCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		D0C0A1002F20B000006DC001 /* CapitalGame */ = {
@@ -841,7 +853,6 @@
 				A7E1F20B2D386572006DC001 /* HomeViewProtocol.swift in Sources */,
 				A7E1F20C2D386572006DC001 /* HomeViewController.swift in Sources */,
 				A7E1F20D2D386572006DC001 /* FlagGameModels.swift in Sources */,
-				C1B2F3022F20A001006DC001 /* FlagGameRecentRoundsHistory.swift in Sources */,
 				D0C0A2002F20B000006DC001 /* FlagGamePoolState.swift in Sources */,
 				A7E1F20E2D386572006DC001 /* FlagGameInteractor.swift in Sources */,
 				A7E1F20F2D386572006DC001 /* FlagGameRouterProtocol.swift in Sources */,
@@ -895,6 +906,8 @@
 				4659F3BD2D399EE0006D49F2 /* UserDefaultsManager.swift in Sources */,
 				A7E1F2192D386572006DC001 /* AppLog.swift in Sources */,
 				CC12345601000000006DC001 /* FlagSynonymGroups.swift in Sources */,
+				CC12345613000000006DC001 /* TerritoryCountryCodes.swift in Sources */,
+				CC12345615000000006DC001 /* VariedRoundSelector.swift in Sources */,
 				CC12345603000000006DC001 /* GameShareCardRenderer.swift in Sources */,
 				CC12345606000000006DC001 /* Coordinator.swift in Sources */,
 				CC12345608000000006DC001 /* HomeCoordinator.swift in Sources */,
@@ -913,6 +926,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */,
+				CC12345617000000006DC001 /* VariedRoundSelectorTests.swift in Sources */,
+				CC12345619000000006DC001 /* TerritoryCountryCodesTests.swift in Sources */,
+				CC1234561B000000006DC001 /* CapitalGameInteractorTests.swift in Sources */,
 				46B801B42D3A47ED0094F9A1 /* CountryDetailInteractorTests.swift in Sources */,
 				46B801C12D3A47F70094F9A1 /* MockCountryDetailPresenter.swift in Sources */,
 				46B801C42D3A47F70094F9A1 /* MockCountryListPresenter.swift in Sources */,
@@ -1090,7 +1106,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
@@ -1121,7 +1137,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
@@ -1153,6 +1169,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquizTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1171,6 +1188,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rapser.countryquizTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

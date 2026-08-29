@@ -19,10 +19,12 @@ protocol CapitalGameInteractorProtocol: AnyObject {
 }
 
 /// Snapshot Sendable (Swift 6): país + capital.
-private struct CapitalGameCountrySnapshot: Sendable {
+private struct CapitalGameCountrySnapshot: Sendable, FlagCodeIdentifiable {
     let flagAssetCode: String
     let countryName: String
     let capitalName: String
+
+    var alphabeticBucketKey: String { countryName }
 }
 
 final class CapitalGameInteractor: CapitalGameInteractorProtocol {
@@ -77,8 +79,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         let state = CapitalGamePoolState.loadOrInitialize(availableFlagCodes: lastAvailableFlagCodes)
         let remainingSnapshots = snapshots.filter { state.remainingFlagCodes.contains($0.flagAssetCode) }
 
-        let recentExcluded = state.lastRoundFlagCodes.union(state.penultimateRoundFlagCodes)
-        let chosen = Self.pickVariedRound(
+        let recentExcluded = state.recentRoundsUnion
+        let chosen = VariedRoundSelector.pickWeightedRound(
             primaryPool: remainingSnapshots,
             fallbackPool: snapshots,
             lastRoundExcluded: recentExcluded,
@@ -182,91 +184,6 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
             clearCorrectRows: clearCorrectRows,
             doubtCorrectRows: doubtCorrectRows
         )
-    }
-
-    // MARK: - Pool selection
-
-    private static func pickVariedRound(
-        primaryPool: [CapitalGameCountrySnapshot],
-        fallbackPool: [CapitalGameCountrySnapshot],
-        lastRoundExcluded: Set<String>,
-        count: Int
-    ) -> [CapitalGameCountrySnapshot] {
-        let dedupedPrimary  = deduplicateSameFlag(primaryPool)
-        let dedupedFallback = deduplicateSameFlag(fallbackPool)
-
-        let primaryPicked = variedSample(from: dedupedPrimary, count: min(count, dedupedPrimary.count))
-        if primaryPicked.count >= count {
-            return Array(primaryPicked.prefix(count))
-        }
-
-        var picked = primaryPicked
-        let pickedSynonyms = Set(picked.map(\.flagAssetCode)).reduce(into: Set<String>()) { acc, code in
-            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
-        }
-
-        let eligibleFill = dedupedFallback.filter {
-            !pickedSynonyms.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode)
-        }
-        let fill = variedSample(from: eligibleFill, count: min(count - picked.count, eligibleFill.count))
-        picked.append(contentsOf: fill)
-
-        if picked.count >= count {
-            return Array(picked.prefix(count))
-        }
-
-        let pickedSynonyms2 = Set(picked.map(\.flagAssetCode)).reduce(into: Set<String>()) { acc, code in
-            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
-        }
-        let eligibleAny = dedupedFallback.filter { !pickedSynonyms2.contains($0.flagAssetCode) }
-        picked.append(contentsOf: variedSample(from: eligibleAny, count: min(count - picked.count, eligibleAny.count)))
-        return Array(picked.prefix(count))
-    }
-
-    private static func deduplicateSameFlag(_ pool: [CapitalGameCountrySnapshot]) -> [CapitalGameCountrySnapshot] {
-        var seenGroupIndices = Set<Int>()
-        var result: [CapitalGameCountrySnapshot] = []
-        for snapshot in pool.shuffled() {
-            if let groupIdx = FlagSynonymGroups.groups.firstIndex(where: { $0.contains(snapshot.flagAssetCode) }) {
-                if seenGroupIndices.insert(groupIdx).inserted {
-                    result.append(snapshot)
-                }
-            } else {
-                result.append(snapshot)
-            }
-        }
-        return result
-    }
-
-    private static func variedSample(from pool: [CapitalGameCountrySnapshot], count: Int) -> [CapitalGameCountrySnapshot] {
-        guard count > 0, !pool.isEmpty else { return [] }
-        var buckets: [String: [CapitalGameCountrySnapshot]] = [:]
-        for s in pool {
-            let key = String(s.countryName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased().prefix(1))
-            buckets[key, default: []].append(s)
-        }
-        var keys = buckets.keys.sorted()
-        keys.shuffle()
-        keys.forEach { buckets[$0]?.shuffle() }
-
-        var out: [CapitalGameCountrySnapshot] = []
-        var idx = 0
-        while out.count < count, !keys.isEmpty {
-            let k = keys[idx % keys.count]
-            if var arr = buckets[k], !arr.isEmpty {
-                out.append(arr.removeLast())
-                buckets[k] = arr
-            }
-            keys = keys.filter { buckets[$0]?.isEmpty == false }
-            idx += 1
-        }
-        if out.count < count {
-            let leftover = pool.shuffled().filter { cand in
-                !out.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
-            }
-            out.append(contentsOf: leftover.prefix(count - out.count))
-        }
-        return out
     }
 
     // MARK: - Distractor selection

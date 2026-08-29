@@ -6,9 +6,11 @@
 import Foundation
 
 /// Datos mínimos del listado para el juego (evita cruzar `PersistedCountry` fuera del actor principal en Swift 6).
-private struct FlagGameCountrySnapshot: Sendable {
+private struct FlagGameCountrySnapshot: Sendable, FlagCodeIdentifiable {
     let flagAssetCode: String
     let displayName: String
+
+    var alphabeticBucketKey: String { displayName }
 }
 
 protocol FlagGameInteractorProtocol: AnyObject {
@@ -78,9 +80,9 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         let state = FlagGamePoolState.loadOrInitialize(availableFlagCodes: lastAvailableFlagCodes)
         let remainingSnapshots = snapshots.filter { state.remainingFlagCodes.contains($0.flagAssetCode) }
 
-        // Excluye las dos últimas partidas en el fallback para maximizar variedad entre rondas.
-        let recentExcluded = state.lastRoundFlagCodes.union(state.penultimateRoundFlagCodes)
-        let chosenSnapshots = Self.pickVariedRound(
+        // Excluye las últimas FlagGameRound.recentRoundsTracked partidas en el fallback para maximizar variedad entre rondas.
+        let recentExcluded = state.recentRoundsUnion
+        let chosenSnapshots = VariedRoundSelector.pickWeightedRound(
             primaryPool: remainingSnapshots,
             fallbackPool: snapshots,
             lastRoundExcluded: recentExcluded,
@@ -194,104 +196,6 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
 
     private func optionsValid(_ q: QuizQuestion, _ index: Int) -> Bool {
         index >= 0 && index < q.options.count
-    }
-
-    // MARK: - Pool selection
-
-    /// Elige `count` países garantizando:
-    ///   1. Ningún país comparte bandera visual con otro ya elegido (deduplica grupos de sinónimos).
-    ///   2. Si el pool primario no alcanza, completa desde el fallback evitando las últimas rondas.
-    private static func pickVariedRound(
-        primaryPool: [FlagGameCountrySnapshot],
-        fallbackPool: [FlagGameCountrySnapshot],
-        lastRoundExcluded: Set<String>,
-        count: Int
-    ) -> [FlagGameCountrySnapshot] {
-        // Deduplica banderas idénticas: por cada grupo de sinónimos sólo pasa UN representante aleatorio.
-        let dedupedPrimary  = deduplicateSameFlag(primaryPool)
-        let dedupedFallback = deduplicateSameFlag(fallbackPool)
-
-        let primaryPicked = variedSample(from: dedupedPrimary, count: min(count, dedupedPrimary.count))
-        if primaryPicked.count >= count {
-            return Array(primaryPicked.prefix(count))
-        }
-
-        var picked = primaryPicked
-        let pickedCodes = Set(picked.map(\.flagAssetCode))
-        // Al filtrar el fallback también excluimos sinónimos de los ya elegidos.
-        let pickedSynonyms = pickedCodes.reduce(into: Set<String>()) { acc, code in
-            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
-        }
-
-        let eligibleFill = dedupedFallback.filter {
-            !pickedSynonyms.contains($0.flagAssetCode) && !lastRoundExcluded.contains($0.flagAssetCode)
-        }
-        let fillNeeded = count - picked.count
-        let fill = variedSample(from: eligibleFill, count: min(fillNeeded, eligibleFill.count))
-        picked.append(contentsOf: fill)
-
-        if picked.count >= count {
-            return Array(picked.prefix(count))
-        }
-
-        // Último fallback: si el dataset es pequeño, admite cualquiera no elegido.
-        let pickedSynonyms2 = Set(picked.map(\.flagAssetCode)).reduce(into: Set<String>()) { acc, code in
-            acc.formUnion(FlagSynonymGroups.synonyms(for: code))
-        }
-        let eligibleAny = dedupedFallback.filter { !pickedSynonyms2.contains($0.flagAssetCode) }
-        let fill2Needed = count - picked.count
-        picked.append(contentsOf: variedSample(from: eligibleAny, count: min(fill2Needed, eligibleAny.count)))
-        return Array(picked.prefix(count))
-    }
-
-    /// Filtra el pool para que haya como máximo un representante por grupo de banderas idénticas.
-    /// El representante se elige al azar (shuffle previo), por lo que varía en cada partida.
-    private static func deduplicateSameFlag(_ pool: [FlagGameCountrySnapshot]) -> [FlagGameCountrySnapshot] {
-        var seenGroupIndices = Set<Int>()
-        var result: [FlagGameCountrySnapshot] = []
-        for snapshot in pool.shuffled() {
-            if let groupIdx = FlagSynonymGroups.groups.firstIndex(where: { $0.contains(snapshot.flagAssetCode) }) {
-                if seenGroupIndices.insert(groupIdx).inserted {
-                    result.append(snapshot)
-                }
-                // else: ya hay un representante de este grupo, descarta.
-            } else {
-                result.append(snapshot)
-            }
-        }
-        return result
-    }
-
-    /// Muestreo round-robin por buckets de primera letra para maximizar diversidad alfabética.
-    private static func variedSample(from pool: [FlagGameCountrySnapshot], count: Int) -> [FlagGameCountrySnapshot] {
-        guard count > 0, !pool.isEmpty else { return [] }
-        var buckets: [String: [FlagGameCountrySnapshot]] = [:]
-        for s in pool {
-            let key = String(s.displayName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased().prefix(1))
-            buckets[key, default: []].append(s)
-        }
-        var keys = buckets.keys.sorted()
-        keys.shuffle()
-        keys.forEach { buckets[$0]?.shuffle() }
-
-        var out: [FlagGameCountrySnapshot] = []
-        var idx = 0
-        while out.count < count, !keys.isEmpty {
-            let k = keys[idx % keys.count]
-            if var arr = buckets[k], !arr.isEmpty {
-                out.append(arr.removeLast())
-                buckets[k] = arr
-            }
-            keys = keys.filter { buckets[$0]?.isEmpty == false }
-            idx += 1
-        }
-        if out.count < count {
-            let leftover = pool.shuffled().filter { cand in
-                !out.contains(where: { $0.flagAssetCode == cand.flagAssetCode })
-            }
-            out.append(contentsOf: leftover.prefix(count - out.count))
-        }
-        return out
     }
 
     // MARK: - Distractor selection
