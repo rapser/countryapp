@@ -10,7 +10,7 @@ protocol FlagGameQuizPresenterProtocol: AnyObject {
     func viewDidAppear(from viewController: UIViewController)
     /// Solo selecciona una opción (no avanza).
     func didSelectOption(index: Int, from viewController: UIViewController)
-    /// Confirma la selección y avanza automáticamente tras mostrar el resultado.
+    /// Confirma la selección; muestra el feedback a pantalla completa y avanza al continuar.
     func didTapFinalAnswer(from viewController: UIViewController)
     func didTapFinish(from viewController: UIViewController)
 }
@@ -56,9 +56,9 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         }
         selectedIndex = nil
         questionShownAt = Date()
-        view?.configureQuizChrome()
         view?.showQuestion(flagAssetCode: q.flagAssetCode, options: q.options, progress: interactor.currentProgressText())
         view?.setProgress(fraction: interactor.currentProgressFraction())
+        view?.setOptionsEnabled(true)
         view?.setFinalAnswerEnabled(false)
     }
 
@@ -86,23 +86,28 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         view?.setOptionsEnabled(false)
         view?.setFinalAnswerEnabled(false)
 
-        let correctIndex = q.correctIndex
         let elapsed = questionShownAt.map { Date().timeIntervalSince($0) } ?? 0
+        let yourAnswer = q.options[selectedIndex]
+        let correctAnswer = q.options[q.correctIndex]
         let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
-        Self.trace("Respuesta final=\(selectedIndex) correct=\(isCorrect) hasMore=\(interactor.hasMoreQuestions)")
-        view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
+        let result = QuizFeedbackResult(
+            isCorrect: isCorrect,
+            awardedPoints: interactor.lastAwardedPoints,
+            totalPoints: interactor.totalScore,
+            flagAssetCode: q.flagAssetCode,
+            questionPrompt: "¿De qué país es esta bandera?",
+            yourAnswer: yourAnswer,
+            correctAnswer: correctAnswer,
+            isLastQuestion: !interactor.hasMoreQuestions
+        )
+        Self.trace("Respuesta final=\(selectedIndex) correct=\(isCorrect) pts=\(interactor.lastAwardedPoints) total=\(interactor.totalScore) hasMore=\(interactor.hasMoreQuestions)")
 
-        // Pausa suficiente para leer el resultado verde/rojo antes de avanzar.
-        let revealPause: TimeInterval = 0.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + revealPause) { [weak self] in
-            guard let self else { return }
-            self.view?.clearAnswerHighlight()
-            self.view?.setOptionsEnabled(true)
-            let more = self.interactor.hasMoreQuestions
-            if more {
-                self.presentCurrent(from: viewController)
+        view?.presentFeedback(result) { [weak self, weak viewController] in
+            guard let self, let vc = viewController else { return }
+            if self.interactor.hasMoreQuestions {
+                self.presentCurrent(from: vc)
             } else {
-                self.router?.pushSummary(from: viewController)
+                self.router?.pushSummary(from: vc)
             }
         }
     }

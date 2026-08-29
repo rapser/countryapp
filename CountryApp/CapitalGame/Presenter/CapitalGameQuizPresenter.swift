@@ -14,14 +14,12 @@ protocol CapitalGameQuizPresenterProtocol: AnyObject {
 }
 
 protocol CapitalGameQuizViewProtocol: AnyObject {
-    func configureQuizChrome()
     func showQuestion(flagAssetCode: String, countryName: String, options: [String], progress: String)
     func setProgress(fraction: Float)
     func setOptionsEnabled(_ enabled: Bool)
     func setFinalAnswerEnabled(_ enabled: Bool)
     func highlightSelectedOption(index: Int)
-    func revealAnswer(selectedIndex: Int, correctIndex: Int, isCorrect: Bool)
-    func clearAnswerHighlight()
+    func presentFeedback(_ result: QuizFeedbackResult, onContinue: @escaping () -> Void)
 }
 
 final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
@@ -54,7 +52,6 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
         }
         selectedIndex = nil
         questionShownAt = Date()
-        view?.configureQuizChrome()
         view?.showQuestion(
             flagAssetCode: q.flagAssetCode,
             countryName: q.countryName,
@@ -62,6 +59,7 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
             progress: interactor.currentProgressText()
         )
         view?.setProgress(fraction: interactor.currentProgressFraction())
+        view?.setOptionsEnabled(true)
         view?.setFinalAnswerEnabled(false)
     }
 
@@ -80,20 +78,26 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
         view?.setFinalAnswerEnabled(false)
 
         let elapsed = questionShownAt.map { Date().timeIntervalSince($0) } ?? 0
-        let correctIndex = q.correctIndex
+        let yourAnswer = q.options[selectedIndex]
+        let correctAnswer = q.options[q.correctIndex]
         let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
-        view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
+        let result = QuizFeedbackResult(
+            isCorrect: isCorrect,
+            awardedPoints: interactor.lastAwardedPoints,
+            totalPoints: interactor.totalScore,
+            flagAssetCode: q.flagAssetCode,
+            questionPrompt: "¿Cuál es la capital de \(q.countryName)?",
+            yourAnswer: yourAnswer,
+            correctAnswer: correctAnswer,
+            isLastQuestion: !interactor.hasMoreQuestions
+        )
 
-        // Pausa suficiente para leer el resultado verde/rojo antes de avanzar.
-        let revealPause: TimeInterval = 0.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + revealPause) { [weak self] in
-            guard let self else { return }
-            self.view?.clearAnswerHighlight()
-            self.view?.setOptionsEnabled(true)
+        view?.presentFeedback(result) { [weak self, weak viewController] in
+            guard let self, let vc = viewController else { return }
             if self.interactor.hasMoreQuestions {
-                self.presentCurrent(from: viewController)
+                self.presentCurrent(from: vc)
             } else {
-                self.router?.pushSummary(from: viewController)
+                self.router?.pushSummary(from: vc)
             }
         }
     }
