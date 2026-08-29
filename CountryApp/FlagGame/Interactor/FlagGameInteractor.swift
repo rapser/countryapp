@@ -27,6 +27,10 @@ protocol FlagGameInteractorProtocol: AnyObject {
     /// Ends session with current counters (partial round supported).
     func buildSummary() -> GameSummary
     var hasMoreQuestions: Bool { get }
+    /// Puntos acumulados en la ronda.
+    var totalScore: Int { get }
+    /// Puntos otorgados por la última pregunta confirmada (0 tras un fallo o salto).
+    var lastAwardedPoints: Int { get }
 }
 
 final class FlagGameInteractor: FlagGameInteractorProtocol {
@@ -44,6 +48,8 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
     private var clearCorrectRows: [SummaryFlagRow] = []
     private var doubtCorrectRows: [SummaryFlagRow] = []
     private var sessionStart: Date?
+    private(set) var totalScore = 0
+    private(set) var lastAwardedPoints = 0
     /// Códigos disponibles en el dataset al iniciar la ronda (para persistir estado al generar el resumen).
     private var lastAvailableFlagCodes: Set<String> = []
     /// Evita registrar dos veces la misma ronda al construir el resumen.
@@ -113,6 +119,8 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         clearCorrectRows = []
         doubtCorrectRows = []
         sessionStart = nil
+        totalScore = 0
+        lastAwardedPoints = 0
     }
 
     func recordQuizStarted() {
@@ -156,6 +164,8 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
             wrongCountryNames.append(answerName)
             wrongFlagRows.append(row)
         }
+        lastAwardedPoints = FlagGameScoring.points(correct: correct, responseTime: responseTime)
+        totalScore += lastAwardedPoints
         currentIndex += 1
         return correct
     }
@@ -163,6 +173,7 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
     func skipQuestion() {
         guard let q = currentQuestion() else { return }
         let answerName = q.options[q.correctIndex]
+        lastAwardedPoints = 0
         skippedCount += 1
         skippedCountryNames.append(answerName)
         skippedFlagRows.append(SummaryFlagRow(countryName: answerName, flagAssetCode: q.flagAssetCode))
@@ -178,7 +189,7 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
 
         let start = sessionStart ?? Date()
         let duration = Date().timeIntervalSince(start)
-        let score = correctCount * 10 - wrongCount * 5
+        let score = totalScore
         let reviewRows = GameSummary.orderedUniqueFlagRows(wrongFlagRows + skippedFlagRows)
         return GameSummary(
             correctCount: correctCount,

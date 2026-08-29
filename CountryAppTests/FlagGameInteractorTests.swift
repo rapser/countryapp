@@ -153,6 +153,41 @@ final class FlagGameInteractorTests: XCTestCase {
         XCTAssertEqual(summary.clearCorrectRows.count, 1)
     }
 
+    func testScore_accumulatesAwardedPointsAndReflectsInSummary() async throws {
+        let countries = (0..<12).map { i -> Country in
+            Country(
+                name: Name(common: "Score\(i)", official: "S\(i)"),
+                capital: nil,
+                cca2: nil,
+                assetFlag: "s\(i)"
+            )
+        }
+        let persistence = SwiftDataCountryPersistence(modelContext: modelContext)
+        try persistence.replaceAll(from: countries)
+        let interactor = FlagGameInteractor(persistence: persistence)
+        try await interactor.startNewRound()
+
+        var running = 0
+
+        guard let q1 = interactor.currentQuestion() else { XCTFail("missing q1"); return }
+        XCTAssertTrue(interactor.submitAnswer(optionIndex: q1.correctIndex, responseTime: 0))
+        XCTAssertEqual(interactor.lastAwardedPoints, FlagGameScoring.basePointsPerCorrect + FlagGameScoring.maxSpeedBonus)
+        running += interactor.lastAwardedPoints
+        XCTAssertEqual(interactor.totalScore, running)
+
+        guard let q2 = interactor.currentQuestion() else { XCTFail("missing q2"); return }
+        let wrongIndex = (q2.correctIndex + 1) % q2.options.count
+        XCTAssertFalse(interactor.submitAnswer(optionIndex: wrongIndex, responseTime: 2))
+        XCTAssertEqual(interactor.lastAwardedPoints, 0)
+        XCTAssertEqual(interactor.totalScore, running)
+
+        guard interactor.currentQuestion() != nil else { XCTFail("missing q3"); return }
+        interactor.skipQuestion()
+        XCTAssertEqual(interactor.lastAwardedPoints, 0)
+
+        XCTAssertEqual(interactor.buildSummary().score, running)
+    }
+
     func testPersistence_savesSpanishNameAndFlagGameUsesIt() throws {
         let countries = [
             Country(name: Name(common: "Spain", official: "Kingdom of Spain", nameSpanish: "España"), capital: nil, cca2: "es", assetFlag: "es"),

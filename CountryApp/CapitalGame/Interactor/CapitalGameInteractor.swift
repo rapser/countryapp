@@ -16,6 +16,10 @@ protocol CapitalGameInteractorProtocol: AnyObject {
     func skipQuestion()
     func buildSummary() -> GameSummary
     var hasMoreQuestions: Bool { get }
+    /// Puntos acumulados en la ronda.
+    var totalScore: Int { get }
+    /// Puntos otorgados por la última pregunta confirmada (0 tras un fallo o salto).
+    var lastAwardedPoints: Int { get }
 }
 
 /// Snapshot Sendable (Swift 6): país + capital.
@@ -42,6 +46,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
     private var clearCorrectRows: [SummaryFlagRow] = []
     private var doubtCorrectRows: [SummaryFlagRow] = []
     private var sessionStart: Date?
+    private(set) var totalScore = 0
+    private(set) var lastAwardedPoints = 0
 
     private var lastAvailableFlagCodes: Set<String> = []
     private var exportedRoundKey: String?
@@ -109,6 +115,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         clearCorrectRows = []
         doubtCorrectRows = []
         sessionStart = nil
+        totalScore = 0
+        lastAwardedPoints = 0
     }
 
     func recordQuizStarted() {
@@ -148,6 +156,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
             wrongCountryNames.append(answerCountryName)
             wrongFlagRows.append(row)
         }
+        lastAwardedPoints = FlagGameScoring.points(correct: correct, responseTime: responseTime)
+        totalScore += lastAwardedPoints
         currentIndex += 1
         return correct
     }
@@ -155,6 +165,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
     func skipQuestion() {
         guard let q = currentQuestion() else { return }
         let answerCountryName = q.countryName
+        lastAwardedPoints = 0
         skippedCount += 1
         skippedCountryNames.append(answerCountryName)
         skippedFlagRows.append(SummaryFlagRow(countryName: answerCountryName, flagAssetCode: q.flagAssetCode))
@@ -170,7 +181,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
 
         let start = sessionStart ?? Date()
         let duration = Date().timeIntervalSince(start)
-        let score = correctCount * 10 - wrongCount * 5
+        let score = totalScore
         let reviewRows = GameSummary.orderedUniqueFlagRows(wrongFlagRows + skippedFlagRows)
         return GameSummary(
             correctCount: correctCount,
