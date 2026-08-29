@@ -14,14 +14,12 @@ protocol CapitalGameQuizPresenterProtocol: AnyObject {
 }
 
 protocol CapitalGameQuizViewProtocol: AnyObject {
-    func configureQuizChrome()
     func showQuestion(flagAssetCode: String, countryName: String, options: [String], progress: String)
     func setProgress(fraction: Float)
     func setOptionsEnabled(_ enabled: Bool)
     func setFinalAnswerEnabled(_ enabled: Bool)
     func highlightSelectedOption(index: Int)
-    func revealAnswer(selectedIndex: Int, correctIndex: Int, isCorrect: Bool)
-    func clearAnswerHighlight()
+    func presentFeedback(_ result: QuizFeedbackResult, onContinue: @escaping () -> Void)
 }
 
 final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
@@ -31,6 +29,11 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
     var router: CapitalGameRouterProtocol?
     private let interactor: CapitalGameInteractorProtocol
     private var didRecordStart = false
+    /// La primera pregunta se muestra desde `viewDidAppear`; las siguientes solo al continuar
+    /// desde el feedback, para que el `viewDidAppear` que dispara el cierre del modal no reentre.
+    private var didPresentFirstQuestion = false
+    /// Evita empujar el resumen dos veces (cierre del modal + reaparición del quiz).
+    private var isNavigatingToSummary = false
     private var selectedIndex: Int?
     private var questionShownAt: Date?
 
@@ -44,17 +47,18 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
             interactor.recordQuizStarted()
             didRecordStart = true
         }
+        guard !didPresentFirstQuestion else { return }
+        didPresentFirstQuestion = true
         presentCurrent(from: viewController)
     }
 
     private func presentCurrent(from viewController: UIViewController) {
         guard let q = interactor.currentQuestion() else {
-            router?.pushSummary(from: viewController)
+            goToSummary(from: viewController)
             return
         }
         selectedIndex = nil
         questionShownAt = Date()
-        view?.configureQuizChrome()
         view?.showQuestion(
             flagAssetCode: q.flagAssetCode,
             countryName: q.countryName,
@@ -62,6 +66,7 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
             progress: interactor.currentProgressText()
         )
         view?.setProgress(fraction: interactor.currentProgressFraction())
+        view?.setOptionsEnabled(true)
         view?.setFinalAnswerEnabled(false)
     }
 
@@ -80,25 +85,37 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
         view?.setFinalAnswerEnabled(false)
 
         let elapsed = questionShownAt.map { Date().timeIntervalSince($0) } ?? 0
-        let correctIndex = q.correctIndex
+        let yourAnswer = q.options[selectedIndex]
+        let correctAnswer = q.options[q.correctIndex]
         let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
-        view?.revealAnswer(selectedIndex: selectedIndex, correctIndex: correctIndex, isCorrect: isCorrect)
+        let result = QuizFeedbackResult(
+            isCorrect: isCorrect,
+            awardedPoints: interactor.lastAwardedPoints,
+            totalPoints: interactor.totalScore,
+            flagAssetCode: q.flagAssetCode,
+            questionPrompt: "¿Cuál es la capital de \(q.countryName)?",
+            yourAnswer: yourAnswer,
+            correctAnswer: correctAnswer,
+            isLastQuestion: !interactor.hasMoreQuestions
+        )
 
-        // Pausa suficiente para leer el resultado verde/rojo antes de avanzar.
-        let revealPause: TimeInterval = 0.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + revealPause) { [weak self] in
-            guard let self else { return }
-            self.view?.clearAnswerHighlight()
-            self.view?.setOptionsEnabled(true)
+        view?.presentFeedback(result) { [weak self, weak viewController] in
+            guard let self, let vc = viewController else { return }
             if self.interactor.hasMoreQuestions {
-                self.presentCurrent(from: viewController)
+                self.presentCurrent(from: vc)
             } else {
-                self.router?.pushSummary(from: viewController)
+                self.goToSummary(from: vc)
             }
         }
     }
 
     func didTapFinish(from viewController: UIViewController) {
+        goToSummary(from: viewController)
+    }
+
+    private func goToSummary(from viewController: UIViewController) {
+        guard !isNavigatingToSummary else { return }
+        isNavigatingToSummary = true
         router?.pushSummary(from: viewController)
     }
 }

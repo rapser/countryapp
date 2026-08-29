@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F4227CE54428D6C4418F207 /* QuizFeedbackResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BB1175A4EA1560B16EBD6 /* QuizFeedbackResult.swift */; };
 		4659F3422D386572006D49F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3412D386572006D49F2 /* AppDelegate.swift */; };
 		4659F3442D386572006D49F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3432D386572006D49F2 /* SceneDelegate.swift */; };
 		4659F34B2D386574006D49F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4659F34A2D386574006D49F2 /* Assets.xcassets */; };
@@ -52,6 +53,10 @@
 		46B801C72D3A47F70094F9A1 /* MockUserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801BE2D3A47F70094F9A1 /* MockUserDefaultsManager.swift */; };
 		46B801CF2D3A48B70094F9A1 /* CountryAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */; };
 		46B801D12D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */; };
+		535114C4F05DA42828A5007C /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2ECB3E1C147E021345F6AC /* AppColor.swift */; };
+		717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6457921F593108914E7D939C /* UINavigationController+Theme.swift */; };
+		8F3F6E07C07DE06AB1B1A510 /* QuizFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8D0240776991090FAD0C8C /* QuizFeedbackViewController.swift */; };
+		9CE37AC59DBAB3845213256A /* QuizHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885539BEC6F904237447636 /* QuizHeaderView.swift */; };
 		A7E1F2012D386572006DC001 /* PersistedCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1012D386572006DC001 /* PersistedCountry.swift */; };
 		A7E1F2022D386572006DC001 /* CountryPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */; };
 		A7E1F2032D386572006DC001 /* SwiftDataCountryPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */; };
@@ -76,6 +81,9 @@
 		A7E1F2162D386572006DC001 /* FlagGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */; };
 		A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */; };
 		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
+		AE43CE2AFEA13251E887088F /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E9020C69704DFE26A782F5 /* AppFont.swift */; };
+		C2E459EC436EEAA7283B5A40 /* AppMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB863788469C0E66A5CB2C44 /* AppMetrics.swift */; };
+		CAF6CD5DDE9BAF27ED095184 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984FDF31E56798C16386B79 /* CardView.swift */; };
 		CC12345601000000006DC001 /* FlagSynonymGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345602000000006DC001 /* FlagSynonymGroups.swift */; };
 		CC12345603000000006DC001 /* GameShareCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345604000000006DC001 /* GameShareCardRenderer.swift */; };
 		CC12345606000000006DC001 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345605000000006DC001 /* Coordinator.swift */; };
@@ -89,6 +97,7 @@
 		CC12345617000000006DC001 /* VariedRoundSelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345618000000006DC001 /* VariedRoundSelectorTests.swift */; };
 		CC12345619000000006DC001 /* TerritoryCountryCodesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234561A000000006DC001 /* TerritoryCountryCodesTests.swift */; };
 		CC1234561B000000006DC001 /* CapitalGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1234561C000000006DC001 /* CapitalGameInteractorTests.swift */; };
+		CC2E6BDC936C58ACFDB4FBDF /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759517EFC5C9CF175A7308D /* PillButton.swift */; };
 		D0C0A2002F20B000006DC001 /* FlagGamePoolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */; };
 		D0C0A2012F20B000006DC001 /* CapitalGameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1102F20B000006DC001 /* CapitalGameModels.swift */; };
 		D0C0A2022F20B000006DC001 /* CapitalGamePoolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1112F20B000006DC001 /* CapitalGamePoolState.swift */; };
@@ -101,6 +110,9 @@
 		D0C0A2092F20B000006DC001 /* CapitalGameInstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */; };
 		D0C0A20A2F20B000006DC001 /* CapitalGameQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */; };
 		D0C0A20B2F20B000006DC001 /* CapitalGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */; };
+		D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */; };
+		F1BEEEF93322B70C236ED64C /* SummaryCardFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */; };
+		F4F6140050DD138A087CF500 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723D5441652480C8D5983F4F /* OptionButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +133,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1984FDF31E56798C16386B79 /* CardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		4659F33E2D386572006D49F2 /* CountryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4659F3412D386572006D49F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4659F3432D386572006D49F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -170,6 +183,11 @@
 		46B801CC2D3A48B70094F9A1 /* CountryAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountryAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITests.swift; sourceTree = "<group>"; };
 		46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6457921F593108914E7D939C /* UINavigationController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Theme.swift"; sourceTree = "<group>"; };
+		6759517EFC5C9CF175A7308D /* PillButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
+		723D5441652480C8D5983F4F /* OptionButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
+		8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryCardFactory.swift; sourceTree = "<group>"; };
+		9B8D0240776991090FAD0C8C /* QuizFeedbackViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuizFeedbackViewController.swift; sourceTree = "<group>"; };
 		A7E1F1012D386572006DC001 /* PersistedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedCountry.swift; sourceTree = "<group>"; };
 		A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPersistenceProtocol.swift; sourceTree = "<group>"; };
 		A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCountryPersistence.swift; sourceTree = "<group>"; };
@@ -194,6 +212,9 @@
 		A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameSummaryViewController.swift; sourceTree = "<group>"; };
 		A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGameInteractorTests.swift; sourceTree = "<group>"; };
 		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
+		AD2ECB3E1C147E021345F6AC /* AppColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
+		B2E9020C69704DFE26A782F5 /* AppFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
+		CB863788469C0E66A5CB2C44 /* AppMetrics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppMetrics.swift; sourceTree = "<group>"; };
 		CC12345602000000006DC001 /* FlagSynonymGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagSynonymGroups.swift; sourceTree = "<group>"; };
 		CC12345604000000006DC001 /* GameShareCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShareCardRenderer.swift; sourceTree = "<group>"; };
 		CC12345605000000006DC001 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -219,6 +240,9 @@
 		D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameQuizViewController.swift; sourceTree = "<group>"; };
 		D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameSummaryViewController.swift; sourceTree = "<group>"; };
 		D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGamePoolState.swift; sourceTree = "<group>"; };
+		DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FlagGameScoringTests.swift; sourceTree = "<group>"; };
+		EA3BB1175A4EA1560B16EBD6 /* QuizFeedbackResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuizFeedbackResult.swift; sourceTree = "<group>"; };
+		F885539BEC6F904237447636 /* QuizHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuizHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +270,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E9FD774C3F54931AF85D72A /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				EA3BB1175A4EA1560B16EBD6 /* QuizFeedbackResult.swift */,
+				9B8D0240776991090FAD0C8C /* QuizFeedbackViewController.swift */,
+				8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		40B459E84E3175C66FFBCE35 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				AD2ECB3E1C147E021345F6AC /* AppColor.swift */,
+				B2E9020C69704DFE26A782F5 /* AppFont.swift */,
+				CB863788469C0E66A5CB2C44 /* AppMetrics.swift */,
+				9BAA94452547B50FA1EEDF98 /* Components */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
 		4659F3352D386572006D49F2 = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +327,8 @@
 				4659F3772D386AC6006D49F2 /* Extension */,
 				4659F3B12D388793006D49F2 /* Resources */,
 				4659F34F2D386574006D49F2 /* Info.plist */,
+				40B459E84E3175C66FFBCE35 /* DesignSystem */,
+				3E9FD774C3F54931AF85D72A /* Common */,
 			);
 			path = CountryApp;
 			sourceTree = "<group>";
@@ -290,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */,
+				6457921F593108914E7D939C /* UINavigationController+Theme.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -514,6 +562,7 @@
 				CC1234561A000000006DC001 /* TerritoryCountryCodesTests.swift */,
 				CC1234561C000000006DC001 /* CapitalGameInteractorTests.swift */,
 				46B801AA2D3A47750094F9A1 /* CountryAppTests.swift */,
+				DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */,
 			);
 			path = CountryAppTests;
 			sourceTree = "<group>";
@@ -553,6 +602,17 @@
 				46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */,
 			);
 			path = CountryAppUITests;
+			sourceTree = "<group>";
+		};
+		9BAA94452547B50FA1EEDF98 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6759517EFC5C9CF175A7308D /* PillButton.swift */,
+				723D5441652480C8D5983F4F /* OptionButton.swift */,
+				1984FDF31E56798C16386B79 /* CardView.swift */,
+				F885539BEC6F904237447636 /* QuizHeaderView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		A7E1F3012D386572006DC001 /* Persistence */ = {
@@ -918,6 +978,17 @@
 				4659F3902D387C63006D49F2 /* CountryListPresenterProtocol.swift in Sources */,
 				4659F39C2D3880C2006D49F2 /* CountryDetailServiceManager.swift in Sources */,
 				4659F3BB2D39720E006D49F2 /* CountryDetailError.swift in Sources */,
+				535114C4F05DA42828A5007C /* AppColor.swift in Sources */,
+				AE43CE2AFEA13251E887088F /* AppFont.swift in Sources */,
+				C2E459EC436EEAA7283B5A40 /* AppMetrics.swift in Sources */,
+				CC2E6BDC936C58ACFDB4FBDF /* PillButton.swift in Sources */,
+				F4F6140050DD138A087CF500 /* OptionButton.swift in Sources */,
+				CAF6CD5DDE9BAF27ED095184 /* CardView.swift in Sources */,
+				9CE37AC59DBAB3845213256A /* QuizHeaderView.swift in Sources */,
+				2F4227CE54428D6C4418F207 /* QuizFeedbackResult.swift in Sources */,
+				8F3F6E07C07DE06AB1B1A510 /* QuizFeedbackViewController.swift in Sources */,
+				717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */,
+				F1BEEEF93322B70C236ED64C /* SummaryCardFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,6 +1008,7 @@
 				46B801C72D3A47F70094F9A1 /* MockUserDefaultsManager.swift in Sources */,
 				46B801AB2D3A47750094F9A1 /* CountryAppTests.swift in Sources */,
 				46B801C22D3A47F70094F9A1 /* MockCountryDetailService.swift in Sources */,
+				D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,7 +1178,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;
@@ -1137,7 +1209,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 8AJBS923B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountryApp/Info.plist;

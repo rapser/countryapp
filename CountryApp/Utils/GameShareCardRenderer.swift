@@ -16,7 +16,9 @@ struct GameShareCardRenderer {
     private let cardW: CGFloat = 360
     private let cardH: CGFloat = 420
     private let margin: CGFloat = 28
-    private let accent = UIColor(red: 0.95, green: 0.80, blue: 0.22, alpha: 1)
+    private let accent = AppColor.primary
+    private let ink = AppColor.textPrimary
+    private let inkSecondary = AppColor.textSecondary
 
     // MARK: - Public
 
@@ -33,93 +35,59 @@ struct GameShareCardRenderer {
     // MARK: - Card drawing
 
     private func drawCard(bounds: CGRect) {
-        guard let ctx = UIGraphicsGetCurrentContext() else { return }
+        // Fondo claro
+        AppColor.background.setFill()
+        UIRectFill(bounds)
 
-        // Background gradient
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bgColors = [
-            UIColor(red: 0.02, green: 0.05, blue: 0.22, alpha: 1).cgColor,
-            UIColor(red: 0.04, green: 0.14, blue: 0.40, alpha: 1).cgColor,
-        ] as CFArray
-        if let gradient = CGGradient(colorsSpace: colorSpace, colors: bgColors, locations: [0, 1]) {
-            ctx.drawLinearGradient(
-                gradient,
-                start: CGPoint(x: bounds.midX, y: 0),
-                end: CGPoint(x: bounds.midX, y: bounds.maxY),
-                options: []
-            )
-        }
-
-        // Yellow accent bar at top
+        // Barra de acento morada arriba
         accent.setFill()
-        UIRectFill(CGRect(x: 0, y: 0, width: bounds.width, height: 5))
+        UIRectFill(CGRect(x: 0, y: 0, width: bounds.width, height: 6))
 
-        let cx = bounds.midX
-        var y: CGFloat = 22
+        var y: CGFloat = 24
 
         // ── Header ─────────────────────────────────────────────
         draw("🌍", at: CGPoint(x: margin, y: y), font: .systemFont(ofSize: 34))
-        draw(
-            "CountryApp",
-            origin: CGPoint(x: margin + 48, y: y + 2),
-            font: .boldSystemFont(ofSize: 20),
-            color: .white
-        )
-        draw(
-            gameModeName,
-            origin: CGPoint(x: margin + 48, y: y + 26),
-            font: .systemFont(ofSize: 12, weight: .medium),
-            color: UIColor(white: 1, alpha: 0.60)
-        )
-        y += 70
+        draw("CountryApp", origin: CGPoint(x: margin + 48, y: y + 2), font: AppFont.rounded(20, .bold), color: ink)
+        draw(gameModeName, origin: CGPoint(x: margin + 48, y: y + 28), font: AppFont.rounded(12, .medium), color: inkSecondary)
+        y += 72
 
         separator(at: y, in: bounds)
-        y += 22
+        y += 24
 
         // ── Score ───────────────────────────────────────────────
         let total = summary.correctCount + summary.wrongCount + summary.skippedCount
-        let headline = "\(summary.correctCount) / \(total) correctas"
-        drawCentered(headline, y: y, width: bounds.width, font: .boldSystemFont(ofSize: 38), color: accent)
-        y += 54
-
-        let scoreSubline = "★ \(summary.score) puntos"
-        drawCentered(scoreSubline, y: y, width: bounds.width, font: .systemFont(ofSize: 16, weight: .semibold), color: UIColor(white: 1, alpha: 0.75))
-        y += 38
+        drawCentered("\(summary.score)", y: y, width: bounds.width, font: AppFont.rounded(46, .heavy), color: accent)
+        y += 58
+        drawCentered("puntos", y: y, width: bounds.width, font: AppFont.rounded(15, .semibold), color: inkSecondary)
+        y += 28
+        drawCentered("\(summary.correctCount) / \(total) correctas", y: y, width: bounds.width,
+                     font: AppFont.rounded(16, .semibold), color: ink)
+        y += 40
 
         // ── Stat boxes ─────────────────────────────────────────
         drawStatBoxes(y: y, in: bounds)
         y += 96
 
         // ── Time ────────────────────────────────────────────────
-        drawCentered(
-            "⏱  \(formatDuration(summary.duration))",
-            y: y,
-            width: bounds.width,
-            font: .systemFont(ofSize: 14, weight: .medium),
-            color: UIColor(white: 1, alpha: 0.75)
-        )
+        drawCentered("⏱  \(formatDuration(summary.duration))", y: y, width: bounds.width,
+                     font: AppFont.rounded(14, .medium), color: inkSecondary)
         y += 42
 
         separator(at: y, in: bounds)
-        y += 20
+        y += 22
 
         // ── Call to action ──────────────────────────────────────
-        drawCentered(
-            "¿Puedes superarlo? 🌍",
-            y: y,
-            width: bounds.width,
-            font: .boldSystemFont(ofSize: 16),
-            color: .white
-        )
+        drawCentered("¿Puedes superarlo? 🌍", y: y, width: bounds.width,
+                     font: AppFont.rounded(16, .bold), color: ink)
     }
 
     // MARK: - Stat boxes
 
     private func drawStatBoxes(y: CGFloat, in bounds: CGRect) {
         let items: [(icon: String, value: Int, color: UIColor, label: String)] = [
-            ("✓", summary.correctCount, UIColor(red: 0.20, green: 0.72, blue: 0.36, alpha: 1), "Aciertos"),
-            ("✗", summary.wrongCount,   UIColor(red: 0.85, green: 0.26, blue: 0.22, alpha: 1), "Fallos"),
-            ("⏭", summary.skippedCount, UIColor(white: 1, alpha: 0.55),                        "Saltadas"),
+            ("✓", summary.correctCount, AppColor.feedbackCorrect, "Aciertos"),
+            ("✗", summary.wrongCount, AppColor.feedbackWrong, "Fallos"),
+            ("⏭", summary.skippedCount, inkSecondary, "Saltadas"),
         ]
         let boxW: CGFloat = 96
         let boxH: CGFloat = 76
@@ -131,17 +99,12 @@ struct GameShareCardRenderer {
             let boxRect = CGRect(x: bx, y: y, width: boxW, height: boxH)
 
             let path = UIBezierPath(roundedRect: boxRect, cornerRadius: 14)
-            UIColor(white: 1, alpha: 0.08).setFill()
+            item.color.withAlphaComponent(0.12).setFill()
             path.fill()
 
-            // Thin border
-            UIColor(white: 1, alpha: 0.12).setStroke()
-            path.lineWidth = 1
-            path.stroke()
-
             let valueStr = "\(item.icon)  \(item.value)"
-            drawCentered(valueStr, y: y + 10, width: boxW, xOffset: bx, font: .boldSystemFont(ofSize: 20), color: item.color)
-            drawCentered(item.label, y: y + 44, width: boxW, xOffset: bx, font: .systemFont(ofSize: 11, weight: .medium), color: UIColor(white: 1, alpha: 0.50))
+            drawCentered(valueStr, y: y + 10, width: boxW, xOffset: bx, font: AppFont.rounded(20, .bold), color: item.color)
+            drawCentered(item.label, y: y + 44, width: boxW, xOffset: bx, font: AppFont.rounded(11, .medium), color: inkSecondary)
         }
     }
 
@@ -160,23 +123,15 @@ struct GameShareCardRenderer {
     }
 
     private func draw(_ text: String, at point: CGPoint, font: UIFont, color: UIColor = .white) {
-        let attrs: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .foregroundColor: color,
-        ]
-        text.draw(at: point, withAttributes: attrs)
+        text.draw(at: point, withAttributes: [.font: font, .foregroundColor: color])
     }
 
     private func draw(_ text: String, origin: CGPoint, font: UIFont, color: UIColor) {
-        let attrs: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .foregroundColor: color,
-        ]
-        text.draw(at: origin, withAttributes: attrs)
+        text.draw(at: origin, withAttributes: [.font: font, .foregroundColor: color])
     }
 
     private func separator(at y: CGFloat, in bounds: CGRect) {
-        UIColor(white: 1, alpha: 0.14).setFill()
+        AppColor.divider.setFill()
         UIRectFill(CGRect(x: margin, y: y, width: bounds.width - margin * 2, height: 1))
     }
 
