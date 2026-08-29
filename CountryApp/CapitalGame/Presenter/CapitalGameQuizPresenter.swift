@@ -29,6 +29,11 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
     var router: CapitalGameRouterProtocol?
     private let interactor: CapitalGameInteractorProtocol
     private var didRecordStart = false
+    /// La primera pregunta se muestra desde `viewDidAppear`; las siguientes solo al continuar
+    /// desde el feedback, para que el `viewDidAppear` que dispara el cierre del modal no reentre.
+    private var didPresentFirstQuestion = false
+    /// Evita empujar el resumen dos veces (cierre del modal + reaparición del quiz).
+    private var isNavigatingToSummary = false
     private var selectedIndex: Int?
     private var questionShownAt: Date?
 
@@ -42,12 +47,14 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
             interactor.recordQuizStarted()
             didRecordStart = true
         }
+        guard !didPresentFirstQuestion else { return }
+        didPresentFirstQuestion = true
         presentCurrent(from: viewController)
     }
 
     private func presentCurrent(from viewController: UIViewController) {
         guard let q = interactor.currentQuestion() else {
-            router?.pushSummary(from: viewController)
+            goToSummary(from: viewController)
             return
         }
         selectedIndex = nil
@@ -97,12 +104,18 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
             if self.interactor.hasMoreQuestions {
                 self.presentCurrent(from: vc)
             } else {
-                self.router?.pushSummary(from: vc)
+                self.goToSummary(from: vc)
             }
         }
     }
 
     func didTapFinish(from viewController: UIViewController) {
+        goToSummary(from: viewController)
+    }
+
+    private func goToSummary(from viewController: UIViewController) {
+        guard !isNavigatingToSummary else { return }
+        isNavigatingToSummary = true
         router?.pushSummary(from: viewController)
     }
 }

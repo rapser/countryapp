@@ -23,6 +23,11 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
     var router: FlagGameRouterProtocol?
     private let interactor: FlagGameInteractorProtocol
     private var didRecordStart = false
+    /// La primera pregunta se muestra desde `viewDidAppear`; las siguientes solo al continuar
+    /// desde el feedback, para que el `viewDidAppear` que dispara el cierre del modal no reentre.
+    private var didPresentFirstQuestion = false
+    /// Evita empujar el resumen dos veces (cierre del modal + reaparición del quiz).
+    private var isNavigatingToSummary = false
     private var selectedIndex: Int?
     private var questionShownAt: Date?
 
@@ -42,16 +47,18 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
             interactor.recordQuizStarted()
             didRecordStart = true
         }
+        guard !didPresentFirstQuestion else {
+            Self.trace("viewDidAppear: reaparición (cierre de feedback), ignorada")
+            return
+        }
+        didPresentFirstQuestion = true
         presentCurrent(from: viewController)
     }
 
     private func presentCurrent(from viewController: UIViewController) {
         guard let q = interactor.currentQuestion() else {
             Self.trace("presentCurrent: no hay pregunta actual → intento pushSummary router=\(router != nil)")
-            if router == nil {
-                Self.trace("presentCurrent: ABORT router es nil, no se puede mostrar resumen")
-            }
-            router?.pushSummary(from: viewController)
+            goToSummary(from: viewController)
             return
         }
         selectedIndex = nil
@@ -107,13 +114,25 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
             if self.interactor.hasMoreQuestions {
                 self.presentCurrent(from: vc)
             } else {
-                self.router?.pushSummary(from: vc)
+                self.goToSummary(from: vc)
             }
         }
     }
 
     func didTapFinish(from viewController: UIViewController) {
         Self.trace("didTapFinish → pushSummary router=\(router != nil) nav=\(viewController.navigationController != nil)")
+        goToSummary(from: viewController)
+    }
+
+    private func goToSummary(from viewController: UIViewController) {
+        guard !isNavigatingToSummary else {
+            Self.trace("goToSummary: ya en curso, ignorado")
+            return
+        }
+        if router == nil {
+            Self.trace("goToSummary: ABORT router es nil")
+        }
+        isNavigatingToSummary = true
         router?.pushSummary(from: viewController)
     }
 }
