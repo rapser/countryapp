@@ -32,6 +32,18 @@ struct SummaryFlagRow: Equatable {
     let flagAssetCode: String
 }
 
+/// Resultado de una pregunta individual, en el orden en que se jugó.
+/// Alimenta el detalle cronológico del resumen final (sin feedback modal por pregunta).
+struct QuizQuestionResult: Equatable {
+    let flagAssetCode: String
+    let questionPrompt: String
+    /// nil si la pregunta se saltó.
+    let yourAnswer: String?
+    let correctAnswer: String
+    let isCorrect: Bool
+    let awardedPoints: Int
+}
+
 enum FlagGameTiming {
     /// Si tardas más de este tiempo en confirmar un acierto, se cuenta como «duda».
     static let doubtAnswerThresholdSeconds: TimeInterval = 15
@@ -72,6 +84,8 @@ struct GameSummary: Equatable {
     let clearCorrectRows: [SummaryFlagRow]
     /// Aciertos correctos pero con respuesta lenta (duda).
     let doubtCorrectRows: [SummaryFlagRow]
+    /// Detalle de cada pregunta, en el orden en que se jugó.
+    let questionResults: [QuizQuestionResult]
 
     /// Países a repasar: fallos y saltadas, sin duplicar, conservando el orden de aparición.
     var countryNamesToReview: [String] {

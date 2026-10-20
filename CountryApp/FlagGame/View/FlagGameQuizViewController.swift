@@ -11,7 +11,6 @@ protocol FlagGameQuizViewProtocol: AnyObject {
     func setOptionsEnabled(_ enabled: Bool)
     func setFinalAnswerEnabled(_ enabled: Bool)
     func highlightSelectedOption(index: Int)
-    func presentFeedback(_ result: QuizFeedbackResult, onContinue: @escaping () -> Void)
 }
 
 final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtocol {
@@ -166,10 +165,4 @@ final class FlagGameQuizViewController: UIViewController, FlagGameQuizViewProtoc
         }
     }
 
-    func presentFeedback(_ result: QuizFeedbackResult, onContinue: @escaping () -> Void) {
-        let feedback = QuizFeedbackViewController(result: result) { [weak self] in
-            self?.dismiss(animated: true) { onContinue() }
-        }
-        present(feedback, animated: true)
-    }
 }

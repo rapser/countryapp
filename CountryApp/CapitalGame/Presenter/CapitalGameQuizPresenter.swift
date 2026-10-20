@@ -19,7 +19,6 @@ protocol CapitalGameQuizViewProtocol: AnyObject {
     func setOptionsEnabled(_ enabled: Bool)
     func setFinalAnswerEnabled(_ enabled: Bool)
     func highlightSelectedOption(index: Int)
-    func presentFeedback(_ result: QuizFeedbackResult, onContinue: @escaping () -> Void)
 }
 
 final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
@@ -29,10 +28,9 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
     var router: CapitalGameRouterProtocol?
     private let interactor: CapitalGameInteractorProtocol
     private var didRecordStart = false
-    /// La primera pregunta se muestra desde `viewDidAppear`; las siguientes solo al continuar
-    /// desde el feedback, para que el `viewDidAppear` que dispara el cierre del modal no reentre.
+    /// La primera pregunta se muestra desde `viewDidAppear`; evita reentradas si se vuelve a llamar.
     private var didPresentFirstQuestion = false
-    /// Evita empujar el resumen dos veces (cierre del modal + reaparición del quiz).
+    /// Evita empujar el resumen más de una vez (p.ej. doble tap en "Terminar partida").
     private var isNavigatingToSummary = false
     private var selectedIndex: Int?
     private var questionShownAt: Date?
@@ -79,33 +77,18 @@ final class CapitalGameQuizPresenter: CapitalGameQuizPresenterProtocol {
 
     func didTapFinalAnswer(from viewController: UIViewController) {
         guard let selectedIndex else { return }
-        guard let q = interactor.currentQuestion() else { return }
+        guard interactor.currentQuestion() != nil else { return }
 
         view?.setOptionsEnabled(false)
         view?.setFinalAnswerEnabled(false)
 
         let elapsed = questionShownAt.map { Date().timeIntervalSince($0) } ?? 0
-        let yourAnswer = q.options[selectedIndex]
-        let correctAnswer = q.options[q.correctIndex]
-        let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
-        let result = QuizFeedbackResult(
-            isCorrect: isCorrect,
-            awardedPoints: interactor.lastAwardedPoints,
-            totalPoints: interactor.totalScore,
-            flagAssetCode: q.flagAssetCode,
-            questionPrompt: "¿Cuál es la capital de \(q.countryName)?",
-            yourAnswer: yourAnswer,
-            correctAnswer: correctAnswer,
-            isLastQuestion: !interactor.hasMoreQuestions
-        )
+        _ = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
 
-        view?.presentFeedback(result) { [weak self, weak viewController] in
-            guard let self, let vc = viewController else { return }
-            if self.interactor.hasMoreQuestions {
-                self.presentCurrent(from: vc)
-            } else {
-                self.goToSummary(from: vc)
-            }
+        if interactor.hasMoreQuestions {
+            presentCurrent(from: viewController)
+        } else {
+            goToSummary(from: viewController)
         }
     }
 

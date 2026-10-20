@@ -144,13 +144,6 @@ final class CapitalGameQuizViewController: UIViewController, CapitalGameQuizView
         }
     }
 
-    func presentFeedback(_ result: QuizFeedbackResult, onContinue: @escaping () -> Void) {
-        let feedback = QuizFeedbackViewController(result: result) { [weak self] in
-            self?.dismiss(animated: true) { onContinue() }
-        }
-        present(feedback, animated: true)
-    }
-
     @objc private func optionTapped(_ sender: UIButton) {
         presenter.didSelectOption(index: sender.tag, from: self)
     }

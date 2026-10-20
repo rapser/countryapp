@@ -10,7 +10,7 @@ protocol FlagGameQuizPresenterProtocol: AnyObject {
     func viewDidAppear(from viewController: UIViewController)
     /// Solo selecciona una opción (no avanza).
     func didSelectOption(index: Int, from viewController: UIViewController)
-    /// Confirma la selección; muestra el feedback a pantalla completa y avanza al continuar.
+    /// Confirma la selección y avanza directo a la siguiente pregunta (o al resumen si era la última).
     func didTapFinalAnswer(from viewController: UIViewController)
     func didTapFinish(from viewController: UIViewController)
 }
@@ -23,10 +23,9 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
     var router: FlagGameRouterProtocol?
     private let interactor: FlagGameInteractorProtocol
     private var didRecordStart = false
-    /// La primera pregunta se muestra desde `viewDidAppear`; las siguientes solo al continuar
-    /// desde el feedback, para que el `viewDidAppear` que dispara el cierre del modal no reentre.
+    /// La primera pregunta se muestra desde `viewDidAppear`; evita reentradas si se vuelve a llamar.
     private var didPresentFirstQuestion = false
-    /// Evita empujar el resumen dos veces (cierre del modal + reaparición del quiz).
+    /// Evita empujar el resumen más de una vez (p.ej. doble tap en "Terminar partida").
     private var isNavigatingToSummary = false
     private var selectedIndex: Int?
     private var questionShownAt: Date?
@@ -85,7 +84,7 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
             Self.trace("didTapFinalAnswer: sin selección, ignorado")
             return
         }
-        guard let q = interactor.currentQuestion() else {
+        guard interactor.currentQuestion() != nil else {
             Self.trace("didTapFinalAnswer: currentQuestion nil, ignorado")
             return
         }
@@ -94,28 +93,13 @@ final class FlagGameQuizPresenter: FlagGameQuizPresenterProtocol {
         view?.setFinalAnswerEnabled(false)
 
         let elapsed = questionShownAt.map { Date().timeIntervalSince($0) } ?? 0
-        let yourAnswer = q.options[selectedIndex]
-        let correctAnswer = q.options[q.correctIndex]
         let isCorrect = interactor.submitAnswer(optionIndex: selectedIndex, responseTime: elapsed)
-        let result = QuizFeedbackResult(
-            isCorrect: isCorrect,
-            awardedPoints: interactor.lastAwardedPoints,
-            totalPoints: interactor.totalScore,
-            flagAssetCode: q.flagAssetCode,
-            questionPrompt: "¿De qué país es esta bandera?",
-            yourAnswer: yourAnswer,
-            correctAnswer: correctAnswer,
-            isLastQuestion: !interactor.hasMoreQuestions
-        )
         Self.trace("Respuesta final=\(selectedIndex) correct=\(isCorrect) pts=\(interactor.lastAwardedPoints) total=\(interactor.totalScore) hasMore=\(interactor.hasMoreQuestions)")
 
-        view?.presentFeedback(result) { [weak self, weak viewController] in
-            guard let self, let vc = viewController else { return }
-            if self.interactor.hasMoreQuestions {
-                self.presentCurrent(from: vc)
-            } else {
-                self.goToSummary(from: vc)
-            }
+        if interactor.hasMoreQuestions {
+            presentCurrent(from: viewController)
+        } else {
+            goToSummary(from: viewController)
         }
     }
 
