@@ -120,6 +120,107 @@ enum SummaryCardFactory {
         return card
     }
 
+    /// Tarjeta con el detalle de cada pregunta, en el orden en que se jugó.
+    static func questionDetailCard(results: [QuizQuestionResult]) -> UIView {
+        let card = CardView()
+
+        let titleLabel = UILabel()
+        titleLabel.text = "Detalle de la partida"
+        titleLabel.font = AppFont.headline
+        titleLabel.textColor = AppColor.textPrimary
+
+        let outer = UIStackView(arrangedSubviews: [titleLabel])
+        outer.axis = .vertical
+        outer.spacing = AppMetrics.spacing3
+        outer.alignment = .fill
+        outer.translatesAutoresizingMaskIntoConstraints = false
+        outer.isLayoutMarginsRelativeArrangement = true
+        outer.layoutMargins = UIEdgeInsets(top: AppMetrics.spacing4, left: AppMetrics.spacing4,
+                                           bottom: AppMetrics.spacing4, right: AppMetrics.spacing4)
+
+        for (index, result) in results.enumerated() {
+            if index > 0 {
+                let divider = UIView()
+                divider.backgroundColor = AppColor.divider
+                divider.translatesAutoresizingMaskIntoConstraints = false
+                divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
+                outer.addArrangedSubview(divider)
+            }
+            outer.addArrangedSubview(questionDetailRow(number: index + 1, result: result))
+        }
+
+        card.contentView.addSubview(outer)
+        NSLayoutConstraint.activate([
+            outer.topAnchor.constraint(equalTo: card.contentView.topAnchor),
+            outer.leadingAnchor.constraint(equalTo: card.contentView.leadingAnchor),
+            outer.trailingAnchor.constraint(equalTo: card.contentView.trailingAnchor),
+            outer.bottomAnchor.constraint(equalTo: card.contentView.bottomAnchor)
+        ])
+        return card
+    }
+
+    private static func questionDetailRow(number: Int, result: QuizQuestionResult) -> UIStackView {
+        let flag = UIImageView(image: UIImage(named: result.flagAssetCode))
+        flag.contentMode = .scaleAspectFit
+        flag.clipsToBounds = true
+        flag.layer.cornerRadius = 6
+        flag.layer.borderWidth = 1
+        flag.layer.borderColor = AppColor.divider.cgColor
+        flag.backgroundColor = AppColor.divider
+        flag.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            flag.widthAnchor.constraint(equalToConstant: 56),
+            flag.heightAnchor.constraint(equalToConstant: 36)
+        ])
+
+        let answerLabel = UILabel()
+        answerLabel.text = "\(number). \(result.correctAnswer)"
+        answerLabel.font = AppFont.bodyBold
+        answerLabel.textColor = AppColor.textPrimary
+        answerLabel.numberOfLines = 0
+
+        let detailLabel = UILabel()
+        detailLabel.font = AppFont.caption
+        detailLabel.numberOfLines = 0
+        if let yourAnswer = result.yourAnswer {
+            detailLabel.text = result.isCorrect ? "Tu respuesta: \(yourAnswer)" : "Respondiste: \(yourAnswer)"
+            detailLabel.textColor = result.isCorrect ? AppColor.feedbackCorrect : AppColor.feedbackWrong
+        } else {
+            detailLabel.text = "No respondiste"
+            detailLabel.textColor = AppColor.textSecondary
+        }
+
+        let textStack = UIStackView(arrangedSubviews: [answerLabel, detailLabel])
+        textStack.axis = .vertical
+        textStack.spacing = 2
+        textStack.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        let icon = UIImageView(image: UIImage(systemName: result.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"))
+        icon.tintColor = result.isCorrect ? AppColor.feedbackCorrect : AppColor.feedbackWrong
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            icon.widthAnchor.constraint(equalToConstant: 22),
+            icon.heightAnchor.constraint(equalToConstant: 22)
+        ])
+
+        let pointsLabel = UILabel()
+        pointsLabel.text = result.awardedPoints > 0 ? "+\(result.awardedPoints)" : "0"
+        pointsLabel.font = AppFont.caption
+        pointsLabel.textColor = AppColor.textSecondary
+        pointsLabel.textAlignment = .center
+
+        let trailingStack = UIStackView(arrangedSubviews: [icon, pointsLabel])
+        trailingStack.axis = .vertical
+        trailingStack.spacing = 2
+        trailingStack.alignment = .center
+
+        let row = UIStackView(arrangedSubviews: [flag, textStack, trailingStack])
+        row.axis = .horizontal
+        row.spacing = AppMetrics.spacing3
+        row.alignment = .center
+        return row
+    }
+
     private static func flagRow(_ row: SummaryFlagRow) -> UIStackView {
         let flag = UIImageView(image: UIImage(named: row.flagAssetCode))
         flag.contentMode = .scaleAspectFit

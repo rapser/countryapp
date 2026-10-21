@@ -8,7 +8,7 @@
 import Foundation
 
 class CountryDetailInteractor: CountryDetailInteractorProtocol {
-    var presenter: CountryDetailPresenterProtocol?
+    weak var presenter: CountryDetailPresenterProtocol?
     private let service: CountryDetailService
 
     init(service: CountryDetailService) {

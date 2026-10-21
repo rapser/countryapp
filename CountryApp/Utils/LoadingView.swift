@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 
 class LoadingView: UIView {
+    /// Tiempo a esperar antes de mostrar el overlay: evita un flash en operaciones que
+    /// terminan casi al instante (datos cacheados, respuestas rápidas del mock).
+    static let showDelay: TimeInterval = 0.25
+
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     private let messageLabel = UILabel()
     

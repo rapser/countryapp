@@ -76,30 +76,7 @@ final class CapitalGameSummaryViewController: UIViewController {
         ])
 
         contentStack.addArrangedSubview(SummaryCardFactory.heroScoreCard(summary: summary))
-        contentStack.addArrangedSubview(
-            SummaryCardFactory.sectionCard(
-                title: "Repasa estas banderas",
-                subtitle: "Fallaste o saltaste la pregunta: conviene revisar el país correcto.",
-                accentColor: AppColor.summaryReview,
-                rows: summary.reviewFlagRows
-            )
-        )
-        contentStack.addArrangedSubview(
-            SummaryCardFactory.sectionCard(
-                title: "Las acertaste con claridad",
-                subtitle: "Respuesta correcta en \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos o menos.",
-                accentColor: AppColor.summaryClear,
-                rows: summary.clearCorrectRows
-            )
-        )
-        contentStack.addArrangedSubview(
-            SummaryCardFactory.sectionCard(
-                title: "Dudas",
-                subtitle: "Aciertos en los que tardaste más de \(Int(FlagGameTiming.doubtAnswerThresholdSeconds)) segundos en confirmar.",
-                accentColor: AppColor.summaryDoubt,
-                rows: summary.doubtCorrectRows
-            )
-        )
+        contentStack.addArrangedSubview(SummaryCardFactory.questionDetailCard(results: summary.questionResults))
 
         rootStack.addArrangedSubview(scrollView)
         rootStack.addArrangedSubview(exitButton)
