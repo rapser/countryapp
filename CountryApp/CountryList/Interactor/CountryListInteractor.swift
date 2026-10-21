@@ -8,7 +8,7 @@
 import Foundation
 
 class CountryListInteractor: CountryListInteractorProtocol {
-    var presenter: CountryListPresenterProtocol?
+    weak var presenter: CountryListPresenterProtocol?
     let service: CountryListService
     let persistence: CountryPersistenceProtocol
 

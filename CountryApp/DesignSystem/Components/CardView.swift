@@ -41,6 +41,10 @@ final class CardView: UIView {
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (view: CardView, _: UITraitCollection) in
+            view.layer.shadowColor = AppMetrics.Shadow.color.cgColor
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -50,10 +54,5 @@ final class CardView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        layer.shadowColor = AppMetrics.Shadow.color.cgColor
     }
 }

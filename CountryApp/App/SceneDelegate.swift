@@ -26,6 +26,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let modelContainer else { return }
 
         let window = UIWindow(windowScene: windowScene)
+        /// La app usa colores fijos de tema claro (`AppColor`); forzamos el estilo para que
+        /// componentes de sistema (UITableView, etc.) no hereden el `systemBackground` oscuro.
+        window.overrideUserInterfaceStyle = .light
         self.window = window
 
         let modelContext = ModelContext(modelContainer)

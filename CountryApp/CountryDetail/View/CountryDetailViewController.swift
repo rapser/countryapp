@@ -15,6 +15,8 @@ class CountryDetailViewController: UIViewController, CountryDetailViewProtocol {
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
     private var countryDetail: CountryDetail?
     private var loadingView: LoadingView?
+    /// Retrasa la aparición del overlay de carga para evitar un flash en fetches rápidos/cacheados.
+    private var pendingLoadingWorkItem: DispatchWorkItem?
 
     init(presenter: CountryDetailPresenterProtocol) {
         self.presenter = presenter
@@ -114,17 +116,23 @@ class CountryDetailViewController: UIViewController, CountryDetailViewProtocol {
     }
     
     func showLoadingView() {
-        if loadingView == nil {
-            loadingView = LoadingView(message: "Cargando detalle...")
-            view.addSubview(loadingView!)
+        guard loadingView == nil, pendingLoadingWorkItem == nil else { return }
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self, self.loadingView == nil else { return }
+            self.pendingLoadingWorkItem = nil
+            let loadingView = LoadingView(message: "Cargando detalle...")
+            self.loadingView = loadingView
+            self.view.addSubview(loadingView)
         }
+        pendingLoadingWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + LoadingView.showDelay, execute: workItem)
     }
 
     func hideLoadingView() {
-        if let loadingView = loadingView {
-            loadingView.removeFromSuperview()
-            self.loadingView = nil
-        }
+        pendingLoadingWorkItem?.cancel()
+        pendingLoadingWorkItem = nil
+        loadingView?.removeFromSuperview()
+        loadingView = nil
     }
 }
 

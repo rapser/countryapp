@@ -45,6 +45,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
     private var skippedFlagRows: [SummaryFlagRow] = []
     private var clearCorrectRows: [SummaryFlagRow] = []
     private var doubtCorrectRows: [SummaryFlagRow] = []
+    private var questionResults: [QuizQuestionResult] = []
     private var sessionStart: Date?
     private(set) var totalScore = 0
     private(set) var lastAwardedPoints = 0
@@ -114,6 +115,7 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         skippedFlagRows = []
         clearCorrectRows = []
         doubtCorrectRows = []
+        questionResults = []
         sessionStart = nil
         totalScore = 0
         lastAwardedPoints = 0
@@ -158,6 +160,14 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         }
         lastAwardedPoints = FlagGameScoring.points(correct: correct, responseTime: responseTime)
         totalScore += lastAwardedPoints
+        questionResults.append(QuizQuestionResult(
+            flagAssetCode: q.flagAssetCode,
+            questionPrompt: "¿Cuál es la capital de \(q.countryName)?",
+            yourAnswer: q.options[optionIndex],
+            correctAnswer: q.options[q.correctIndex],
+            isCorrect: correct,
+            awardedPoints: lastAwardedPoints
+        ))
         currentIndex += 1
         return correct
     }
@@ -169,6 +179,14 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
         skippedCount += 1
         skippedCountryNames.append(answerCountryName)
         skippedFlagRows.append(SummaryFlagRow(countryName: answerCountryName, flagAssetCode: q.flagAssetCode))
+        questionResults.append(QuizQuestionResult(
+            flagAssetCode: q.flagAssetCode,
+            questionPrompt: "¿Cuál es la capital de \(q.countryName)?",
+            yourAnswer: nil,
+            correctAnswer: q.options[q.correctIndex],
+            isCorrect: false,
+            awardedPoints: 0
+        ))
         currentIndex += 1
     }
 
@@ -193,7 +211,8 @@ final class CapitalGameInteractor: CapitalGameInteractorProtocol {
             skippedCountryNames: skippedCountryNames,
             reviewFlagRows: reviewRows,
             clearCorrectRows: clearCorrectRows,
-            doubtCorrectRows: doubtCorrectRows
+            doubtCorrectRows: doubtCorrectRows,
+            questionResults: questionResults
         )
     }
 

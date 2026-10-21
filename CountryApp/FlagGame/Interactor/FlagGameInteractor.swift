@@ -47,6 +47,7 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
     private var skippedFlagRows: [SummaryFlagRow] = []
     private var clearCorrectRows: [SummaryFlagRow] = []
     private var doubtCorrectRows: [SummaryFlagRow] = []
+    private var questionResults: [QuizQuestionResult] = []
     private var sessionStart: Date?
     private(set) var totalScore = 0
     private(set) var lastAwardedPoints = 0
@@ -118,6 +119,7 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         skippedFlagRows = []
         clearCorrectRows = []
         doubtCorrectRows = []
+        questionResults = []
         sessionStart = nil
         totalScore = 0
         lastAwardedPoints = 0
@@ -166,6 +168,14 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         }
         lastAwardedPoints = FlagGameScoring.points(correct: correct, responseTime: responseTime)
         totalScore += lastAwardedPoints
+        questionResults.append(QuizQuestionResult(
+            flagAssetCode: q.flagAssetCode,
+            questionPrompt: "¿De qué país es esta bandera?",
+            yourAnswer: q.options[optionIndex],
+            correctAnswer: answerName,
+            isCorrect: correct,
+            awardedPoints: lastAwardedPoints
+        ))
         currentIndex += 1
         return correct
     }
@@ -177,6 +187,14 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
         skippedCount += 1
         skippedCountryNames.append(answerName)
         skippedFlagRows.append(SummaryFlagRow(countryName: answerName, flagAssetCode: q.flagAssetCode))
+        questionResults.append(QuizQuestionResult(
+            flagAssetCode: q.flagAssetCode,
+            questionPrompt: "¿De qué país es esta bandera?",
+            yourAnswer: nil,
+            correctAnswer: answerName,
+            isCorrect: false,
+            awardedPoints: 0
+        ))
         currentIndex += 1
     }
 
@@ -201,7 +219,8 @@ final class FlagGameInteractor: FlagGameInteractorProtocol {
             skippedCountryNames: skippedCountryNames,
             reviewFlagRows: reviewRows,
             clearCorrectRows: clearCorrectRows,
-            doubtCorrectRows: doubtCorrectRows
+            doubtCorrectRows: doubtCorrectRows,
+            questionResults: questionResults
         )
     }
 
