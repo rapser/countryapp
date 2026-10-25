@@ -8,6 +8,15 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/) y ver
 ## [Unreleased]
 
 ### Añadido
+- **TabBar** con 4 pestañas: Inicio, Ranking, Historial y Perfil. Los juegos ocultan la barra mientras se juega.
+- **Cuentas con Supabase** (correo + contraseña): registro con foto, nombre, nickname y país; login modal desde Perfil, Historial, Ranking o el resumen de una partida. Se sigue pudiendo jugar como invitado.
+- **Ranking global** con filtro Total / Banderas / Capitales, podio para el top 3 y barra con tu posición.
+- **Historial** de partidas propias con paginación y resumen (partidas, puntos, posición).
+- **Perfil** editable (foto, nombre, nickname, país) y cierre de sesión.
+- `AvatarView`: foto circular con la bandera del país como insignia; iniciales si no hay foto.
+- El resumen de ambos juegos guarda la partida y muestra si se guardó, si falta iniciar sesión o si quedó pendiente por falta de red.
+- `supabase/schema.sql` con tablas, RLS, funciones de ranking y bucket de avatares; configuración de claves vía `Config/Secrets.xcconfig` (ignorado por git).
+
 - **Capa Coordinator** sobre VIPER: `AppCoordinator`, `HomeCoordinator`, `FlagGameCoordinator`, `CapitalGameCoordinator` y `CountryListCoordinator` centralizan la navegación inter-módulo.
 - `CoordinatorTrackable`: protocolo que permite a `AppCoordinator` detectar pops del botón de sistema (< Atrás) mediante `UINavigationControllerDelegate` y liberar coordinators automáticamente, evitando fugas de memoria entre sesiones de juego.
 - `GameCoordinatorExitDelegate`: protocolo compartido por `FlagGameRouter` y `CapitalGameRouter` para delegar el "Volver al principio" al coordinator sin acoplar el Router a un tipo concreto.
