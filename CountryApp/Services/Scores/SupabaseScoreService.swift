@@ -16,7 +16,7 @@ final class SupabaseScoreService: ScoreServiceProtocol {
     func submit(_ draft: GameSessionDraft, userId: UUID) async throws {
         let client = try requireClient()
         do {
-            try await NetworkRetry.run {
+            try await _ = NetworkRetry.run {
                 try await client.from("game_sessions")
                     .upsert(
                         GameSessionInsert(draft: draft, userId: userId),
