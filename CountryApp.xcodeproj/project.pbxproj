@@ -15,7 +15,10 @@
 		168D659B56D5D1A446ED0F04 /* CountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577B850AD8309536205AEAF /* CountryPickerViewController.swift */; };
 		1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */; };
 		186A4B999584B258E2430CD9 /* UITabBarController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C94E088051CF3F64A6FF02 /* UITabBarController+Theme.swift */; };
+		1D7BA7BB1CFD49A01477A4A8 /* RankingPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FF7DF2CC5345FBD2AA20A8 /* RankingPresenterTests.swift */; };
 		1EDD2223F7014B5E7E2BE497 /* TabCoordinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C126942299894D42CA704B /* TabCoordinators.swift */; };
+		245B9AD6A0F7E21AA5B19D6B /* NetworkRetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149BFD07DE8278E6DE100836 /* NetworkRetryTests.swift */; };
+		26635A747C90CED1620C5744 /* ProfileValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B365A99C05478167B431B /* ProfileValidatorTests.swift */; };
 		29C6BDC42157807844FE541A /* HistoryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88B0C3A272CC7B1306A7BE1 /* HistoryInteractor.swift */; };
 		2BFA9B5B3CBDB0030A170D33 /* HistoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6B543297E2AFCF99426BB4 /* HistoryPresenter.swift */; };
 		2C23A6311B3EBDD57441C4EC /* RankingCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53441BD40B92585EFF15DEAB /* RankingCells.swift */; };
@@ -84,6 +87,7 @@
 		717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6457921F593108914E7D939C /* UINavigationController+Theme.swift */; };
 		725195ECDBA8C3804AC0C512 /* UIImage+Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */; };
 		84DAFAA83BEC71B320379EED /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC45293B07AB6CA4D3AE53A /* HistoryViewController.swift */; };
+		8F73E7122E104C22C19AF260 /* ScoreSubmissionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1062EC9885D81C607597D154 /* ScoreSubmissionTests.swift */; };
 		9969ED6E3BB77CCCE7663A0F /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D202850EB9D3E65DE5C106C4 /* SupabaseAuthService.swift */; };
 		9CE37AC59DBAB3845213256A /* QuizHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885539BEC6F904237447636 /* QuizHeaderView.swift */; };
 		9F0D4093E5E7685D456AF421 /* ProfileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC41C808D8B65825B6EC5EBD /* ProfileValidator.swift */; };
@@ -157,6 +161,7 @@
 		D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */; };
 		D40A3D20BF755A0BEFEC9A1C /* BackendModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC6145AF336800F840E456B /* BackendModels.swift */; };
 		D6A54BB2F4099E8C2D1E240C /* SupabaseProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */; };
+		DC523A6C4A69979F5ADB3E8E /* BackendMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC38B49D26B65FEE8DB2AC66 /* BackendMocks.swift */; };
 		EB088C54C86210CD0C753FFD /* RankingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452238E189F4C57F9CD2B432 /* RankingViewController.swift */; };
 		F1BEEEF93322B70C236ED64C /* SummaryCardFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */; };
 		F261673D6E628334A940C678 /* BackendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1565E370C07D7B5091FB4E5 /* BackendError.swift */; };
@@ -184,14 +189,18 @@
 
 /* Begin PBXFileReference section */
 		04122654C98477E9A191C43F /* RankingRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingRouter.swift; sourceTree = "<group>"; };
+		09FF7DF2CC5345FBD2AA20A8 /* RankingPresenterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingPresenterTests.swift; sourceTree = "<group>"; };
 		0C02EDA9E8089FC80DD256D5 /* ProfileViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		0DF8EDD93E5FDE3F5374058C /* LoginViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1062EC9885D81C607597D154 /* ScoreSubmissionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreSubmissionTests.swift; sourceTree = "<group>"; };
+		149BFD07DE8278E6DE100836 /* NetworkRetryTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkRetryTests.swift; sourceTree = "<group>"; };
 		159CF08556B54AA2528B960F /* PendingScoreQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingScoreQueue.swift; sourceTree = "<group>"; };
 		176A9626942D01150E6E87D5 /* StatTilesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StatTilesView.swift; sourceTree = "<group>"; };
 		17C94E088051CF3F64A6FF02 /* UITabBarController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Theme.swift"; sourceTree = "<group>"; };
 		1984FDF31E56798C16386B79 /* CardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2306380DAF0C3A03FE62AEE4 /* ScoreStatusCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreStatusCardView.swift; sourceTree = "<group>"; };
 		25FED2DAEA2FB4C89F266CE4 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
+		335B365A99C05478167B431B /* ProfileValidatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileValidatorTests.swift; sourceTree = "<group>"; };
 		3663FF731870C6AC4A9FFF1A /* ProfileRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		3D6BCF42858395ADBE45FB79 /* ImageLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
@@ -340,6 +349,7 @@
 		DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FlagGameScoringTests.swift; sourceTree = "<group>"; };
 		E81BD527C6D7D284853DD2DE /* HistoryRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HistoryRouter.swift; sourceTree = "<group>"; };
 		E9B4F2E4BDEBBF55822721C5 /* LoginPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		EC38B49D26B65FEE8DB2AC66 /* BackendMocks.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendMocks.swift; sourceTree = "<group>"; };
 		F161C653DD22A12E551FDF4C /* FormViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkRetry.swift; sourceTree = "<group>"; };
 		F6BAF8670DAF85447ACACC6B /* FormTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
@@ -383,6 +393,15 @@
 			);
 			name = Profile;
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		14CE2858CDF981B7F624062D /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				EC38B49D26B65FEE8DB2AC66 /* BackendMocks.swift */,
+			);
+			name = Backend;
+			path = Backend;
 			sourceTree = "<group>";
 		};
 		2F9B65B867F846F1BB7C50D0 /* Presenter */ = {
@@ -722,6 +741,10 @@
 				CC1234561C000000006DC001 /* CapitalGameInteractorTests.swift */,
 				46B801AA2D3A47750094F9A1 /* CountryAppTests.swift */,
 				DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */,
+				149BFD07DE8278E6DE100836 /* NetworkRetryTests.swift */,
+				335B365A99C05478167B431B /* ProfileValidatorTests.swift */,
+				09FF7DF2CC5345FBD2AA20A8 /* RankingPresenterTests.swift */,
+				1062EC9885D81C607597D154 /* ScoreSubmissionTests.swift */,
 			);
 			path = CountryAppTests;
 			sourceTree = "<group>";
@@ -750,6 +773,7 @@
 			children = (
 				46B801B92D3A47F70094F9A1 /* CountryDetail */,
 				46B801BF2D3A47F70094F9A1 /* CountryList */,
+				14CE2858CDF981B7F624062D /* Backend */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1496,6 +1520,11 @@
 				46B801AB2D3A47750094F9A1 /* CountryAppTests.swift in Sources */,
 				46B801C22D3A47F70094F9A1 /* MockCountryDetailService.swift in Sources */,
 				D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */,
+				DC523A6C4A69979F5ADB3E8E /* BackendMocks.swift in Sources */,
+				245B9AD6A0F7E21AA5B19D6B /* NetworkRetryTests.swift in Sources */,
+				26635A747C90CED1620C5744 /* ProfileValidatorTests.swift in Sources */,
+				1D7BA7BB1CFD49A01477A4A8 /* RankingPresenterTests.swift in Sources */,
+				8F73E7122E104C22C19AF260 /* ScoreSubmissionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
