@@ -110,6 +110,7 @@
 		D0C0A20B2F20B000006DC001 /* CapitalGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */; };
 		D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */; };
 		F1BEEEF93322B70C236ED64C /* SummaryCardFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */; };
+		F36D255B4793C911DD85F951 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = A48A1C02DA5C46407557C2C2 /* Supabase */; };
 		F4F6140050DD138A087CF500 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723D5441652480C8D5983F4F /* OptionButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +133,7 @@
 
 /* Begin PBXFileReference section */
 		1984FDF31E56798C16386B79 /* CardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		25FED2DAEA2FB4C89F266CE4 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		4659F33E2D386572006D49F2 /* CountryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4659F3412D386572006D49F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4659F3432D386572006D49F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		6457921F593108914E7D939C /* UINavigationController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Theme.swift"; sourceTree = "<group>"; };
 		6759517EFC5C9CF175A7308D /* PillButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		723D5441652480C8D5983F4F /* OptionButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
+		8170CCBFB0B26F921452556E /* App.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
 		8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryCardFactory.swift; sourceTree = "<group>"; };
 		A7E1F1012D386572006DC001 /* PersistedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedCountry.swift; sourceTree = "<group>"; };
 		A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPersistenceProtocol.swift; sourceTree = "<group>"; };
@@ -246,6 +249,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F36D255B4793C911DD85F951 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +296,7 @@
 				46B801A92D3A47740094F9A1 /* CountryAppTests */,
 				46B801CD2D3A48B70094F9A1 /* CountryAppUITests */,
 				4659F33F2D386572006D49F2 /* Products */,
+				DC114CDF1271C4DB0AEAE8F1 /* Config */,
 			);
 			sourceTree = "<group>";
 		};
@@ -764,6 +769,16 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		DC114CDF1271C4DB0AEAE8F1 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				8170CCBFB0B26F921452556E /* App.xcconfig */,
+				25FED2DAEA2FB4C89F266CE4 /* Secrets.example.xcconfig */,
+			);
+			name = Config;
+			path = Config;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -780,6 +795,9 @@
 			dependencies = (
 			);
 			name = CountryApp;
+			packageProductDependencies = (
+				A48A1C02DA5C46407557C2C2 /* Supabase */,
+			);
 			productName = CountryApp;
 			productReference = 4659F33E2D386572006D49F2 /* CountryApp.app */;
 			productType = "com.apple.product-type.application";
@@ -852,6 +870,9 @@
 				Base,
 			);
 			mainGroup = 4659F3352D386572006D49F2;
+			packageReferences = (
+				F263FC558AC04D2415C191A4 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			productRefGroup = 4659F33F2D386572006D49F2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1165,6 +1186,7 @@
 		};
 		4659F3692D386575006D49F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8170CCBFB0B26F921452556E /* App.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1196,6 +1218,7 @@
 		};
 		4659F36A2D386575006D49F2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8170CCBFB0B26F921452556E /* App.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1337,6 +1360,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F263FC558AC04D2415C191A4 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.20.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A48A1C02DA5C46407557C2C2 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F263FC558AC04D2415C191A4 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4659F3362D386572006D49F2 /* Project object */;
 }

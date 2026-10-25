@@ -1,0 +1,12 @@
+//
+//  App.xcconfig
+//  CountryApp
+//
+//  Configuración base del target. Los secretos viven en `Secrets.xcconfig` (ignorado por git);
+//  el include opcional permite compilar sin él: la app arranca en modo invitado sin backend.
+//
+
+SUPABASE_URL =
+SUPABASE_ANON_KEY =
+
+#include? "Secrets.xcconfig"
