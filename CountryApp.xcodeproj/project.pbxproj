@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B2205D5F10E1D7BBE4BB92B /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E40FE2B1AD8C90769AA89 /* AvatarView.swift */; };
 		1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */; };
 		385E58E30BDF6AE463811DB2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66210C7E941948EE558782B /* SessionStore.swift */; };
 		4659F3422D386572006D49F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3412D386572006D49F2 /* AppDelegate.swift */; };
@@ -55,11 +56,15 @@
 		46B801CF2D3A48B70094F9A1 /* CountryAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */; };
 		46B801D12D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */; };
 		535114C4F05DA42828A5007C /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2ECB3E1C147E021345F6AC /* AppColor.swift */; };
+		58AC1AE0B06DBF1C504B3459 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BAF8670DAF85447ACACC6B /* FormTextField.swift */; };
 		64CB852D76B59482A1A89795 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */; };
 		6982E18A1B1E68474E56AC96 /* NetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */; };
+		6DCED3A0D2C49811D2F72A7A /* CountryCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BA58714C054EAA264327A4 /* CountryCatalog.swift */; };
 		717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6457921F593108914E7D939C /* UINavigationController+Theme.swift */; };
+		725195ECDBA8C3804AC0C512 /* UIImage+Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */; };
 		9969ED6E3BB77CCCE7663A0F /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D202850EB9D3E65DE5C106C4 /* SupabaseAuthService.swift */; };
 		9CE37AC59DBAB3845213256A /* QuizHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885539BEC6F904237447636 /* QuizHeaderView.swift */; };
+		A4587F105A56BFBCBD5CDD8B /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0DEDCE68FDC559D7E137CC /* EmptyStateView.swift */; };
 		A7E1F2012D386572006DC001 /* PersistedCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1012D386572006DC001 /* PersistedCountry.swift */; };
 		A7E1F2022D386572006DC001 /* CountryPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */; };
 		A7E1F2032D386572006DC001 /* SwiftDataCountryPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */; };
@@ -87,6 +92,8 @@
 		AE43CE2AFEA13251E887088F /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E9020C69704DFE26A782F5 /* AppFont.swift */; };
 		AE6310E7429DD81DB2C47B2C /* PendingScoreQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159CF08556B54AA2528B960F /* PendingScoreQueue.swift */; };
 		AF51D3EB661A5712246D6215 /* SupabaseScoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE156CC86A29829E18BDC23 /* SupabaseScoreService.swift */; };
+		B52A9565205575D6B7FB98A5 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BCF42858395ADBE45FB79 /* ImageLoader.swift */; };
+		B563F05BCFF1B3CE6018A61D /* ScoreFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9E87B2DE67D37836F50A19 /* ScoreFormatter.swift */; };
 		C00815C73F821AA324701488 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF9154BCA59655F52C3FD11 /* AuthService.swift */; };
 		C2E459EC436EEAA7283B5A40 /* AppMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB863788469C0E66A5CB2C44 /* AppMetrics.swift */; };
 		C5C3F3217628CFEB414E5504 /* ScoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5768C0439CA8CE916483C3E /* ScoreService.swift */; };
@@ -117,6 +124,7 @@
 		D0C0A2092F20B000006DC001 /* CapitalGameInstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */; };
 		D0C0A20A2F20B000006DC001 /* CapitalGameQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */; };
 		D0C0A20B2F20B000006DC001 /* CapitalGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */; };
+		D24C68B832D5B9F488C656DC /* StatTilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A9626942D01150E6E87D5 /* StatTilesView.swift */; };
 		D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */; };
 		D40A3D20BF755A0BEFEC9A1C /* BackendModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC6145AF336800F840E456B /* BackendModels.swift */; };
 		D6A54BB2F4099E8C2D1E240C /* SupabaseProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */; };
@@ -124,6 +132,7 @@
 		F261673D6E628334A940C678 /* BackendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1565E370C07D7B5091FB4E5 /* BackendError.swift */; };
 		F36D255B4793C911DD85F951 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = A48A1C02DA5C46407557C2C2 /* Supabase */; };
 		F4F6140050DD138A087CF500 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723D5441652480C8D5983F4F /* OptionButton.swift */; };
+		FAAA7A76BB639B1700235105 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F161C653DD22A12E551FDF4C /* FormViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,8 +154,10 @@
 
 /* Begin PBXFileReference section */
 		159CF08556B54AA2528B960F /* PendingScoreQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingScoreQueue.swift; sourceTree = "<group>"; };
+		176A9626942D01150E6E87D5 /* StatTilesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StatTilesView.swift; sourceTree = "<group>"; };
 		1984FDF31E56798C16386B79 /* CardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		25FED2DAEA2FB4C89F266CE4 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
+		3D6BCF42858395ADBE45FB79 /* ImageLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		4659F33E2D386572006D49F2 /* CountryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4659F3412D386572006D49F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -197,13 +208,17 @@
 		46B801CC2D3A48B70094F9A1 /* CountryAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountryAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITests.swift; sourceTree = "<group>"; };
 		46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5A0DEDCE68FDC559D7E137CC /* EmptyStateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		62BA58714C054EAA264327A4 /* CountryCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountryCatalog.swift; sourceTree = "<group>"; };
 		6457921F593108914E7D939C /* UINavigationController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Theme.swift"; sourceTree = "<group>"; };
+		673E40FE2B1AD8C90769AA89 /* AvatarView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		6759517EFC5C9CF175A7308D /* PillButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		723D5441652480C8D5983F4F /* OptionButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 		7EE156CC86A29829E18BDC23 /* SupabaseScoreService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseScoreService.swift; sourceTree = "<group>"; };
 		8170CCBFB0B26F921452556E /* App.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
 		82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProfileService.swift; sourceTree = "<group>"; };
 		8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryCardFactory.swift; sourceTree = "<group>"; };
+		8B9E87B2DE67D37836F50A19 /* ScoreFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreFormatter.swift; sourceTree = "<group>"; };
 		9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProvider.swift; sourceTree = "<group>"; };
 		A1565E370C07D7B5091FB4E5 /* BackendError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
 		A7E1F1012D386572006DC001 /* PersistedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedCountry.swift; sourceTree = "<group>"; };
@@ -232,6 +247,7 @@
 		A7E1F1192D386572006DC001 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		AD2ECB3E1C147E021345F6AC /* AppColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		B2E9020C69704DFE26A782F5 /* AppFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
+		C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+Avatar.swift"; sourceTree = "<group>"; };
 		CB863788469C0E66A5CB2C44 /* AppMetrics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppMetrics.swift; sourceTree = "<group>"; };
 		CBC6145AF336800F840E456B /* BackendModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendModels.swift; sourceTree = "<group>"; };
 		CC12345602000000006DC001 /* FlagSynonymGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagSynonymGroups.swift; sourceTree = "<group>"; };
@@ -264,7 +280,9 @@
 		D66210C7E941948EE558782B /* SessionStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		DDF9154BCA59655F52C3FD11 /* AuthService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FlagGameScoringTests.swift; sourceTree = "<group>"; };
+		F161C653DD22A12E551FDF4C /* FormViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkRetry.swift; sourceTree = "<group>"; };
+		F6BAF8670DAF85447ACACC6B /* FormTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
 		F885539BEC6F904237447636 /* QuizHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuizHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -298,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */,
+				F161C653DD22A12E551FDF4C /* FormViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -362,6 +381,7 @@
 			children = (
 				4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */,
 				6457921F593108914E7D939C /* UINavigationController+Theme.swift */,
+				C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -501,6 +521,9 @@
 				CC12345604000000006DC001 /* GameShareCardRenderer.swift */,
 				CC12345614000000006DC001 /* TerritoryCountryCodes.swift */,
 				CC12345616000000006DC001 /* VariedRoundSelector.swift */,
+				62BA58714C054EAA264327A4 /* CountryCatalog.swift */,
+				3D6BCF42858395ADBE45FB79 /* ImageLoader.swift */,
+				8B9E87B2DE67D37836F50A19 /* ScoreFormatter.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -646,6 +669,10 @@
 				723D5441652480C8D5983F4F /* OptionButton.swift */,
 				1984FDF31E56798C16386B79 /* CardView.swift */,
 				F885539BEC6F904237447636 /* QuizHeaderView.swift */,
+				673E40FE2B1AD8C90769AA89 /* AvatarView.swift */,
+				5A0DEDCE68FDC559D7E137CC /* EmptyStateView.swift */,
+				F6BAF8670DAF85447ACACC6B /* FormTextField.swift */,
+				176A9626942D01150E6E87D5 /* StatTilesView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1104,6 +1131,15 @@
 				AF51D3EB661A5712246D6215 /* SupabaseScoreService.swift in Sources */,
 				6982E18A1B1E68474E56AC96 /* NetworkRetry.swift in Sources */,
 				1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */,
+				0B2205D5F10E1D7BBE4BB92B /* AvatarView.swift in Sources */,
+				A4587F105A56BFBCBD5CDD8B /* EmptyStateView.swift in Sources */,
+				58AC1AE0B06DBF1C504B3459 /* FormTextField.swift in Sources */,
+				D24C68B832D5B9F488C656DC /* StatTilesView.swift in Sources */,
+				725195ECDBA8C3804AC0C512 /* UIImage+Avatar.swift in Sources */,
+				6DCED3A0D2C49811D2F72A7A /* CountryCatalog.swift in Sources */,
+				B52A9565205575D6B7FB98A5 /* ImageLoader.swift in Sources */,
+				B563F05BCFF1B3CE6018A61D /* ScoreFormatter.swift in Sources */,
+				FAAA7A76BB639B1700235105 /* FormViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

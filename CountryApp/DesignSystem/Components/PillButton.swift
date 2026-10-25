@@ -64,4 +64,10 @@ final class PillButton: UIButton {
     func setTitleText(_ title: String) {
         configuration?.title = title
     }
+
+    /// Muestra un spinner en el botón y lo deshabilita mientras dura una operación.
+    func setLoading(_ loading: Bool) {
+        configuration?.showsActivityIndicator = loading
+        isEnabled = !loading
+    }
 }
