@@ -16,7 +16,6 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/) y ver
 - `AvatarView`: foto circular con la bandera del país como insignia; iniciales si no hay foto.
 - El resumen de ambos juegos guarda la partida y muestra si se guardó, si falta iniciar sesión o si quedó pendiente por falta de red.
 - `supabase/schema.sql` con tablas, RLS, funciones de ranking y bucket de avatares; configuración de claves vía `Config/Secrets.xcconfig` (ignorado por git).
-
 - **Capa Coordinator** sobre VIPER: `AppCoordinator`, `HomeCoordinator`, `FlagGameCoordinator`, `CapitalGameCoordinator` y `CountryListCoordinator` centralizan la navegación inter-módulo.
 - `CoordinatorTrackable`: protocolo que permite a `AppCoordinator` detectar pops del botón de sistema (< Atrás) mediante `UINavigationControllerDelegate` y liberar coordinators automáticamente, evitando fugas de memoria entre sesiones de juego.
 - `GameCoordinatorExitDelegate`: protocolo compartido por `FlagGameRouter` y `CapitalGameRouter` para delegar el "Volver al principio" al coordinator sin acoplar el Router a un tipo concreto.
@@ -33,6 +32,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/) y ver
 - `SceneDelegate`: ya no construye el módulo Home directamente; arranca `AppCoordinator.start()`.
 - Pausa de revelación de respuesta aumentada de 0,32 s a 1,0 s para dar tiempo a leer el feedback antes de avanzar.
 - Texto de instrucciones actualizado: sustituye "Siguiente" por "Confirmar" en ambos juegos.
+- `AppCoordinator` monta un `UITabBarController`; la tab Inicio conserva el flujo Home → juegos / lista / detalle / mapa.
+- Primera dependencia externa: `supabase-swift` vía Swift Package Manager.
+
+### Corregido
+- Las consultas al backend se reintentan ante cortes de red pasajeros (p. ej. `networkConnectionLost`), evitando el falso "Sin conexión" en el ranking.
+- El mensaje "Sin conexión" solo aparece cuando realmente no hay internet; otros fallos indican que no se pudo contactar al servidor.
 
 ---
 

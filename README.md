@@ -1,6 +1,8 @@
 # CountryApp
 
-CountryApp es una aplicación iOS que permite explorar información sobre países del mundo. Está desarrollada con el patrón arquitectónico **VIPER** y **UIKit** con diseño programático.
+**Versión 1.0.0 (build 6)** · iOS 26+
+
+CountryApp es una aplicación iOS que permite explorar información sobre países del mundo y competir en juegos de banderas y capitales con un **ranking global**. Está desarrollada con el patrón arquitectónico **VIPER** y **UIKit** con diseño programático, y usa **Supabase** para cuentas, ranking e historial.
 
 Los juegos usan un **look & feel tipo quiz** (tema claro, color primario morado, tarjetas redondeadas con sombra, opciones multicolor y tipografía redondeada del sistema) apoyado en una pequeña **capa de diseño** propia (ver [Diseño (Design System)](#diseño-design-system)).
 
@@ -20,6 +22,17 @@ Los juegos usan un **look & feel tipo quiz** (tema claro, color primario morado,
 </table>
 
 ## Descripción
+
+La app se organiza en un **TabBar** con cuatro pestañas:
+
+| Tab | Contenido |
+|---|---|
+| **Inicio** | Home con el listado de países y los dos juegos. |
+| **Ranking** | Mejores jugadores con foto, nickname y bandera de su país; filtro Total / Banderas / Capitales y podio top 3. |
+| **Historial** | Tus partidas guardadas con puntos, aciertos, errores y duración. |
+| **Perfil** | Foto, nombre, nickname y país; editar perfil, iniciar o cerrar sesión. |
+
+Se puede jugar sin cuenta; iniciar sesión solo es necesario para guardar puntajes y aparecer en el ranking.
 
 Pantalla inicial (**Home**) con tres accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y dos juegos de preguntas — **Adivina la bandera** y **Adivina la capital**. Cada pregunta muestra una **pantalla de resultado a pantalla completa** (¡Correcto! / ¡Incorrecto!) con los puntos ganados, y al terminar hay un **resumen** con la puntuación total, compartible como tarjeta visual.
 
@@ -42,17 +55,25 @@ El proyecto combina **VIPER** con una capa **Coordinator** para separar la naveg
 La capa de coordinators gestiona la navegación **inter-módulo** y el ciclo de vida de cada flujo:
 
 ```
-AppCoordinator
-├── HomeCoordinator          → crea Home; delega apertura de módulos a AppCoordinator
-├── FlagGameCoordinator      → gestiona el flujo del juego de banderas
-├── CapitalGameCoordinator   → gestiona el flujo del juego de capitales
-└── CountryListCoordinator   → gestiona lista de países → detalle
+AppCoordinator (UITabBarController)
+├── Tab Inicio
+│   ├── HomeCoordinator          → crea Home; delega apertura de módulos a AppCoordinator
+│   ├── FlagGameCoordinator      → gestiona el flujo del juego de banderas
+│   ├── CapitalGameCoordinator   → gestiona el flujo del juego de capitales
+│   └── CountryListCoordinator   → gestiona lista de países → detalle
+├── RankingCoordinator           → tab Ranking
+├── HistoryCoordinator           → tab Historial
+└── ProfileCoordinator           → tab Perfil
 ```
+
+Login y registro (`AuthRouter`) se presentan como modal desde cualquier tab o desde el resumen de una partida.
 
 - `AppCoordinator` implementa `UINavigationControllerDelegate` para detectar pops con el botón de sistema (< Atrás) y liberar coordinators automáticamente, evitando fugas de memoria.
 - Los **Routers** conservan toda la navegación interna; cuando hay coordinator, delegan en él en lugar de hacer el `push` directamente.
 
-Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map**, **FlagGame** y **CapitalGame**.
+Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map**, **FlagGame**, **CapitalGame**, **Auth**, **Ranking**, **History** y **Profile**.
+
+La capa `Services/` (auth, perfil y puntajes sobre Supabase) expone protocolos inyectables; `SessionStore` comparte el estado de sesión entre tabs.
 
 ### Juego “Adivina la bandera”
 
@@ -131,8 +152,11 @@ Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets
 ```bash
 git clone https://github.com/rapser/countryapp.git
 cd countryapp
+cp Config/Secrets.example.xcconfig Config/Secrets.xcconfig   # completa las claves de Supabase
 open CountryApp.xcodeproj
 ```
+
+Xcode resuelve el paquete `supabase-swift` automáticamente al abrir el proyecto. Sin `Secrets.xcconfig` la app compila y funciona en modo invitado (ver [Cuentas, ranking e historial](#cuentas-ranking-e-historial-supabase)).
 
 ## Cuentas, ranking e historial (Supabase)
 
