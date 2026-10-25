@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0B2205D5F10E1D7BBE4BB92B /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E40FE2B1AD8C90769AA89 /* AvatarView.swift */; };
+		16880217F9A5194B3E2C1642 /* RankingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA2DBEBF34DD751697EE1EF /* RankingModels.swift */; };
 		168D659B56D5D1A446ED0F04 /* CountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577B850AD8309536205AEAF /* CountryPickerViewController.swift */; };
 		1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */; };
+		2C23A6311B3EBDD57441C4EC /* RankingCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53441BD40B92585EFF15DEAB /* RankingCells.swift */; };
 		2FF5201CAA6AB2C19C59EF15 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D87914A400FD3E8385DB54 /* AuthRouter.swift */; };
 		385E58E30BDF6AE463811DB2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66210C7E941948EE558782B /* SessionStore.swift */; };
 		4659F3422D386572006D49F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3412D386572006D49F2 /* AppDelegate.swift */; };
@@ -66,6 +68,7 @@
 		64CB852D76B59482A1A89795 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */; };
 		6982E18A1B1E68474E56AC96 /* NetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */; };
 		69C1F3BC9219CEF498B7F327 /* ScoreStatusCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2306380DAF0C3A03FE62AEE4 /* ScoreStatusCardView.swift */; };
+		6BD45E7A9EC79C3D40A2DB5A /* RankingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04122654C98477E9A191C43F /* RankingRouter.swift */; };
 		6DCED3A0D2C49811D2F72A7A /* CountryCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BA58714C054EAA264327A4 /* CountryCatalog.swift */; };
 		717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6457921F593108914E7D939C /* UINavigationController+Theme.swift */; };
 		725195ECDBA8C3804AC0C512 /* UIImage+Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */; };
@@ -97,6 +100,7 @@
 		A7E1F2162D386572006DC001 /* FlagGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1162D386572006DC001 /* FlagGameSummaryViewController.swift */; };
 		A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */; };
 		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
+		AD7A26989F3558B36B1B4B4F /* RankingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B24DB501F0967AF9DC9786B /* RankingPresenter.swift */; };
 		AE43CE2AFEA13251E887088F /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E9020C69704DFE26A782F5 /* AppFont.swift */; };
 		AE6310E7429DD81DB2C47B2C /* PendingScoreQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159CF08556B54AA2528B960F /* PendingScoreQueue.swift */; };
 		AF51D3EB661A5712246D6215 /* SupabaseScoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE156CC86A29829E18BDC23 /* SupabaseScoreService.swift */; };
@@ -134,10 +138,12 @@
 		D0C0A2092F20B000006DC001 /* CapitalGameInstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1182F20B000006DC001 /* CapitalGameInstructionsViewController.swift */; };
 		D0C0A20A2F20B000006DC001 /* CapitalGameQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */; };
 		D0C0A20B2F20B000006DC001 /* CapitalGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */; };
+		D1A258D64B4A61F0A9727E7E /* RankingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F4EB783AB5A8D8EDA5C406 /* RankingInteractor.swift */; };
 		D24C68B832D5B9F488C656DC /* StatTilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A9626942D01150E6E87D5 /* StatTilesView.swift */; };
 		D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */; };
 		D40A3D20BF755A0BEFEC9A1C /* BackendModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC6145AF336800F840E456B /* BackendModels.swift */; };
 		D6A54BB2F4099E8C2D1E240C /* SupabaseProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */; };
+		EB088C54C86210CD0C753FFD /* RankingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452238E189F4C57F9CD2B432 /* RankingViewController.swift */; };
 		F1BEEEF93322B70C236ED64C /* SummaryCardFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */; };
 		F261673D6E628334A940C678 /* BackendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1565E370C07D7B5091FB4E5 /* BackendError.swift */; };
 		F36D255B4793C911DD85F951 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = A48A1C02DA5C46407557C2C2 /* Supabase */; };
@@ -163,6 +169,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04122654C98477E9A191C43F /* RankingRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingRouter.swift; sourceTree = "<group>"; };
 		0DF8EDD93E5FDE3F5374058C /* LoginViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		159CF08556B54AA2528B960F /* PendingScoreQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingScoreQueue.swift; sourceTree = "<group>"; };
 		176A9626942D01150E6E87D5 /* StatTilesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StatTilesView.swift; sourceTree = "<group>"; };
@@ -172,6 +179,7 @@
 		3D6BCF42858395ADBE45FB79 /* ImageLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		425BED3FCB0F1600AEF78014 /* SignUpPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SignUpPresenter.swift; sourceTree = "<group>"; };
+		452238E189F4C57F9CD2B432 /* RankingViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingViewController.swift; sourceTree = "<group>"; };
 		4659F33E2D386572006D49F2 /* CountryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4659F3412D386572006D49F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4659F3432D386572006D49F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -222,6 +230,8 @@
 		46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITests.swift; sourceTree = "<group>"; };
 		46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		489FF527C2BC71B37FCD2114 /* AuthInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
+		4B24DB501F0967AF9DC9786B /* RankingPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingPresenter.swift; sourceTree = "<group>"; };
+		53441BD40B92585EFF15DEAB /* RankingCells.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingCells.swift; sourceTree = "<group>"; };
 		574AB336315548A4ACD6D455 /* GameScoreSubmitter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameScoreSubmitter.swift; sourceTree = "<group>"; };
 		5A0DEDCE68FDC559D7E137CC /* EmptyStateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		62BA58714C054EAA264327A4 /* CountryCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountryCatalog.swift; sourceTree = "<group>"; };
@@ -233,9 +243,11 @@
 		7EE156CC86A29829E18BDC23 /* SupabaseScoreService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseScoreService.swift; sourceTree = "<group>"; };
 		8170CCBFB0B26F921452556E /* App.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
 		82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProfileService.swift; sourceTree = "<group>"; };
+		86F4EB783AB5A8D8EDA5C406 /* RankingInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingInteractor.swift; sourceTree = "<group>"; };
 		8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryCardFactory.swift; sourceTree = "<group>"; };
 		8B9E87B2DE67D37836F50A19 /* ScoreFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreFormatter.swift; sourceTree = "<group>"; };
 		9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProvider.swift; sourceTree = "<group>"; };
+		9AA2DBEBF34DD751697EE1EF /* RankingModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingModels.swift; sourceTree = "<group>"; };
 		A1565E370C07D7B5091FB4E5 /* BackendError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
 		A7E1F1012D386572006DC001 /* PersistedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedCountry.swift; sourceTree = "<group>"; };
 		A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPersistenceProtocol.swift; sourceTree = "<group>"; };
@@ -332,6 +344,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31571A3B300426D6499975F4 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				4B24DB501F0967AF9DC9786B /* RankingPresenter.swift */,
+			);
+			name = Presenter;
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		37DF84E3B33BB3DBB6C06A3A /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				AD95B299B6B37F54644BC1AA /* Entity */,
+				7C9F0C0AE8C03E5B3D4B2F92 /* Interactor */,
+				31571A3B300426D6499975F4 /* Presenter */,
+				6A9EEC0D8B6F4A00EDF4E0FA /* Router */,
+				BDEEBDD5AE1B18A4C100686C /* View */,
+			);
+			name = Ranking;
+			path = Ranking;
+			sourceTree = "<group>";
+		};
 		3E9FD774C3F54931AF85D72A /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -395,6 +429,7 @@
 				3E9FD774C3F54931AF85D72A /* Common */,
 				BBDED900DA90E610F080569D /* Services */,
 				46D5006C804260D0B2A64D0C /* Auth */,
+				37DF84E3B33BB3DBB6C06A3A /* Ranking */,
 			);
 			path = CountryApp;
 			sourceTree = "<group>";
@@ -687,6 +722,24 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		6A9EEC0D8B6F4A00EDF4E0FA /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				04122654C98477E9A191C43F /* RankingRouter.swift */,
+			);
+			name = Router;
+			path = Router;
+			sourceTree = "<group>";
+		};
+		7C9F0C0AE8C03E5B3D4B2F92 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				86F4EB783AB5A8D8EDA5C406 /* RankingInteractor.swift */,
+			);
+			name = Interactor;
+			path = Interactor;
+			sourceTree = "<group>";
+		};
 		8B46E6CEF28D57C399CD779F /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +870,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		AD95B299B6B37F54644BC1AA /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				9AA2DBEBF34DD751697EE1EF /* RankingModels.swift */,
+			);
+			name = Entity;
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		BBDED900DA90E610F080569D /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -838,6 +900,16 @@
 			);
 			name = Supabase;
 			path = Supabase;
+			sourceTree = "<group>";
+		};
+		BDEEBDD5AE1B18A4C100686C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				53441BD40B92585EFF15DEAB /* RankingCells.swift */,
+				452238E189F4C57F9CD2B432 /* RankingViewController.swift */,
+			);
+			name = View;
+			path = View;
 			sourceTree = "<group>";
 		};
 		C926F8A1FC2E10A49C2E1A61 /* Profile */ = {
@@ -1234,6 +1306,12 @@
 				48B7802283E8E7367D7840D2 /* SignUpViewController.swift in Sources */,
 				571785E1295DE5D01BB1D412 /* GameScoreSubmitter.swift in Sources */,
 				69C1F3BC9219CEF498B7F327 /* ScoreStatusCardView.swift in Sources */,
+				16880217F9A5194B3E2C1642 /* RankingModels.swift in Sources */,
+				D1A258D64B4A61F0A9727E7E /* RankingInteractor.swift in Sources */,
+				AD7A26989F3558B36B1B4B4F /* RankingPresenter.swift in Sources */,
+				6BD45E7A9EC79C3D40A2DB5A /* RankingRouter.swift in Sources */,
+				2C23A6311B3EBDD57441C4EC /* RankingCells.swift in Sources */,
+				EB088C54C86210CD0C753FFD /* RankingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
