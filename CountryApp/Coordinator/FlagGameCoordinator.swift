@@ -29,6 +29,8 @@ final class FlagGameCoordinator: Coordinator, CoordinatorTrackable {
             hostingNavigationController: navigationController,
             exitDelegate: self
         )
+        // El juego ocupa toda la pantalla: sin tab bar desde instrucciones hasta el resumen.
+        vc.hidesBottomBarWhenPushed = true
         rootViewController = vc
         AppLog.trace("FlagGameCoordinator start")
         navigationController.pushViewController(vc, animated: true)

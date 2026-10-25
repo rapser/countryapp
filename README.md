@@ -124,6 +124,7 @@ Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets
 - **Diseño:** capa de tokens y componentes propia (`AppColor` / `AppFont` / `AppMetrics`), SF Rounded + Dynamic Type
 - **Red:** `URLSession` + `async`/`await`
 - **Persistencia:** SwiftData (`ModelContainer` / `ModelContext`)
+- **Backend:** [Supabase](https://supabase.com) (Auth, Postgres, Storage) vía [`supabase-swift`](https://github.com/supabase/supabase-swift) (SPM)
 
 ## Instalación
 
@@ -132,6 +133,26 @@ git clone https://github.com/rapser/countryapp.git
 cd countryapp
 open CountryApp.xcodeproj
 ```
+
+## Cuentas, ranking e historial (Supabase)
+
+La app tiene 4 tabs: **Inicio · Ranking · Historial · Perfil**. Se puede jugar sin cuenta; para guardar puntajes y aparecer en el ranking hay que iniciar sesión (correo + contraseña). Cada usuario tiene foto, nombre, nickname y país, y su avatar muestra la bandera del país como insignia.
+
+### Configurar el backend
+
+1. Crea un proyecto en [supabase.com](https://supabase.com).
+2. En **SQL Editor** ejecuta [`supabase/schema.sql`](supabase/schema.sql). Crea las tablas `profiles` y `game_sessions`, el trigger de alta, las políticas RLS, las funciones `get_leaderboard` / `get_my_rank` y el bucket `avatars`.
+3. En **Authentication → Providers** deja habilitado *Email*. En desarrollo puedes desactivar *Confirm email* para entrar al registrarte.
+4. Copia `Config/Secrets.example.xcconfig` como `Config/Secrets.xcconfig` (ignorado por git) y completa `SUPABASE_URL` y `SUPABASE_ANON_KEY` (Project Settings → API).
+
+Sin `Secrets.xcconfig` la app compila y funciona en modo invitado: las tabs Ranking, Historial y Perfil muestran "no disponible".
+
+### Cómo se guardan los puntajes
+
+- Al terminar una partida, el resumen envía el resultado (`GameScoreSubmitter`). Cada partida lleva un `client_id` generado en el dispositivo, así que reenviarla no la duplica.
+- Si juegas como invitado, la partida queda guardada localmente y se envía cuando inicias sesión desde el mismo resumen.
+- Sin red, la partida queda en cola (`PendingScoreQueue`) y se reintenta al volver a la app.
+- El ranking suma los puntos de cada usuario (Total, Banderas o Capitales) y solo expone totales, no partidas individuales.
 
 ## Tests
 

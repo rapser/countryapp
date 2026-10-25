@@ -6,16 +6,20 @@
 import SwiftData
 import UIKit
 
-/// Root coordinator. Owns the navigation controller and model context.
-/// Creates and manages all child coordinators; routes inter-module navigation.
+/// Root coordinator. Owns the tab bar (Inicio · Ranking · Historial · Perfil) and the model context.
+/// The Inicio tab keeps the original flow: Home routes to games and the country list on its own nav stack.
 final class AppCoordinator: NSObject, Coordinator {
     var childCoordinators: [Coordinator] = []
 
-    private let navigationController: UINavigationController
+    let tabBarController = UITabBarController()
+    /// Nav stack of the Inicio tab (Home → juegos / lista / detalle / mapa).
+    private let navigationController = UINavigationController()
+    private let rankingNavigationController = UINavigationController()
+    private let historyNavigationController = UINavigationController()
+    private let profileNavigationController = UINavigationController()
     private let modelContext: ModelContext
 
-    init(navigationController: UINavigationController, modelContext: ModelContext) {
-        self.navigationController = navigationController
+    init(modelContext: ModelContext) {
         self.modelContext = modelContext
     }
 
@@ -28,7 +32,41 @@ final class AppCoordinator: NSObject, Coordinator {
         homeCoordinator.delegate = self
         childCoordinators.append(homeCoordinator)
         homeCoordinator.start()
+
+        let tabCoordinators: [Coordinator] = [
+            RankingCoordinator(navigationController: rankingNavigationController),
+            HistoryCoordinator(navigationController: historyNavigationController),
+            ProfileCoordinator(navigationController: profileNavigationController)
+        ]
+        tabCoordinators.forEach {
+            childCoordinators.append($0)
+            $0.start()
+        }
+
+        configureTab(navigationController, title: "Inicio", symbol: "house")
+        configureTab(rankingNavigationController, title: "Ranking", symbol: "trophy")
+        configureTab(historyNavigationController, title: "Historial", symbol: "clock.arrow.circlepath", selectedSymbol: "clock.arrow.circlepath")
+        configureTab(profileNavigationController, title: "Perfil", symbol: "person.crop.circle")
+
+        tabBarController.viewControllers = [
+            navigationController,
+            rankingNavigationController,
+            historyNavigationController,
+            profileNavigationController
+        ]
+        UITabBarController.applyAppTheme(to: tabBarController)
+
+        MainActor.assumeIsolated { SessionStore.shared.start() }
         AppLog.trace("AppCoordinator start")
+    }
+
+    private func configureTab(_ nav: UINavigationController, title: String, symbol: String, selectedSymbol: String? = nil) {
+        nav.tabBarItem = UITabBarItem(
+            title: title,
+            image: UIImage(systemName: symbol),
+            selectedImage: UIImage(systemName: selectedSymbol ?? "\(symbol).fill")
+        )
+        UINavigationController.applyLightAppTheme(to: nav)
     }
 }
 
