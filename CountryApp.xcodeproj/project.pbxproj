@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07A6CE79EDAA12038A1EF139 /* HistoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81BD527C6D7D284853DD2DE /* HistoryRouter.swift */; };
 		0B2205D5F10E1D7BBE4BB92B /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E40FE2B1AD8C90769AA89 /* AvatarView.swift */; };
 		16880217F9A5194B3E2C1642 /* RankingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA2DBEBF34DD751697EE1EF /* RankingModels.swift */; };
 		168D659B56D5D1A446ED0F04 /* CountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577B850AD8309536205AEAF /* CountryPickerViewController.swift */; };
 		1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */; };
+		29C6BDC42157807844FE541A /* HistoryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88B0C3A272CC7B1306A7BE1 /* HistoryInteractor.swift */; };
+		2BFA9B5B3CBDB0030A170D33 /* HistoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6B543297E2AFCF99426BB4 /* HistoryPresenter.swift */; };
 		2C23A6311B3EBDD57441C4EC /* RankingCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53441BD40B92585EFF15DEAB /* RankingCells.swift */; };
 		2FF5201CAA6AB2C19C59EF15 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D87914A400FD3E8385DB54 /* AuthRouter.swift */; };
 		385E58E30BDF6AE463811DB2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66210C7E941948EE558782B /* SessionStore.swift */; };
@@ -60,6 +63,7 @@
 		46B801CF2D3A48B70094F9A1 /* CountryAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */; };
 		46B801D12D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */; };
 		48B7802283E8E7367D7840D2 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BCEC5B0F21E3DC5470D32B /* SignUpViewController.swift */; };
+		4FA6D32C134395392B2C414F /* HistoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78333C54A5FB8CC19C520F5 /* HistoryModels.swift */; };
 		535114C4F05DA42828A5007C /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2ECB3E1C147E021345F6AC /* AppColor.swift */; };
 		571785E1295DE5D01BB1D412 /* GameScoreSubmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574AB336315548A4ACD6D455 /* GameScoreSubmitter.swift */; };
 		58AC1AE0B06DBF1C504B3459 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BAF8670DAF85447ACACC6B /* FormTextField.swift */; };
@@ -72,6 +76,7 @@
 		6DCED3A0D2C49811D2F72A7A /* CountryCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BA58714C054EAA264327A4 /* CountryCatalog.swift */; };
 		717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6457921F593108914E7D939C /* UINavigationController+Theme.swift */; };
 		725195ECDBA8C3804AC0C512 /* UIImage+Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */; };
+		84DAFAA83BEC71B320379EED /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC45293B07AB6CA4D3AE53A /* HistoryViewController.swift */; };
 		9969ED6E3BB77CCCE7663A0F /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D202850EB9D3E65DE5C106C4 /* SupabaseAuthService.swift */; };
 		9CE37AC59DBAB3845213256A /* QuizHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885539BEC6F904237447636 /* QuizHeaderView.swift */; };
 		9F0D4093E5E7685D456AF421 /* ProfileValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC41C808D8B65825B6EC5EBD /* ProfileValidator.swift */; };
@@ -234,6 +239,7 @@
 		53441BD40B92585EFF15DEAB /* RankingCells.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingCells.swift; sourceTree = "<group>"; };
 		574AB336315548A4ACD6D455 /* GameScoreSubmitter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameScoreSubmitter.swift; sourceTree = "<group>"; };
 		5A0DEDCE68FDC559D7E137CC /* EmptyStateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		5FC45293B07AB6CA4D3AE53A /* HistoryViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		62BA58714C054EAA264327A4 /* CountryCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountryCatalog.swift; sourceTree = "<group>"; };
 		6457921F593108914E7D939C /* UINavigationController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Theme.swift"; sourceTree = "<group>"; };
 		673E40FE2B1AD8C90769AA89 /* AvatarView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -248,7 +254,9 @@
 		8B9E87B2DE67D37836F50A19 /* ScoreFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreFormatter.swift; sourceTree = "<group>"; };
 		9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProvider.swift; sourceTree = "<group>"; };
 		9AA2DBEBF34DD751697EE1EF /* RankingModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingModels.swift; sourceTree = "<group>"; };
+		9C6B543297E2AFCF99426BB4 /* HistoryPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HistoryPresenter.swift; sourceTree = "<group>"; };
 		A1565E370C07D7B5091FB4E5 /* BackendError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
+		A78333C54A5FB8CC19C520F5 /* HistoryModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HistoryModels.swift; sourceTree = "<group>"; };
 		A7E1F1012D386572006DC001 /* PersistedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedCountry.swift; sourceTree = "<group>"; };
 		A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPersistenceProtocol.swift; sourceTree = "<group>"; };
 		A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCountryPersistence.swift; sourceTree = "<group>"; };
@@ -309,8 +317,10 @@
 		D5768C0439CA8CE916483C3E /* ScoreService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreService.swift; sourceTree = "<group>"; };
 		D577B850AD8309536205AEAF /* CountryPickerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountryPickerViewController.swift; sourceTree = "<group>"; };
 		D66210C7E941948EE558782B /* SessionStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		D88B0C3A272CC7B1306A7BE1 /* HistoryInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HistoryInteractor.swift; sourceTree = "<group>"; };
 		DDF9154BCA59655F52C3FD11 /* AuthService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FlagGameScoringTests.swift; sourceTree = "<group>"; };
+		E81BD527C6D7D284853DD2DE /* HistoryRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HistoryRouter.swift; sourceTree = "<group>"; };
 		E9B4F2E4BDEBBF55822721C5 /* LoginPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		F161C653DD22A12E551FDF4C /* FormViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkRetry.swift; sourceTree = "<group>"; };
@@ -430,6 +440,7 @@
 				BBDED900DA90E610F080569D /* Services */,
 				46D5006C804260D0B2A64D0C /* Auth */,
 				37DF84E3B33BB3DBB6C06A3A /* Ranking */,
+				DCFDB18287BEFBFACC92B7BF /* History */,
 			);
 			path = CountryApp;
 			sourceTree = "<group>";
@@ -731,6 +742,15 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
+		70EE6736F31851BBDD661560 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5FC45293B07AB6CA4D3AE53A /* HistoryViewController.swift */,
+			);
+			name = View;
+			path = View;
+			sourceTree = "<group>";
+		};
 		7C9F0C0AE8C03E5B3D4B2F92 /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
@@ -738,6 +758,15 @@
 			);
 			name = Interactor;
 			path = Interactor;
+			sourceTree = "<group>";
+		};
+		7DA3AE55455D4862D9B8A095 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				A78333C54A5FB8CC19C520F5 /* HistoryModels.swift */,
+			);
+			name = Entity;
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		8B46E6CEF28D57C399CD779F /* View */ = {
@@ -993,6 +1022,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D0E08B07811D18905DF7BCFB /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				9C6B543297E2AFCF99426BB4 /* HistoryPresenter.swift */,
+			);
+			name = Presenter;
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		D3634DBD9F482C83D0D6F329 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -1023,6 +1061,19 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		DCFDB18287BEFBFACC92B7BF /* History */ = {
+			isa = PBXGroup;
+			children = (
+				7DA3AE55455D4862D9B8A095 /* Entity */,
+				ED0FD8BA2B3476276C360969 /* Interactor */,
+				D0E08B07811D18905DF7BCFB /* Presenter */,
+				E3016084EDDFCE6E1327BE85 /* Router */,
+				70EE6736F31851BBDD661560 /* View */,
+			);
+			name = History;
+			path = History;
+			sourceTree = "<group>";
+		};
 		E15CB1EEF113E8473B71E214 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1033,6 +1084,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		E3016084EDDFCE6E1327BE85 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				E81BD527C6D7D284853DD2DE /* HistoryRouter.swift */,
+			);
+			name = Router;
+			path = Router;
+			sourceTree = "<group>";
+		};
 		E7F46F4446A1CADE66B97A50 /* Router */ = {
 			isa = PBXGroup;
 			children = (
@@ -1040,6 +1100,15 @@
 			);
 			name = Router;
 			path = Router;
+			sourceTree = "<group>";
+		};
+		ED0FD8BA2B3476276C360969 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				D88B0C3A272CC7B1306A7BE1 /* HistoryInteractor.swift */,
+			);
+			name = Interactor;
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 		F25C64DB648354DB397F98A1 /* Presenter */ = {
@@ -1312,6 +1381,11 @@
 				6BD45E7A9EC79C3D40A2DB5A /* RankingRouter.swift in Sources */,
 				2C23A6311B3EBDD57441C4EC /* RankingCells.swift in Sources */,
 				EB088C54C86210CD0C753FFD /* RankingViewController.swift in Sources */,
+				4FA6D32C134395392B2C414F /* HistoryModels.swift in Sources */,
+				29C6BDC42157807844FE541A /* HistoryInteractor.swift in Sources */,
+				2BFA9B5B3CBDB0030A170D33 /* HistoryPresenter.swift in Sources */,
+				07A6CE79EDAA12038A1EF139 /* HistoryRouter.swift in Sources */,
+				84DAFAA83BEC71B320379EED /* HistoryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
