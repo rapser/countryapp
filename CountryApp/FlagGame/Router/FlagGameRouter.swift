@@ -82,8 +82,13 @@ final class FlagGameRouter: FlagGameRouterProtocol {
         AppLog.trace("FlagGameRouter pushSummary score=\(summary.score) ok=\(summary.correctCount) bad=\(summary.wrongCount) skip=\(summary.skippedCount)")
         Self.log.info("pushSummary entrada score=\(summary.score)")
 
-        let presenter = FlagGameSummaryPresenter(router: self)
+        let presenter = FlagGameSummaryPresenter(
+            router: self,
+            draft: GameSessionDraft(summary: summary, gameType: .flag),
+            submitter: MainActor.assumeIsolated { GameScoreSubmitter() }
+        )
         let vc = FlagGameSummaryViewController(presenter: presenter, summary: summary)
+        presenter.view = vc
         presenter.router = self
 
         let fromNav = viewController.navigationController
@@ -129,5 +134,9 @@ final class FlagGameRouter: FlagGameRouterProtocol {
         let nav = viewController.navigationController ?? hostingNavigationController ?? Self.navigationControllerFromKeyWindow()
         AppLog.trace("FlagGameRouter exitToHome popToRoot nav=\(nav != nil)")
         nav?.popToRootViewController(animated: true)
+    }
+
+    func presentLogin(from viewController: UIViewController) {
+        MainActor.assumeIsolated { AuthRouter.presentLogin(from: viewController) }
     }
 }

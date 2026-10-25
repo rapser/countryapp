@@ -59,11 +59,13 @@
 		46B801D12D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */; };
 		48B7802283E8E7367D7840D2 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BCEC5B0F21E3DC5470D32B /* SignUpViewController.swift */; };
 		535114C4F05DA42828A5007C /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2ECB3E1C147E021345F6AC /* AppColor.swift */; };
+		571785E1295DE5D01BB1D412 /* GameScoreSubmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574AB336315548A4ACD6D455 /* GameScoreSubmitter.swift */; };
 		58AC1AE0B06DBF1C504B3459 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BAF8670DAF85447ACACC6B /* FormTextField.swift */; };
 		616CFFE3229ACF9EEE97DDB6 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B4F2E4BDEBBF55822721C5 /* LoginPresenter.swift */; };
 		633D418D0CD8C820872AB835 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF8EDD93E5FDE3F5374058C /* LoginViewController.swift */; };
 		64CB852D76B59482A1A89795 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */; };
 		6982E18A1B1E68474E56AC96 /* NetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */; };
+		69C1F3BC9219CEF498B7F327 /* ScoreStatusCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2306380DAF0C3A03FE62AEE4 /* ScoreStatusCardView.swift */; };
 		6DCED3A0D2C49811D2F72A7A /* CountryCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BA58714C054EAA264327A4 /* CountryCatalog.swift */; };
 		717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6457921F593108914E7D939C /* UINavigationController+Theme.swift */; };
 		725195ECDBA8C3804AC0C512 /* UIImage+Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */; };
@@ -165,6 +167,7 @@
 		159CF08556B54AA2528B960F /* PendingScoreQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingScoreQueue.swift; sourceTree = "<group>"; };
 		176A9626942D01150E6E87D5 /* StatTilesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StatTilesView.swift; sourceTree = "<group>"; };
 		1984FDF31E56798C16386B79 /* CardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		2306380DAF0C3A03FE62AEE4 /* ScoreStatusCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreStatusCardView.swift; sourceTree = "<group>"; };
 		25FED2DAEA2FB4C89F266CE4 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		3D6BCF42858395ADBE45FB79 /* ImageLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
@@ -219,6 +222,7 @@
 		46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITests.swift; sourceTree = "<group>"; };
 		46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		489FF527C2BC71B37FCD2114 /* AuthInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
+		574AB336315548A4ACD6D455 /* GameScoreSubmitter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameScoreSubmitter.swift; sourceTree = "<group>"; };
 		5A0DEDCE68FDC559D7E137CC /* EmptyStateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		62BA58714C054EAA264327A4 /* CountryCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountryCatalog.swift; sourceTree = "<group>"; };
 		6457921F593108914E7D939C /* UINavigationController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Theme.swift"; sourceTree = "<group>"; };
@@ -333,6 +337,8 @@
 			children = (
 				8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */,
 				F161C653DD22A12E551FDF4C /* FormViewController.swift */,
+				574AB336315548A4ACD6D455 /* GameScoreSubmitter.swift */,
+				2306380DAF0C3A03FE62AEE4 /* ScoreStatusCardView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1226,6 +1232,8 @@
 				168D659B56D5D1A446ED0F04 /* CountryPickerViewController.swift in Sources */,
 				633D418D0CD8C820872AB835 /* LoginViewController.swift in Sources */,
 				48B7802283E8E7367D7840D2 /* SignUpViewController.swift in Sources */,
+				571785E1295DE5D01BB1D412 /* GameScoreSubmitter.swift in Sources */,
+				69C1F3BC9219CEF498B7F327 /* ScoreStatusCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

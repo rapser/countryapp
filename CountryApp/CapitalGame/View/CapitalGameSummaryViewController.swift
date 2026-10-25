@@ -27,6 +27,7 @@ final class CapitalGameSummaryViewController: UIViewController {
     }()
 
     private let exitButton = PillButton(title: "Volver al principio", style: .primary)
+    private let scoreStatusCard = ScoreStatusCardView()
 
     private let rootStack: UIStackView = {
         let s = UIStackView()
@@ -65,6 +66,10 @@ final class CapitalGameSummaryViewController: UIViewController {
         )
 
         exitButton.addTarget(self, action: #selector(exitTapped), for: .touchUpInside)
+        scoreStatusCard.onLoginTapped = { [weak self] in
+            guard let self else { return }
+            self.presenter.didTapLogin(from: self)
+        }
 
         scrollView.addSubview(contentStack)
         NSLayoutConstraint.activate([
@@ -76,6 +81,7 @@ final class CapitalGameSummaryViewController: UIViewController {
         ])
 
         contentStack.addArrangedSubview(SummaryCardFactory.heroScoreCard(summary: summary))
+        contentStack.addArrangedSubview(scoreStatusCard)
         contentStack.addArrangedSubview(SummaryCardFactory.questionDetailCard(results: summary.questionResults))
 
         rootStack.addArrangedSubview(scrollView)
@@ -93,6 +99,8 @@ final class CapitalGameSummaryViewController: UIViewController {
             rootStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             rootStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+
+        presenter.viewDidLoad()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -112,5 +120,13 @@ final class CapitalGameSummaryViewController: UIViewController {
             pop.barButtonItem = navigationItem.rightBarButtonItem
         }
         present(ac, animated: true)
+    }
+}
+
+// MARK: - GameScoreStatusViewProtocol
+
+extension CapitalGameSummaryViewController: GameScoreStatusViewProtocol {
+    func showScoreStatus(_ status: ScoreSubmissionStatus) {
+        scoreStatusCard.apply(status)
     }
 }
