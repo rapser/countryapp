@@ -14,6 +14,8 @@
 		16880217F9A5194B3E2C1642 /* RankingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA2DBEBF34DD751697EE1EF /* RankingModels.swift */; };
 		168D659B56D5D1A446ED0F04 /* CountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577B850AD8309536205AEAF /* CountryPickerViewController.swift */; };
 		1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */; };
+		186A4B999584B258E2430CD9 /* UITabBarController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C94E088051CF3F64A6FF02 /* UITabBarController+Theme.swift */; };
+		1EDD2223F7014B5E7E2BE497 /* TabCoordinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C126942299894D42CA704B /* TabCoordinators.swift */; };
 		29C6BDC42157807844FE541A /* HistoryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88B0C3A272CC7B1306A7BE1 /* HistoryInteractor.swift */; };
 		2BFA9B5B3CBDB0030A170D33 /* HistoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6B543297E2AFCF99426BB4 /* HistoryPresenter.swift */; };
 		2C23A6311B3EBDD57441C4EC /* RankingCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53441BD40B92585EFF15DEAB /* RankingCells.swift */; };
@@ -186,6 +188,7 @@
 		0DF8EDD93E5FDE3F5374058C /* LoginViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		159CF08556B54AA2528B960F /* PendingScoreQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingScoreQueue.swift; sourceTree = "<group>"; };
 		176A9626942D01150E6E87D5 /* StatTilesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StatTilesView.swift; sourceTree = "<group>"; };
+		17C94E088051CF3F64A6FF02 /* UITabBarController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Theme.swift"; sourceTree = "<group>"; };
 		1984FDF31E56798C16386B79 /* CardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2306380DAF0C3A03FE62AEE4 /* ScoreStatusCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreStatusCardView.swift; sourceTree = "<group>"; };
 		25FED2DAEA2FB4C89F266CE4 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
@@ -265,6 +268,7 @@
 		8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryCardFactory.swift; sourceTree = "<group>"; };
 		8B9E87B2DE67D37836F50A19 /* ScoreFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreFormatter.swift; sourceTree = "<group>"; };
 		9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProvider.swift; sourceTree = "<group>"; };
+		93C126942299894D42CA704B /* TabCoordinators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TabCoordinators.swift; sourceTree = "<group>"; };
 		9AA2DBEBF34DD751697EE1EF /* RankingModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RankingModels.swift; sourceTree = "<group>"; };
 		9C6B543297E2AFCF99426BB4 /* HistoryPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HistoryPresenter.swift; sourceTree = "<group>"; };
 		A1565E370C07D7B5091FB4E5 /* BackendError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
@@ -489,6 +493,7 @@
 				4659F3782D386AEF006D49F2 /* UIViewController+Extension.swift */,
 				6457921F593108914E7D939C /* UINavigationController+Theme.swift */,
 				C2F088B6E9C32C829DAA696D /* UIImage+Avatar.swift */,
+				17C94E088051CF3F64A6FF02 /* UITabBarController+Theme.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1017,6 +1022,7 @@
 				CC1234560E000000006DC001 /* FlagGameCoordinator.swift */,
 				CC12345610000000006DC001 /* CapitalGameCoordinator.swift */,
 				CC12345612000000006DC001 /* CountryListCoordinator.swift */,
+				93C126942299894D42CA704B /* TabCoordinators.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1468,6 +1474,8 @@
 				A253789FC0BD9E531C77A601 /* ProfileRouter.swift in Sources */,
 				A5CAA10F9DDFB3F6DA33BAED /* EditProfileViewController.swift in Sources */,
 				0BE08ECBD33CC37E3B38E40A /* ProfileViewController.swift in Sources */,
+				1EDD2223F7014B5E7E2BE497 /* TabCoordinators.swift in Sources */,
+				186A4B999584B258E2430CD9 /* UITabBarController+Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

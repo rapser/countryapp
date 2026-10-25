@@ -22,6 +22,7 @@ final class FlagGameRouter: FlagGameRouterProtocol {
             for window in scene.windows where window.isKeyWindow {
                 guard let root = window.rootViewController else { continue }
                 if let nav = root as? UINavigationController { return nav }
+                if let nav = (root as? UITabBarController)?.selectedViewController as? UINavigationController { return nav }
                 if let nav = root.navigationController { return nav }
             }
         }
@@ -29,6 +30,7 @@ final class FlagGameRouter: FlagGameRouterProtocol {
             for window in scene.windows {
                 guard let root = window.rootViewController else { continue }
                 if let nav = root as? UINavigationController { return nav }
+                if let nav = (root as? UITabBarController)?.selectedViewController as? UINavigationController { return nav }
                 if let nav = root.navigationController { return nav }
             }
         }
