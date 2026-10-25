@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */; };
+		385E58E30BDF6AE463811DB2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66210C7E941948EE558782B /* SessionStore.swift */; };
 		4659F3422D386572006D49F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3412D386572006D49F2 /* AppDelegate.swift */; };
 		4659F3442D386572006D49F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659F3432D386572006D49F2 /* SceneDelegate.swift */; };
 		4659F34B2D386574006D49F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4659F34A2D386574006D49F2 /* Assets.xcassets */; };
@@ -53,7 +55,10 @@
 		46B801CF2D3A48B70094F9A1 /* CountryAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801CE2D3A48B70094F9A1 /* CountryAppUITests.swift */; };
 		46B801D12D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B801D02D3A48B70094F9A1 /* CountryAppUITestsLaunchTests.swift */; };
 		535114C4F05DA42828A5007C /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2ECB3E1C147E021345F6AC /* AppColor.swift */; };
+		64CB852D76B59482A1A89795 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */; };
+		6982E18A1B1E68474E56AC96 /* NetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */; };
 		717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6457921F593108914E7D939C /* UINavigationController+Theme.swift */; };
+		9969ED6E3BB77CCCE7663A0F /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D202850EB9D3E65DE5C106C4 /* SupabaseAuthService.swift */; };
 		9CE37AC59DBAB3845213256A /* QuizHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885539BEC6F904237447636 /* QuizHeaderView.swift */; };
 		A7E1F2012D386572006DC001 /* PersistedCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1012D386572006DC001 /* PersistedCountry.swift */; };
 		A7E1F2022D386572006DC001 /* CountryPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */; };
@@ -80,7 +85,11 @@
 		A7E1F2182D386572006DC001 /* FlagGameInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1172D386572006DC001 /* FlagGameInteractorTests.swift */; };
 		A7E1F2192D386572006DC001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1F1192D386572006DC001 /* AppLog.swift */; };
 		AE43CE2AFEA13251E887088F /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E9020C69704DFE26A782F5 /* AppFont.swift */; };
+		AE6310E7429DD81DB2C47B2C /* PendingScoreQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159CF08556B54AA2528B960F /* PendingScoreQueue.swift */; };
+		AF51D3EB661A5712246D6215 /* SupabaseScoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE156CC86A29829E18BDC23 /* SupabaseScoreService.swift */; };
+		C00815C73F821AA324701488 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF9154BCA59655F52C3FD11 /* AuthService.swift */; };
 		C2E459EC436EEAA7283B5A40 /* AppMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB863788469C0E66A5CB2C44 /* AppMetrics.swift */; };
+		C5C3F3217628CFEB414E5504 /* ScoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5768C0439CA8CE916483C3E /* ScoreService.swift */; };
 		CAF6CD5DDE9BAF27ED095184 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984FDF31E56798C16386B79 /* CardView.swift */; };
 		CC12345601000000006DC001 /* FlagSynonymGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345602000000006DC001 /* FlagSynonymGroups.swift */; };
 		CC12345603000000006DC001 /* GameShareCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC12345604000000006DC001 /* GameShareCardRenderer.swift */; };
@@ -109,7 +118,10 @@
 		D0C0A20A2F20B000006DC001 /* CapitalGameQuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */; };
 		D0C0A20B2F20B000006DC001 /* CapitalGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */; };
 		D35DFF2023CA07E66E978928 /* FlagGameScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */; };
+		D40A3D20BF755A0BEFEC9A1C /* BackendModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC6145AF336800F840E456B /* BackendModels.swift */; };
+		D6A54BB2F4099E8C2D1E240C /* SupabaseProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */; };
 		F1BEEEF93322B70C236ED64C /* SummaryCardFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */; };
+		F261673D6E628334A940C678 /* BackendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1565E370C07D7B5091FB4E5 /* BackendError.swift */; };
 		F36D255B4793C911DD85F951 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = A48A1C02DA5C46407557C2C2 /* Supabase */; };
 		F4F6140050DD138A087CF500 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723D5441652480C8D5983F4F /* OptionButton.swift */; };
 /* End PBXBuildFile section */
@@ -132,8 +144,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		159CF08556B54AA2528B960F /* PendingScoreQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingScoreQueue.swift; sourceTree = "<group>"; };
 		1984FDF31E56798C16386B79 /* CardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		25FED2DAEA2FB4C89F266CE4 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
+		3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		4659F33E2D386572006D49F2 /* CountryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4659F3412D386572006D49F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4659F3432D386572006D49F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -186,8 +200,12 @@
 		6457921F593108914E7D939C /* UINavigationController+Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Theme.swift"; sourceTree = "<group>"; };
 		6759517EFC5C9CF175A7308D /* PillButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		723D5441652480C8D5983F4F /* OptionButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
+		7EE156CC86A29829E18BDC23 /* SupabaseScoreService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseScoreService.swift; sourceTree = "<group>"; };
 		8170CCBFB0B26F921452556E /* App.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
+		82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProfileService.swift; sourceTree = "<group>"; };
 		8B8BF14F5ED41578F79EBD26 /* SummaryCardFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryCardFactory.swift; sourceTree = "<group>"; };
+		9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseProvider.swift; sourceTree = "<group>"; };
+		A1565E370C07D7B5091FB4E5 /* BackendError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
 		A7E1F1012D386572006DC001 /* PersistedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedCountry.swift; sourceTree = "<group>"; };
 		A7E1F1022D386572006DC001 /* CountryPersistenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPersistenceProtocol.swift; sourceTree = "<group>"; };
 		A7E1F1032D386572006DC001 /* SwiftDataCountryPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCountryPersistence.swift; sourceTree = "<group>"; };
@@ -215,6 +233,7 @@
 		AD2ECB3E1C147E021345F6AC /* AppColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		B2E9020C69704DFE26A782F5 /* AppFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		CB863788469C0E66A5CB2C44 /* AppMetrics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppMetrics.swift; sourceTree = "<group>"; };
+		CBC6145AF336800F840E456B /* BackendModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackendModels.swift; sourceTree = "<group>"; };
 		CC12345602000000006DC001 /* FlagSynonymGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagSynonymGroups.swift; sourceTree = "<group>"; };
 		CC12345604000000006DC001 /* GameShareCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShareCardRenderer.swift; sourceTree = "<group>"; };
 		CC12345605000000006DC001 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -240,7 +259,12 @@
 		D0C0A1192F20B000006DC001 /* CapitalGameQuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameQuizViewController.swift; sourceTree = "<group>"; };
 		D0C0A11A2F20B000006DC001 /* CapitalGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalGameSummaryViewController.swift; sourceTree = "<group>"; };
 		D0C0A11B2F20B000006DC001 /* FlagGamePoolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagGamePoolState.swift; sourceTree = "<group>"; };
+		D202850EB9D3E65DE5C106C4 /* SupabaseAuthService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseAuthService.swift; sourceTree = "<group>"; };
+		D5768C0439CA8CE916483C3E /* ScoreService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreService.swift; sourceTree = "<group>"; };
+		D66210C7E941948EE558782B /* SessionStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		DDF9154BCA59655F52C3FD11 /* AuthService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		DE62FC977CE001EC417673B2 /* FlagGameScoringTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FlagGameScoringTests.swift; sourceTree = "<group>"; };
+		F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkRetry.swift; sourceTree = "<group>"; };
 		F885539BEC6F904237447636 /* QuizHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuizHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -328,6 +352,7 @@
 				4659F34F2D386574006D49F2 /* Info.plist */,
 				40B459E84E3175C66FFBCE35 /* DesignSystem */,
 				3E9FD774C3F54931AF85D72A /* Common */,
+				BBDED900DA90E610F080569D /* Services */,
 			);
 			path = CountryApp;
 			sourceTree = "<group>";
@@ -603,6 +628,17 @@
 			path = CountryAppUITests;
 			sourceTree = "<group>";
 		};
+		91B92D2A3502D746B66D1E82 /* Scores */ = {
+			isa = PBXGroup;
+			children = (
+				159CF08556B54AA2528B960F /* PendingScoreQueue.swift */,
+				D5768C0439CA8CE916483C3E /* ScoreService.swift */,
+				7EE156CC86A29829E18BDC23 /* SupabaseScoreService.swift */,
+			);
+			name = Scores;
+			path = Scores;
+			sourceTree = "<group>";
+		};
 		9BAA94452547B50FA1EEDF98 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -698,6 +734,39 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		BBDED900DA90E610F080569D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D3634DBD9F482C83D0D6F329 /* Auth */,
+				E15CB1EEF113E8473B71E214 /* Models */,
+				C926F8A1FC2E10A49C2E1A61 /* Profile */,
+				91B92D2A3502D746B66D1E82 /* Scores */,
+				BD6365C07D81BD35EAC16D05 /* Supabase */,
+			);
+			name = Services;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BD6365C07D81BD35EAC16D05 /* Supabase */ = {
+			isa = PBXGroup;
+			children = (
+				F55F8BE7278C3B57F90D7055 /* NetworkRetry.swift */,
+				9117683B3C9A7D60C3F641E3 /* SupabaseProvider.swift */,
+			);
+			name = Supabase;
+			path = Supabase;
+			sourceTree = "<group>";
+		};
+		C926F8A1FC2E10A49C2E1A61 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				3E77BDD7D95C81C2BA717F52 /* ProfileService.swift */,
+				82D18AB085D6CF19058B535F /* SupabaseProfileService.swift */,
+			);
+			name = Profile;
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		CC1234560C000000006DC001 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,6 +838,17 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D3634DBD9F482C83D0D6F329 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				DDF9154BCA59655F52C3FD11 /* AuthService.swift */,
+				D66210C7E941948EE558782B /* SessionStore.swift */,
+				D202850EB9D3E65DE5C106C4 /* SupabaseAuthService.swift */,
+			);
+			name = Auth;
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		DC114CDF1271C4DB0AEAE8F1 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,6 +857,16 @@
 			);
 			name = Config;
 			path = Config;
+			sourceTree = "<group>";
+		};
+		E15CB1EEF113E8473B71E214 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A1565E370C07D7B5091FB4E5 /* BackendError.swift */,
+				CBC6145AF336800F840E456B /* BackendModels.swift */,
+			);
+			name = Models;
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1002,6 +1092,18 @@
 				9CE37AC59DBAB3845213256A /* QuizHeaderView.swift in Sources */,
 				717D076C328C6EC21BF90453 /* UINavigationController+Theme.swift in Sources */,
 				F1BEEEF93322B70C236ED64C /* SummaryCardFactory.swift in Sources */,
+				C00815C73F821AA324701488 /* AuthService.swift in Sources */,
+				385E58E30BDF6AE463811DB2 /* SessionStore.swift in Sources */,
+				9969ED6E3BB77CCCE7663A0F /* SupabaseAuthService.swift in Sources */,
+				F261673D6E628334A940C678 /* BackendError.swift in Sources */,
+				D40A3D20BF755A0BEFEC9A1C /* BackendModels.swift in Sources */,
+				64CB852D76B59482A1A89795 /* ProfileService.swift in Sources */,
+				D6A54BB2F4099E8C2D1E240C /* SupabaseProfileService.swift in Sources */,
+				AE6310E7429DD81DB2C47B2C /* PendingScoreQueue.swift in Sources */,
+				C5C3F3217628CFEB414E5504 /* ScoreService.swift in Sources */,
+				AF51D3EB661A5712246D6215 /* SupabaseScoreService.swift in Sources */,
+				6982E18A1B1E68474E56AC96 /* NetworkRetry.swift in Sources */,
+				1752A5BC0C22476608B8CA9C /* SupabaseProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
