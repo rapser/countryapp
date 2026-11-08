@@ -32,12 +32,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
 
         let modelContext = ModelContext(modelContainer)
-        let navigationController = UINavigationController()
-        let coordinator = AppCoordinator(navigationController: navigationController, modelContext: modelContext)
+        let coordinator = AppCoordinator(modelContext: modelContext)
         appCoordinator = coordinator
         coordinator.start()
 
-        window.rootViewController = navigationController
+        window.rootViewController = coordinator.tabBarController
         window.makeKeyAndVisible()
         AppLog.trace("SceneDelegate: ventana activa, AppCoordinator iniciado")
     }
@@ -52,6 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+        // Partidas que no se pudieron enviar (sin red) se reintentan al volver.
+        Task { await SessionStore.shared.syncPendingScores() }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

@@ -27,6 +27,7 @@ final class FlagGameSummaryViewController: UIViewController {
     }()
 
     private let exitButton = PillButton(title: "Volver al principio", style: .primary)
+    private let scoreStatusCard = ScoreStatusCardView()
 
     private let rootStack: UIStackView = {
         let s = UIStackView()
@@ -66,6 +67,10 @@ final class FlagGameSummaryViewController: UIViewController {
         )
 
         exitButton.addTarget(self, action: #selector(exitTapped), for: .touchUpInside)
+        scoreStatusCard.onLoginTapped = { [weak self] in
+            guard let self else { return }
+            self.presenter.didTapLogin(from: self)
+        }
 
         scrollView.addSubview(contentStack)
         NSLayoutConstraint.activate([
@@ -77,6 +82,7 @@ final class FlagGameSummaryViewController: UIViewController {
         ])
 
         contentStack.addArrangedSubview(SummaryCardFactory.heroScoreCard(summary: summary))
+        contentStack.addArrangedSubview(scoreStatusCard)
         contentStack.addArrangedSubview(SummaryCardFactory.questionDetailCard(results: summary.questionResults))
 
         rootStack.addArrangedSubview(scrollView)
@@ -96,6 +102,8 @@ final class FlagGameSummaryViewController: UIViewController {
         ])
 
         AppLog.trace("FlagGameSummary preguntas=\(summary.questionResults.count)")
+
+        presenter.viewDidLoad()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -121,5 +129,13 @@ final class FlagGameSummaryViewController: UIViewController {
             pop.barButtonItem = navigationItem.rightBarButtonItem
         }
         present(ac, animated: true)
+    }
+}
+
+// MARK: - GameScoreStatusViewProtocol
+
+extension FlagGameSummaryViewController: GameScoreStatusViewProtocol {
+    func showScoreStatus(_ status: ScoreSubmissionStatus) {
+        scoreStatusCard.apply(status)
     }
 }

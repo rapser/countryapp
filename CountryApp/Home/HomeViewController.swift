@@ -29,7 +29,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "CountryApp"
+        navigationItem.title = "CountryApp"
         navigationItem.largeTitleDisplayMode = .always
         view.backgroundColor = AppColor.background
 

@@ -1,6 +1,8 @@
 # CountryApp
 
-CountryApp es una aplicación iOS que permite explorar información sobre países del mundo. Está desarrollada con el patrón arquitectónico **VIPER** y **UIKit** con diseño programático.
+**Versión 1.0.0 (build 6)** · iOS 26+
+
+CountryApp es una aplicación iOS que permite explorar información sobre países del mundo y competir en juegos de banderas y capitales con un **ranking global**. Está desarrollada con el patrón arquitectónico **VIPER** y **UIKit** con diseño programático, y usa **Supabase** para cuentas, ranking e historial.
 
 Los juegos usan un **look & feel tipo quiz** (tema claro, color primario morado, tarjetas redondeadas con sombra, opciones multicolor y tipografía redondeada del sistema) apoyado en una pequeña **capa de diseño** propia (ver [Diseño (Design System)](#diseño-design-system)).
 
@@ -20,6 +22,17 @@ Los juegos usan un **look & feel tipo quiz** (tema claro, color primario morado,
 </table>
 
 ## Descripción
+
+La app se organiza en un **TabBar** con cuatro pestañas:
+
+| Tab | Contenido |
+|---|---|
+| **Inicio** | Home con el listado de países y los dos juegos. |
+| **Ranking** | Mejores jugadores con foto, nickname y bandera de su país; filtro Total / Banderas / Capitales y podio top 3. |
+| **Historial** | Tus partidas guardadas con puntos, aciertos, errores y duración. |
+| **Perfil** | Foto, nombre, nickname y país; editar perfil, iniciar o cerrar sesión. |
+
+Se puede jugar sin cuenta; iniciar sesión solo es necesario para guardar puntajes y aparecer en el ranking.
 
 Pantalla inicial (**Home**) con tres accesos: **listado de países** (búsqueda, detalle con capital, región, fronteras y bandera, mapa) y dos juegos de preguntas — **Adivina la bandera** y **Adivina la capital**. Cada pregunta muestra una **pantalla de resultado a pantalla completa** (¡Correcto! / ¡Incorrecto!) con los puntos ganados, y al terminar hay un **resumen** con la puntuación total, compartible como tarjeta visual.
 
@@ -42,17 +55,25 @@ El proyecto combina **VIPER** con una capa **Coordinator** para separar la naveg
 La capa de coordinators gestiona la navegación **inter-módulo** y el ciclo de vida de cada flujo:
 
 ```
-AppCoordinator
-├── HomeCoordinator          → crea Home; delega apertura de módulos a AppCoordinator
-├── FlagGameCoordinator      → gestiona el flujo del juego de banderas
-├── CapitalGameCoordinator   → gestiona el flujo del juego de capitales
-└── CountryListCoordinator   → gestiona lista de países → detalle
+AppCoordinator (UITabBarController)
+├── Tab Inicio
+│   ├── HomeCoordinator          → crea Home; delega apertura de módulos a AppCoordinator
+│   ├── FlagGameCoordinator      → gestiona el flujo del juego de banderas
+│   ├── CapitalGameCoordinator   → gestiona el flujo del juego de capitales
+│   └── CountryListCoordinator   → gestiona lista de países → detalle
+├── RankingCoordinator           → tab Ranking
+├── HistoryCoordinator           → tab Historial
+└── ProfileCoordinator           → tab Perfil
 ```
+
+Login y registro (`AuthRouter`) se presentan como modal desde cualquier tab o desde el resumen de una partida.
 
 - `AppCoordinator` implementa `UINavigationControllerDelegate` para detectar pops con el botón de sistema (< Atrás) y liberar coordinators automáticamente, evitando fugas de memoria.
 - Los **Routers** conservan toda la navegación interna; cuando hay coordinator, delegan en él en lugar de hacer el `push` directamente.
 
-Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map**, **FlagGame** y **CapitalGame**.
+Módulos principales: **Home**, **CountryList**, **CountryDetail**, **Map**, **FlagGame**, **CapitalGame**, **Auth**, **Ranking**, **History** y **Profile**.
+
+La capa `Services/` (auth, perfil y puntajes sobre Supabase) expone protocolos inyectables; `SessionStore` comparte el estado de sesión entre tabs.
 
 ### Juego “Adivina la bandera”
 
@@ -124,14 +145,38 @@ Las banderas en detalle pueden cargarse desde URL remota; en **Assets** (`Assets
 - **Diseño:** capa de tokens y componentes propia (`AppColor` / `AppFont` / `AppMetrics`), SF Rounded + Dynamic Type
 - **Red:** `URLSession` + `async`/`await`
 - **Persistencia:** SwiftData (`ModelContainer` / `ModelContext`)
+- **Backend:** [Supabase](https://supabase.com) (Auth, Postgres, Storage) vía [`supabase-swift`](https://github.com/supabase/supabase-swift) (SPM)
 
 ## Instalación
 
 ```bash
 git clone https://github.com/rapser/countryapp.git
 cd countryapp
+cp Config/Secrets.example.xcconfig Config/Secrets.xcconfig   # completa las claves de Supabase
 open CountryApp.xcodeproj
 ```
+
+Xcode resuelve el paquete `supabase-swift` automáticamente al abrir el proyecto. Sin `Secrets.xcconfig` la app compila y funciona en modo invitado (ver [Cuentas, ranking e historial](#cuentas-ranking-e-historial-supabase)).
+
+## Cuentas, ranking e historial (Supabase)
+
+La app tiene 4 tabs: **Inicio · Ranking · Historial · Perfil**. Se puede jugar sin cuenta; para guardar puntajes y aparecer en el ranking hay que iniciar sesión (correo + contraseña). Cada usuario tiene foto, nombre, nickname y país, y su avatar muestra la bandera del país como insignia.
+
+### Configurar el backend
+
+1. Crea un proyecto en [supabase.com](https://supabase.com).
+2. En **SQL Editor** ejecuta [`supabase/schema.sql`](supabase/schema.sql). Crea las tablas `profiles` y `game_sessions`, el trigger de alta, las políticas RLS, las funciones `get_leaderboard` / `get_my_rank` y el bucket `avatars`.
+3. En **Authentication → Providers** deja habilitado *Email*. En desarrollo puedes desactivar *Confirm email* para entrar al registrarte.
+4. Copia `Config/Secrets.example.xcconfig` como `Config/Secrets.xcconfig` (ignorado por git) y completa `SUPABASE_URL` y `SUPABASE_ANON_KEY` (Project Settings → API).
+
+Sin `Secrets.xcconfig` la app compila y funciona en modo invitado: las tabs Ranking, Historial y Perfil muestran "no disponible".
+
+### Cómo se guardan los puntajes
+
+- Al terminar una partida, el resumen envía el resultado (`GameScoreSubmitter`). Cada partida lleva un `client_id` generado en el dispositivo, así que reenviarla no la duplica.
+- Si juegas como invitado, la partida queda guardada localmente y se envía cuando inicias sesión desde el mismo resumen.
+- Sin red, la partida queda en cola (`PendingScoreQueue`) y se reintenta al volver a la app.
+- El ranking suma los puntos de cada usuario (Total, Banderas o Capitales) y solo expone totales, no partidas individuales.
 
 ## Tests
 

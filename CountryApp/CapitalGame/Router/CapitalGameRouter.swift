@@ -54,8 +54,13 @@ final class CapitalGameRouter: CapitalGameRouterProtocol {
 
     func pushSummary(from viewController: UIViewController) {
         let summary = interactor.buildSummary()
-        let presenter = CapitalGameSummaryPresenter(router: self)
+        let presenter = CapitalGameSummaryPresenter(
+            router: self,
+            draft: GameSessionDraft(summary: summary, gameType: .capital),
+            submitter: MainActor.assumeIsolated { GameScoreSubmitter() }
+        )
         let vc = CapitalGameSummaryViewController(presenter: presenter, summary: summary)
+        presenter.view = vc
         presenter.router = self
 
         let nav = viewController.navigationController ?? hostingNavigationController
@@ -76,5 +81,8 @@ final class CapitalGameRouter: CapitalGameRouterProtocol {
         let nav = viewController.navigationController ?? hostingNavigationController
         nav?.popToRootViewController(animated: true)
     }
-}
 
+    func presentLogin(from viewController: UIViewController) {
+        MainActor.assumeIsolated { AuthRouter.presentLogin(from: viewController) }
+    }
+}

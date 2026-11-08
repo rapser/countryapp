@@ -57,6 +57,24 @@ enum AppColor {
     static let summaryReview = UIColor(appHex: 0xE8615D)
     static let summaryClear = UIColor(appHex: 0x46C98E)
     static let summaryDoubt = UIColor(appHex: 0xF5A623)
+
+    // MARK: - Ranking
+
+    static let rankGold = UIColor(appHex: 0xF5B700)
+    static let rankSilver = UIColor(appHex: 0xA9B4C2)
+    static let rankBronze = UIColor(appHex: 0xD08C4F)
+    /// Fondo de la fila del usuario actual.
+    static let currentUserHighlight = UIColor(appHex: 0xECEAFD)
+
+    /// Color de medalla para el puesto 1...3; nil para el resto.
+    static func medal(forRank rank: Int) -> UIColor? {
+        switch rank {
+        case 1: return rankGold
+        case 2: return rankSilver
+        case 3: return rankBronze
+        default: return nil
+        }
+    }
 }
 
 extension UIColor {
